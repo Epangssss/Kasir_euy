@@ -98,124 +98,125 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="jPanel4" alignment="0" max="32767" attributes="0"/>
-              <Group type="102" alignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="jButton5" min="-2" pref="142" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="289" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="-2" pref="93" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Component id="T_jumlah2" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="380" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="T_harga" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="txt_harga2" min="-2" pref="265" max="-2" attributes="0"/>
+                                                  <Component id="txt_namabarang2" alignment="0" min="-2" pref="265" max="-2" attributes="0"/>
+                                                  <Component id="T_namabarang" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="txt_totalharga" alignment="0" min="-2" pref="265" max="-2" attributes="0"/>
+                                                  <Component id="T_total" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="catatan" min="-2" pref="68" max="-2" attributes="0"/>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace max="-2" attributes="0"/>
+                                                      <Component id="txt_user" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                              <EmptySpace min="-2" pref="163" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="T_jumlah" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="kategori1" min="-2" max="-2" attributes="0"/>
+                                              <Component id="txt_kategori" alignment="0" pref="247" max="32767" attributes="0"/>
+                                              <Component id="txt_jumlah2" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="txt_jumlah3" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="T_jumlah1" min="-2" max="-2" attributes="0"/>
+                                              <Component id="txt_kategori1" pref="247" max="32767" attributes="0"/>
+                                              <Component id="No_transaksi" min="-2" max="-2" attributes="0"/>
+                                              <Component id="txt_karyawan" max="32767" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
+                                          <Component id="txt_cari" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                                          <Component id="txt_kodebarang2" min="-2" pref="368" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
+                                          <Component id="tgl_transaksi" min="-2" pref="201" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+                                  <Component id="jButton4" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="jScrollPane1" min="-2" pref="814" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="478" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jLabel9" min="-2" pref="442" max="-2" attributes="0"/>
+                                      <Component id="txt_totalharga2" min="-2" pref="567" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="518" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="-2" pref="260" max="-2" attributes="0"/>
+                                  <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
+                                  <Component id="jButton7" min="-2" pref="137" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
+                                  <Component id="jButton6" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="457" max="-2" attributes="0"/>
+                                  <Component id="t_total" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="292" max="-2" attributes="0"/>
+                                  <Component id="txt_kembalian" min="-2" pref="442" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="283" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jLabel10" min="-2" pref="442" max="-2" attributes="0"/>
+                                      <Component id="jLabel7" min="-2" pref="442" max="-2" attributes="0"/>
+                                      <Component id="txt_uang" alignment="0" min="-2" pref="442" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+              </Group>
+              <Group type="102" attributes="0">
                   <EmptySpace min="-2" pref="432" max="-2" attributes="0"/>
                   <Component id="kategori" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
-                  <Component id="jLabel9" min="-2" pref="442" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="545" max="-2" attributes="0"/>
-              </Group>
-              <Group type="102" attributes="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="101" pref="101" max="-2" attributes="0"/>
-                                  <Component id="jButton4" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
-                                  <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <EmptySpace max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="101" max="-2" attributes="0"/>
-                                  <Component id="txt_cari" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                                  <Component id="txt_kodebarang2" min="-2" pref="368" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                                  <Component id="tgl_transaksi" min="-2" pref="201" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="93" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="No_transaksi" min="-2" max="-2" attributes="0"/>
-                                      <Component id="txt_kategori1" min="-2" pref="247" max="-2" attributes="0"/>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="T_jumlah" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="kategori1" min="-2" max="-2" attributes="0"/>
-                                              <Component id="catatan" alignment="0" min="-2" pref="68" max="-2" attributes="0"/>
-                                              <Component id="txt_kategori" alignment="0" pref="247" max="32767" attributes="0"/>
-                                              <Component id="txt_jumlah2" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="txt_jumlah3" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="T_jumlah1" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="-2" pref="186" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="T_total" min="-2" max="-2" attributes="0"/>
-                                              <Component id="T_namabarang" min="-2" max="-2" attributes="0"/>
-                                              <Component id="T_harga" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="txt_namabarang2" alignment="0" pref="265" max="32767" attributes="0"/>
-                                              <Component id="txt_harga2" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="txt_totalharga" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="jButton5" min="-2" pref="166" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                  </Group>
-                              </Group>
-                          </Group>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                  <Component id="txt_kembalian" min="-2" pref="442" max="-2" attributes="0"/>
-                                  <Component id="txt_uang" alignment="0" min="-2" pref="442" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="jButton1" min="-2" pref="245" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="101" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <EmptySpace min="-2" pref="470" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="t_total" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="646" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="txt_totalharga2" min="-2" pref="567" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="436" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="473" max="-2" attributes="0"/>
-                              <Component id="jLabel7" min="-2" pref="442" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="jButton2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                              <Component id="jButton7" min="-2" pref="137" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                              <Component id="jButton6" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="jScrollPane1" min="-2" pref="889" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="403" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                  </Group>
-              </Group>
-              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="1398" max="32767" attributes="0"/>
-                      <Component id="jLabel10" min="-2" pref="442" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="460" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="jButton1" min="-2" pref="245" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="671" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -232,70 +233,31 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="txt_totalharga2" min="-2" pref="77" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="tgl_transaksi" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="txt_kodebarang2" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
-                              <Component id="txt_cari" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="txt_kodebarang2" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                                  <Component id="txt_cari" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="tgl_transaksi" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="No_transaksi" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="T_harga" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="T_jumlah2" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="txt_kategori1" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                       <Component id="txt_harga2" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Component id="txt_karyawan" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="kategori1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="T_namabarang" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="txt_kategori" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                              <Component id="txt_namabarang2" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                                  <Component id="T_total" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="T_jumlah1" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="txt_jumlah2" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                              <Component id="txt_totalharga" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                          <Component id="T_jumlah" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="txt_jumlah3" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                              <Component id="jButton5" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                          <Component id="catatan" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="89" max="-2" attributes="0"/>
-                          <Component id="jButton4" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
-                      </Group>
                       <Group type="102" attributes="0">
                           <Component id="jScrollPane1" min="-2" pref="283" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -304,23 +266,80 @@
                               <Component id="jButton7" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
                               <Component id="jButton6" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
-                          <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
+                                  <Component id="txt_user" min="-2" pref="32" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                           <Component id="txt_kembalian" min="-2" pref="33" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
-                          <Component id="txt_uang" min="-2" pref="49" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                          <Component id="txt_uang" min="-2" pref="49" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jButton1" min="-2" pref="43" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
                       </Group>
-                  </Group>
-              </Group>
-              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="856" max="32767" attributes="0"/>
-                      <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="191" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="T_namabarang" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="No_transaksi" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="txt_namabarang2" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="txt_kategori1" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="kategori1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="T_total" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="txt_totalharga" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="txt_kategori" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="T_jumlah1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="catatan" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <Component id="T_jumlah" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="txt_jumlah3" min="-2" pref="40" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="116" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="txt_jumlah2" min="-2" pref="40" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Component id="jButton4" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="192" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                  <Component id="jButton5" min="-2" pref="44" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="241" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
                   </Group>
               </Group>
           </Group>
@@ -442,9 +461,9 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                       <Component id="jLabel6" min="-2" pref="2131" max="-2" attributes="0"/>
-                      <EmptySpace pref="139" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -657,6 +676,9 @@
         </Container>
         <Component class="javax.swing.JButton" name="jButton5">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="33" green="ff" red="33" type="rgb"/>
+            </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="14" style="1"/>
             </Property>
@@ -860,6 +882,31 @@
               <Font name="Dialog" size="14" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Jumlah"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="txt_user">
+        </Component>
+        <Component class="javax.swing.JTextField" name="txt_karyawan">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Dialog" size="14" style="1"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_karyawanActionPerformed"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_karyawanKeyReleased"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_karyawanKeyTyped"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="T_jumlah2">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Dialog" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Kasir"/>
           </Properties>
         </Component>
       </SubComponents>

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package transaksi;
-import static gui.FormUtama.user;
+//import static gui.FormUtama.user;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,16 +14,11 @@ import javax.swing.table.DefaultTableModel;
 import koneksi.koneksi;
 import transaksi.formTransaksi;
 
-/**
- *
- * @author Hadi Firmansyah
- */
+
 public class stok_barang extends javax.swing.JFrame {
     DefaultTableModel table = new DefaultTableModel();
 
-    /**
-     * Creates new form stok_barang
-     */
+    
   public stok_barang() {
     initComponents();
     

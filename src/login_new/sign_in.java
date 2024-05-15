@@ -32,7 +32,7 @@ import java.awt.event.MouseEvent;
 public class sign_in extends javax.swing.JFrame {
       public javax.swing.JTextField T_user;
     
-    
+    private static String kasirName;
           
 Connection con;
 Statement stat;
@@ -45,10 +45,18 @@ String sql;
 public sign_in() {
     initComponents();
     koneksi.getKoneksi();
+    
+    
    
 }
 
-
+  public static String getKasirName() {
+        return kasirName;
+    }
+  
+   public static void setKasirName(String name) {
+        kasirName = name;
+    }
 
 private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
    
@@ -65,9 +73,12 @@ private void loginAdmin() {
         if(go.next()){
             String username = go.getString("username"); // Ambil nama pengguna dari data yang dipilih
             JOptionPane.showMessageDialog(null, "Login Success");
+            
+            
+            sign_in.setKasirName(txt_username.getText());
 
             Menu_Admin menuAdmin = new Menu_Admin(); // Buat instance Menu_Admin
-            menuAdmin.setUserNames(username); // Set nama pengguna
+            menuAdmin.setLocationRelativeTo(null); // Set nama pengguna
             menuAdmin.setVisible(true); // Tampilkan Menu_Admin
             this.dispose(); // Tutup frame login
         } else {
@@ -83,6 +94,12 @@ private void loginAdmin() {
     }
 }
 
+
+
+   
+
+
+
 private void loginKaryawan() {
     try {
         Connection connect = koneksi.getKoneksi();
@@ -92,13 +109,37 @@ private void loginKaryawan() {
         statement.setString(2, txt_password.getText());
 
         ResultSet resultSet = statement.executeQuery();
+if (resultSet.next()) {
+    JOptionPane.showMessageDialog(null, "Login Success");
+    
+    // Simpan nama kasir di SessionManager
+   sign_in.setKasirName(txt_username.getText());
+    
+    // Buat dan tampilkan instance FormTransaksi
+   //formTransaksi FormTransaksi = new formTransaksi();
+   Menu_User menuUser = new Menu_User();
+   menuUser.setLocationRelativeTo(null);
+   menuUser.setVisible(true);
+     //FormTransaksi.setVisible(true);
+    
+    this.dispose();
 
-        if (resultSet.next()) {
-            JOptionPane.showMessageDialog(null, "Login Success");
-            Menu_User menuUser = new Menu_User();
-            menuUser.setUserName(txt_username.getText());
-            menuUser.setVisible(true);
-            this.dispose();
+        
+//       if (resultSet.next()) {
+//    JOptionPane.showMessageDialog(null, "Login Success");
+//    Menu_User menuUser = new Menu_User();
+//    menuUser.setUserName(txt_username.getText());
+//     menuUser.setVisible(true);
+//    
+    
+    //    formTransaksi FormTransaksi = new formTransaksi();
+    //    FormTransaksi.setKasirName (txt_username.getText());
+    //   FormTransaksi.setVisible(true);
+    //    
+    
+    this.dispose();
+
+            
         } else {
             JOptionPane.showMessageDialog(null, "Username atau Password Salah");
             txt_username.setText(null);

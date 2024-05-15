@@ -70,7 +70,7 @@ String sql;
         if (resultSet.next()) {
     JOptionPane.showMessageDialog(null, "Login Success");
     Menu_User menuUser = new Menu_User();
-    menuUser.setUserName(txt_username.getText());
+  //  menuUser.setUserName(txt_username.getText());
     menuUser.setVisible(true);
     this.dispose();
 
@@ -95,7 +95,7 @@ String sql;
   
      public void setUserNameInMenu(String userName) {
     Menu_User menuUser = new Menu_User();
-    menuUser.setUserName("User: " + userName); // Mengatur teks label
+  //  menuUser.setUserName("User: " + userName); // Mengatur teks label
     menuUser.setVisible(true); // Menampilkan jendela menu_user
     dispose(); // Menutup jendela login_karyawan
 }

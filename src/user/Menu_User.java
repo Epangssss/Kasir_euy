@@ -4,7 +4,8 @@
  * and open the template in the editor.
  */
 package user;
-import gui.FormUtama;
+
+//import gui.FormUtama;
 import java.awt.List;
 import master.*;
 import koneksi.koneksi;
@@ -21,15 +22,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import login_new.sign_in;
 
 
-
-
-
-/**
- *
- * @author Hadi Firmansyah
- */
 public class Menu_User extends javax.swing.JFrame {
 
    
@@ -42,6 +37,7 @@ public class Menu_User extends javax.swing.JFrame {
   
     public Menu_User() {
         initComponents();
+         txt_username.setText(sign_in.getKasirName());
     startTimer();
         
         
@@ -76,12 +72,10 @@ public class Menu_User extends javax.swing.JFrame {
     }
    
    
-   private String userName;
-  public void setUserName(String userName) {
-        this.userName = userName;
-        txt_user.setText(" Karyawan: " + userName);
-    }
+
   
+
+
 
      
   
@@ -156,9 +150,10 @@ public class Menu_User extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        txt_user = new javax.swing.JLabel();
         T_date = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
+        txt_username = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         panggil_panel = new javax.swing.JPanel();
 
@@ -250,11 +245,6 @@ public class Menu_User extends javax.swing.JFrame {
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-businessman-80.png"))); // NOI18N
 
-        txt_user.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txt_user.setForeground(new java.awt.Color(255, 255, 255));
-        txt_user.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txt_user.setText("USER");
-
         T_date.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         T_date.setEnabled(false);
         T_date.addActionListener(new java.awt.event.ActionListener() {
@@ -273,6 +263,12 @@ public class Menu_User extends javax.swing.JFrame {
             }
         });
 
+        txt_username.setFont(new java.awt.Font("Serif", 2, 20)); // NOI18N
+        txt_username.setText(".....");
+
+        jLabel2.setFont(new java.awt.Font("Serif", 2, 20)); // NOI18N
+        jLabel2.setText("Karyawan :");
+
         javax.swing.GroupLayout panel_warna1Layout = new javax.swing.GroupLayout(panel_warna1);
         panel_warna1.setLayout(panel_warna1Layout);
         panel_warna1Layout.setHorizontalGroup(
@@ -288,23 +284,27 @@ public class Menu_User extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(T_date, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_warna1Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(panel_warna1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
-                    .addGroup(panel_warna1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(15, 15, 15))
             .addGroup(panel_warna1Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
                 .addGroup(panel_warna1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panel_warna1Layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addComponent(jLabel5))
+                        .addGroup(panel_warna1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panel_warna1Layout.createSequentialGroup()
+                                .addGap(62, 62, 62)
+                                .addComponent(jLabel5))
+                            .addGroup(panel_warna1Layout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txt_username)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(panel_warna1Layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addComponent(txt_user, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(panel_warna1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+                            .addGroup(panel_warna1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(15, 15, 15))))
         );
         panel_warna1Layout.setVerticalGroup(
             panel_warna1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -312,48 +312,43 @@ public class Menu_User extends javax.swing.JFrame {
                 .addGap(74, 74, 74)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txt_user)
-                .addGap(96, 96, 96)
+                .addGroup(panel_warna1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_username)
+                    .addComponent(jLabel2))
+                .addGap(70, 70, 70)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(T_date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(jLabel4)
-                .addGap(106, 106, 106)
+                .addGap(114, 114, 114)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(79, 79, 79)
+                .addGap(71, 71, 71)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(100, 100, 100)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 134, Short.MAX_VALUE)
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(88, 88, 88))
         );
 
-        javax.swing.GroupLayout panggil_panelLayout = new javax.swing.GroupLayout(panggil_panel);
-        panggil_panel.setLayout(panggil_panelLayout);
-        panggil_panelLayout.setHorizontalGroup(
-            panggil_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        panggil_panelLayout.setVerticalGroup(
-            panggil_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 905, Short.MAX_VALUE)
-        );
+        panggil_panel.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
                 .addComponent(panggil_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(35, 35, 35))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(panggil_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 27, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(panggil_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(50, 50, 50))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -486,6 +481,7 @@ public class Menu_User extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -496,6 +492,6 @@ public class Menu_User extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private custom_panel.panel_warna panel_warna1;
     private javax.swing.JPanel panggil_panel;
-    protected static javax.swing.JLabel txt_user;
+    private javax.swing.JLabel txt_username;
     // End of variables declaration//GEN-END:variables
 }
