@@ -8,6 +8,15 @@ import java.sql.Connection;
 import javax.swing.table.DefaultTableModel;
 import koneksi.koneksi;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 /**
  *
  * @author edwar
@@ -15,22 +24,318 @@ import koneksi.koneksi;
 public class CRUD_kategori extends javax.swing.JFrame {
    DefaultTableModel table = new DefaultTableModel(); 
    Connection con;
+   
+     private Connection connection;
+   
+     
+     
+     
+     
     /**
      * Creates new form CRUD_kategori
      */
-    public CRUD_kategori() {
-        initComponents();
-         
-        koneksi conn = new koneksi();
-        koneksi.getKoneksi();
-        
-        table_barang1.setModel(table);
-        table.addColumn("Kategori");
-        table.addColumn("Kode Barang");
-   
+     
+     
   
      
+       public CRUD_kategori() {
+        initComponents();
+       
+        koneksi conn = new koneksi();
+        connection = conn.getKoneksi();
+        
+        table_barang1.setModel(table);
+        table = (DefaultTableModel) table_barang1.getModel();
+        table.addColumn("Kategori");
+        table.addColumn("Kode Barang");
+        
+        addTableListener();
+          Tampil_Data();
     }
+
+       
+       
+       
+          private void Tampil_Data() {
+        try {
+            // Bersihkan data tabel sebelumnya
+            table.setRowCount(0);
+
+            // Query untuk mengambil data dari tabel tb_kategori
+            String selectQuery = "SELECT * FROM tb_kategori";
+            PreparedStatement selectStatement = connection.prepareStatement(selectQuery);
+            ResultSet resultSet = selectStatement.executeQuery();
+
+            // Isi data tabel
+            while (resultSet.next()) {
+                String namaKategori = resultSet.getString("kategori");
+                String kodeBarang = resultSet.getString("kode_barang");
+                table.addRow(new Object[]{namaKategori, kodeBarang});
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+//    public CRUD_kategori() {
+//        initComponents();
+//         
+//        koneksi conn = new koneksi();
+//        koneksi.getKoneksi();
+//        
+//        table_barang1.setModel(table);
+//        table.addColumn("Kategori");
+//        table.addColumn("Kode Barang");
+//
+//  
+//     
+//    }
+    
+    
+     public boolean tambah_kategori() {
+        try {
+            String namaKategori = txt_kategori.getText();
+            String kodeBarang = txt_kodebarang.getText();
+
+            // Periksa apakah kategori sudah ada
+            String checkQuery = "SELECT * FROM tb_kategori WHERE kategori = ? AND kode_barang = ?";
+            PreparedStatement checkStatement = connection.prepareStatement(checkQuery);
+            checkStatement.setString(1, namaKategori);
+            checkStatement.setString(2, kodeBarang);
+            ResultSet resultSet = checkStatement.executeQuery();
+
+            if (resultSet.next()) {
+                // Kategori sudah ada, kembalikan false
+                return false;
+            }
+
+            // Tambahkan kategori baru
+            String insertQuery = "INSERT INTO tb_kategori (kategori, kode_barang) VALUES (?, ?)";
+            PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
+            insertStatement.setString(1, namaKategori);
+            insertStatement.setString(2, kodeBarang);
+            insertStatement.executeUpdate();
+
+            // Tambahkan data baru ke tabel
+            table.addRow(new Object[]{namaKategori, kodeBarang});
+
+              txt_kategori.setText("");
+            txt_kodebarang.setText("");
+            
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+     private void addTableListener() {
+    table_barang1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            if (!e.getValueIsAdjusting()) {
+                int selectedRow = table_barang1.getSelectedRow();
+                if (selectedRow != -1) {
+                    String namaKategori = (String) table_barang1.getValueAt(selectedRow, 0);
+                    String kodeBarang = (String) table_barang1.getValueAt(selectedRow, 1);
+                    txt_kategori.setText(namaKategori);
+                    txt_kodebarang.setText(kodeBarang);
+                }
+            }
+        }
+    });
+}
+     
+     private void editkategori() {
+    String namaKategori = txt_kategori.getText();
+    String kodeBarang = txt_kodebarang.getText();
+
+    int selectedRow = table_barang1.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Silakan pilih baris yang ingin diedit.");
+        return;
+    }
+
+    // Perbarui data di tabel
+    table_barang1.setValueAt(namaKategori, selectedRow, 0);
+    table_barang1.setValueAt(kodeBarang, selectedRow, 1);
+
+    // Perbarui data di database
+    editkategori(selectedRow, namaKategori, kodeBarang);
+}
+
+private void editkategori(int row, String namaKategori, String kodeBarang) {
+    try {
+        String updateQuery = "UPDATE tb_kategori SET kategori = ?, kode_barang = ? WHERE kategori = ? AND kode_barang = ?";
+        PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
+        updateStatement.setString(1, namaKategori);
+        updateStatement.setString(2, kodeBarang);
+        updateStatement.setString(3, (String) table_barang1.getValueAt(row, 0));
+        updateStatement.setString(4, (String) table_barang1.getValueAt(row, 1));
+        updateStatement.executeUpdate();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+//     
+//private void editkategori() {
+//    int selectedRow = table_barang1.getSelectedRow();
+//    if (selectedRow == -1) {
+//        JOptionPane.showMessageDialog(this, "Silakan pilih baris yang ingin diedit.");
+//        return;
+//    }
+//
+//    String namaKategori = (String) table_barang1.getValueAt(selectedRow, 0);
+//    String kodeBarang = (String) table_barang1.getValueAt(selectedRow, 1);
+//
+//    // Meminta input dari pengguna
+//    String newNamaKategori = JOptionPane.showInputDialog(this, "Masukkan nama kategori baru:", namaKategori);
+//    if (newNamaKategori == null) {
+//        // Pengguna membatalkan input
+//        return;
+//    }
+//
+//    String newKodeBarang = JOptionPane.showInputDialog(this, "Masukkan kode barang baru:", kodeBarang);
+//    if (newKodeBarang == null) {
+//        // Pengguna membatalkan input
+//        return;
+//    }
+//
+//    // Perbarui data di tabel
+//    table_barang1.setValueAt(newNamaKategori, selectedRow, 0);
+//    table_barang1.setValueAt(newKodeBarang, selectedRow, 1);
+//
+//    // Perbarui data di database
+//    editkategori(selectedRow, newNamaKategori, newKodeBarang);
+//}
+private void hapuskategori() {
+    int selectedRow = table_barang1.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Silakan pilih baris yang ingin dihapus.");
+        return;
+    }
+
+    // Dapatkan nilai kategori dan kode barang dari baris yang dipilih
+    String namaKategori = (String) table_barang1.getValueAt(selectedRow, 0);
+    String kodeBarang = (String) table_barang1.getValueAt(selectedRow, 1);
+
+    // Konfirmasi penghapusan
+    int confirm = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin menghapus kategori " + namaKategori + " dengan kode barang " + kodeBarang + "?", "Konfirmasi Penghapusan", JOptionPane.YES_NO_OPTION);
+    if (confirm == JOptionPane.YES_OPTION) {
+        // Hapus data dari database
+        hapuskategori(selectedRow, namaKategori, kodeBarang);
+
+        // Dapatkan model tabel
+        DefaultTableModel model = (DefaultTableModel) table_barang1.getModel();
+
+        // Hapus baris dari model tabel
+        model.removeRow(selectedRow);
+    }
+}
+
+private void hapuskategori(int row, String namaKategori, String kodeBarang) {
+    try {
+        String deleteQuery = "DELETE FROM tb_kategori WHERE kategori = ? AND kode_barang = ?";
+        PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery);
+        deleteStatement.setString(1, namaKategori);
+        deleteStatement.setString(2, kodeBarang);
+        deleteStatement.executeUpdate();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+
+//
+//private void hapuskategori() {
+//    int selectedRow = table_barang1.getSelectedRow();
+//    if (selectedRow == -1) {
+//        JOptionPane.showMessageDialog(this, "Silakan pilih baris yang ingin dihapus.");
+//        return;
+//    }
+//
+//    String namaKategori = (String) table_barang1.getValueAt(selectedRow, 0);
+//    String kodeBarang = (String) table_barang1.getValueAt(selectedRow, 1);
+//
+//    
+//     int confirm = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin menghapus kategori " + namaKategori + " dengan kode barang " + kodeBarang + "?", "Konfirmasi Penghapusan", JOptionPane.YES_NO_OPTION);
+//    if (confirm == JOptionPane.YES_OPTION) {
+//        hapuskategori(selectedRow, namaKategori, kodeBarang);
+//
+//        // Dapatkan model tabel
+//        DefaultTableModel model = (DefaultTableModel) table_barang1.getModel();
+//
+//        // Hapus baris dari model tabel
+//        model.removeRow(selectedRow);
+//        
+//    }
+//}
+//    int confirm = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin menghapus kategori " + namaKategori + " dengan kode barang " + kodeBarang + "?", "Konfirmasi Penghapusan", JOptionPane.YES_NO_OPTION);
+//    if (confirm == JOptionPane.YES_OPTION) {
+//        hapuskategori(selectedRow, namaKategori, kodeBarang);
+//       table_barang1.removeRow( selectedRow);
+//    }
+//}
+
+//private void editkategori(int row, String namaKategori, String kodeBarang) {
+//    try {
+//        String updateQuery = "UPDATE tb_kategori SET kategori = ?, kode_barang = ? WHERE kategori = ? AND kode_barang = ?";
+//        PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
+//        updateStatement.setString(1, namaKategori);
+//        updateStatement.setString(2, kodeBarang);
+//        updateStatement.setString(3, (String) table_barang1.getValueAt(row, 0));
+//        updateStatement.setString(4, (String) table_barang1.getValueAt(row, 1));
+//        updateStatement.executeUpdate();
+//    } catch (SQLException e) {
+//        e.printStackTrace();
+//    }
+//}
+
+//private void hapuskategori(int row, String namaKategori, String kodeBarang) {
+//    try {
+//        String deleteQuery = "DELETE FROM tb_kategori WHERE kategori = ? AND kode_barang = ?";
+//        PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery);
+//        deleteStatement.setString(1, namaKategori);
+//        deleteStatement.setString(2, kodeBarang);
+//        deleteStatement.executeUpdate();
+//    } catch (SQLException e) {
+//        e.printStackTrace();
+//    }
+//}
+//     public boolean addCategory() {
+//        try {
+//            String namaKategori = txt_kategori.getText();
+//            String kodeBarang = txt_kodebarang.getText();
+//
+//            // Periksa apakah kategori sudah ada
+//            String checkQuery = "SELECT * FROM tb_kategori WHERE nama_kategori = ? AND kode_barang = ?";
+//            PreparedStatement checkStatement = connection.prepareStatement(checkQuery);
+//            checkStatement.setString(1, namaKategori);
+//            checkStatement.setString(2, kodeBarang);
+//            ResultSet resultSet = checkStatement.executeQuery();
+//
+//            if (resultSet.next()) {
+//                // Kategori sudah ada, kembalikan false
+//                return false;
+//            }
+//
+//            // Tambahkan kategori baru
+//            String insertQuery = "INSERT INTO tb_kategori (nama_kategori, kode_barang) VALUES (?, ?)";
+//            PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
+//            insertStatement.setString(1, namaKategori);
+//            insertStatement.setString(2, kodeBarang);
+//            insertStatement.executeUpdate();
+//
+//            return true;
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
+
+
+     
+     
+    
+    
    
 
     /**
@@ -45,14 +350,16 @@ public class CRUD_kategori extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txt_kategori = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txt_kodebarang = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         table_barang1 = new javax.swing.JTable();
+        jButton6 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -83,18 +390,18 @@ public class CRUD_kategori extends javax.swing.JFrame {
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txt_kategori.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txt_kategoriActionPerformed(evt);
             }
         });
 
         jLabel3.setFont(new java.awt.Font("Serif", 0, 20)); // NOI18N
         jLabel3.setText("Tambah Kategori ");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        txt_kodebarang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                txt_kodebarangActionPerformed(evt);
             }
         });
 
@@ -136,6 +443,25 @@ public class CRUD_kategori extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(table_barang1);
 
+        jButton6.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/edit.png"))); // NOI18N
+        jButton6.setText("  EDIT");
+        jButton6.setPreferredSize(new java.awt.Dimension(117, 40));
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/trash-can (1).png"))); // NOI18N
+        jButton2.setText("  DELETE");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -149,14 +475,19 @@ public class CRUD_kategori extends javax.swing.JFrame {
                     .addGap(96, 96, 96)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jLabel4)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+                        .addComponent(txt_kodebarang, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
                         .addComponent(jLabel3)
-                        .addComponent(jTextField1))
+                        .addComponent(txt_kategori))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(30, 30, 30)
+                            .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(35, 35, 35)
+                            .addComponent(jButton2))
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 592, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -173,13 +504,17 @@ public class CRUD_kategori extends javax.swing.JFrame {
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_kategori, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(44, 44, 44)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_kodebarang, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -188,12 +523,12 @@ public class CRUD_kategori extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txt_kategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_kategoriActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txt_kategoriActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+tambah_kategori();        // TODO add your handling code here:
      //   tambahData();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -208,9 +543,18 @@ public class CRUD_kategori extends javax.swing.JFrame {
    
     }//GEN-LAST:event_table_barang1MouseClicked
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void txt_kodebarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_kodebarangActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_txt_kodebarangActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+editkategori();        // TODO add your handling code here:
+       // editData();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+hapuskategori();        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -249,17 +593,17 @@ public class CRUD_kategori extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTable table_barang1;
+    private javax.swing.JTextField txt_kategori;
+    private javax.swing.JTextField txt_kodebarang;
     // End of variables declaration//GEN-END:variables
 }

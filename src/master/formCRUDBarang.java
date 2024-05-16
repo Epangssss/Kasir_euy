@@ -1,4 +1,4 @@
- /*
+     /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -54,8 +54,10 @@ public class formCRUDBarang extends javax.swing.JFrame {
         
         tanggal();
         
-        koneksi conn = new koneksi();
-        koneksi.getKoneksi();
+//        koneksi conn = new koneksi();
+//        koneksi.getKoneksi();
+
+con = koneksi.getKoneksi();
         
         table_barang1.setModel(table);
         table.addColumn("Kode Barang");
@@ -65,54 +67,54 @@ public class formCRUDBarang extends javax.swing.JFrame {
         table.addColumn("Stok");
         table.addColumn("Tanggal Masuk");
         
-        
-        
+        // tampilkode();
+       tampilkan();
        tampilData();
         
     }
     
-private void autoIn() {
-    try {
-        Class.forName("com.mysql.jdbc.Driver");
-        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_ujilevel", "root", "");
-
-        String sqlquery = "SELECT MAX(CAST(SUBSTRING(kode_barang, 4) AS UNSIGNED)) AS no_auto FROM tb_databarang WHERE kode_barang LIKE ?";
-        PreparedStatement st = con.prepareStatement(sqlquery);
-        
-        String selectedCategory = (String) kode_text.getSelectedItem();
-        String prefix = ""; // Inisialisasi awalan kode barang
-
-        if (selectedCategory != null) {
-            switch (selectedCategory) {
-                case "Makanan":
-                    prefix = "MKN";
-                    break;
-                case "Minuman":
-                    prefix = "MNM";
-                    break;
-                case "Topping":
-                    prefix = "TPG";
-                    break;
-                // Tambahkan case untuk kategori lainnya jika diperlukan
-                default:
-                    prefix = ""; // Jika tidak ada kategori yang cocok, awalan menjadi kosong
-                    break;
-            }
-        }
-
-        st.setString(1, prefix + "%");
-        ResultSet rs = st.executeQuery();
-
-        if (rs.next()) {
-            int no_auto = rs.getInt("no_auto");
-            String newCode = prefix + String.format("%03d", no_auto + 1);
-            txt_kodebarang.setText(newCode);
-        }
-    } catch (ClassNotFoundException | SQLException e) {
-        txt_kodebarang.setText("MKN0001"); // Jika terjadi kesalahan, isi dengan kode default
-        e.printStackTrace();
-    }
-}
+//private void autoIn() {
+//    try {
+//        Class.forName("com.mysql.jdbc.Driver");
+//        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_ujilevel", "root", "");
+//
+//        String sqlquery = "SELECT MAX(CAST(SUBSTRING(kode_barang, 4) AS UNSIGNED)) AS no_auto FROM tb_databarang WHERE kode_barang LIKE ?";
+//        PreparedStatement st = con.prepareStatement(sqlquery);
+//        
+//        String selectedCategory = (String) kode_text.getSelectedItem();
+//        String prefix = ""; // Inisialisasi awalan kode barang
+//
+//        if (selectedCategory != null) {
+//            switch (selectedCategory) {
+//                case "Makanan":
+//                    prefix = "MKN";
+//                    break;
+//                case "Minuman":
+//                    prefix = "MNM";
+//                    break;
+//                case "Topping":
+//                    prefix = "TPG";
+//                    break;
+//                // Tambahkan case untuk kategori lainnya jika diperlukan
+//                default:
+//                    prefix = ""; // Jika tidak ada kategori yang cocok, awalan menjadi kosong
+//                    break;
+//            }
+//        }
+//
+//        st.setString(1, prefix + "%");
+//        ResultSet rs = st.executeQuery();
+//
+//        if (rs.next()) {
+//            int no_auto = rs.getInt("no_auto");
+//            String newCode = prefix + String.format("%03d", no_auto + 1);
+//            txt_kodebarang.setText(newCode);
+//        }
+//    } catch (ClassNotFoundException | SQLException e) {
+//        txt_kodebarang.setText("MKN0001"); // Jika terjadi kesalahan, isi dengan kode default
+//        e.printStackTrace();
+//    }
+//}
 
 //PreparedStatement st = null;
 // ResultSet rs = null;
@@ -145,17 +147,18 @@ private void tampilData() {
             
             // Menambahkan baris baru ke dalam tabel
             table.addRow(data);
+            
+            
         }
         
         // Mengeset nilai tabel agar ditampilkan
         table_barang1.setModel(table);
     } catch(Exception e) {
         System.out.println(e);
+    }  
     }
 
 
-       
-    }
      private void clear(){
         txt_kodebarang.setText(null);
         txt_namabarang.setText(null);
@@ -166,14 +169,129 @@ private void tampilData() {
     }
      
      
-
-   
-private void tambahData() {
+     private void tampilkan() {
     try {
-        // Panggil fungsi autoIn untuk mendapatkan kode barang otomatis
-        autoIn();
-        
-        // Ambil nilai kode barang yang dihasilkan dari autoIn()
+        // Bersihkan data pada JComboBox
+        kode_text.removeAllItems();
+
+        // Query untuk mengambil data dari tabel tb_kategori
+        String selectQuery = "SELECT * FROM tb_kategori";
+        PreparedStatement selectStatement = con.prepareStatement(selectQuery);
+        ResultSet resultSet = selectStatement.executeQuery();
+
+        // Isi data pada JComboBox
+        while (resultSet.next()) {
+            String namaKategori = resultSet.getString("kategori");
+            kode_text.addItem(namaKategori);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+     
+  private void tampilkode(String kategori) {
+    try {
+        // Bersihkan data pada JTextField
+        txt_kodebarang.setText("");
+
+        // Query untuk mengambil data dari tabel tb_databarang yang sesuai dengan kategori
+        String selectQuery = "SELECT * FROM tb_databarang WHERE kategori = ?";
+        PreparedStatement selectStatement = con.prepareStatement(selectQuery);
+        selectStatement.setString(1, kategori);
+        ResultSet resultSet = selectStatement.executeQuery();
+
+        // Ambil kode barang terakhir yang sesuai dengan kategori
+        if (resultSet.last()) {
+            String lastKodeBarang = resultSet.getString("kode_barang");
+            // Mengambil huruf dari kode barang terakhir
+            String lastHuruf = lastKodeBarang.substring(0, 3);
+            // Mengambil angka dari kode barang terakhir
+            int lastNumber = Integer.parseInt(lastKodeBarang.substring(3));
+            int nextNumber = lastNumber + 1;
+            String nextKodeBarang = lastHuruf + String.format("%03d", nextNumber);
+            txt_kodebarang.setText(nextKodeBarang);
+        } else {
+            // Jika tidak ada kode barang yang sesuai dengan kategori, set nilai awal
+            txt_kodebarang.setText("MKN001");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+//yang bisa tetapi makai angka
+//private void tampilkode(String kategori) {
+//    try {
+//        // Bersihkan data pada JTextField
+//        txt_kodebarang.setText("");
+//
+//        // Query untuk mengambil data dari tabel tb_databarang yang sesuai dengan kategori
+//        String selectQuery = "SELECT * FROM tb_databarang WHERE kategori = ? ORDER BY kode_barang DESC LIMIT 1";
+//        PreparedStatement selectStatement = con.prepareStatement(selectQuery);
+//        selectStatement.setString(1, kategori);
+//        ResultSet resultSet = selectStatement.executeQuery();
+//
+//        // Ambil kode barang dari hasil query terakhir yang sesuai dengan kategori
+//        if (resultSet.next()) {
+//            String lastKodeBarang = resultSet.getString("kode_barang");
+//            // Mengambil angka dari kode barang terakhir
+//            int lastNumber = Integer.parseInt(lastKodeBarang.substring(3));
+//            int nextNumber = lastNumber + 1;
+//            String nextKodeBarang = String.format("%03d", nextNumber);
+//            txt_kodebarang.setText(nextKodeBarang);
+//        } else {
+//            // Jika tidak ada kode barang yang sesuai dengan kategori, set nilai awal
+//            txt_kodebarang.setText("001");
+//        }
+//    } catch (SQLException e) {
+//        e.printStackTrace();    
+//    }
+//}
+// private void tampilkan(){
+//    try {
+//        // Bersihkan data pada JComboBox
+//        kode_text.removeAllItems();
+//
+//        // Query untuk mengambil data dari tabel tb_kategori
+//        String selectQuery = "SELECT * FROM tb_kategori";
+//        PreparedStatement selectStatement = con.prepareStatement(selectQuery);
+//        ResultSet resultSet = selectStatement.executeQuery();
+//
+//        // Isi data pada JComboBox
+//        while (resultSet.next()) {
+//            String namaKategori = resultSet.getString("kategori");
+//            kode_text.addItem(namaKategori);
+//            
+//        }
+//    } catch (SQLException e) {
+//        e.printStackTrace();
+//    }
+//    }
+// 
+// private void tampilkode() {
+//    try {
+//        // Bersihkan data pada JTextField
+//        txt_kodebarang.setText("");
+//
+//        // Query untuk mengambil data dari tabel tb_barang
+//        String selectQuery = "SELECT * FROM tb_kategori";
+//        PreparedStatement selectStatement = con.prepareStatement(selectQuery);
+//        ResultSet resultSet = selectStatement.executeQuery();
+//
+//        // Ambil kode barang dari hasil query pertama
+//        if (resultSet.next()) {
+//            String kodeBarang = resultSet.getString("kode_barang");
+//            txt_kodebarang.setText(kodeBarang);
+//        }
+//    } catch (SQLException e) {
+//        e.printStackTrace();
+//    }
+//}
+ 
+  
+  
+  private void tambahData() {
+    try {
+        // Ambil nilai kode barang yang diinput
         String kode = txt_kodebarang.getText(); 
         
         // Ambil nilai-nilai lain dari field input
@@ -184,29 +302,11 @@ private void tambahData() {
         
         // Ambil kategori yang dipilih dari combobox
         String selectedCategory = (String) kode_text.getSelectedItem();
-        String prefix = ""; // Inisialisasi awalan kode barang
-        
-        if (selectedCategory != null) {
-            switch (selectedCategory) {
-                case "Makanan":
-                    prefix = "MKN";
-                    break;
-                case "Minuman":
-                    prefix = "MNM";
-                    break;
-                case "Topping":
-                    prefix = "TPG";
-                    break;
-                // Tambahkan case untuk kategori lainnya jika diperlukan
-                default:
-                    prefix = "" ; // Jika tidak ada kategori yang cocok, awalan menjadi kosong
-                    break;
-            }
-        }
         
         // Panggil koneksi
         Connection connect = koneksi.getKoneksi();
-        // Query untuk memasukan data
+        
+        // Query untuk memasukkan data
         String query = "INSERT INTO `tb_databarang` (`kode_barang`, `nama_barang`, `harga`, `stok`, `tanggal`, `kategori`) "
                      + "VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = connect.prepareStatement(query);
@@ -215,16 +315,75 @@ private void tambahData() {
         ps.setString(3, harga);
         ps.setString(4, stok);
         ps.setString(5, tanggal);
-        ps.setString(6, selectedCategory); // Inserting the selected category
+        ps.setString(6, selectedCategory); // Memasukkan kategori yang dipilih
         ps.executeUpdate();
-       // JOptionPane.showMessageDialog(null, "Data berhasil ditambahkan");
-         Notification panel = new Notification(this, Notification.Type.SUCCESS, Notification.Location.TOP_CENTER, "Data berhasil ditambahkan");
+        
+        // Menampilkan notifikasi bahwa data berhasil ditambahkan
+        Notification panel = new Notification(this, Notification.Type.SUCCESS, Notification.Location.TOP_CENTER, "Data berhasil ditambahkan");
         panel.showNotification();
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         e.printStackTrace();
     }
 }
+   
+//private void tambahData() {
+//    try {
+//        // Panggil fungsi autoIn untuk mendapatkan kode barang otomatis
+//       // autoIn();
+//        
+//        // Ambil nilai kode barang yang dihasilkan dari autoIn()
+//        String kode = txt_kodebarang.getText(); 
+//        
+//        // Ambil nilai-nilai lain dari field input
+//        String nama = txt_namabarang.getText();
+//        String harga = txt_harga.getText();
+//        String stok = txt_stok.getText();
+//        String tanggal = new SimpleDateFormat("yyyy-MM-dd").format(txt_tanggal.getDate());
+//        
+//        // Ambil kategori yang dipilih dari combobox
+//        String selectedCategory = (String) kode_text.getSelectedItem();
+//        String prefix = ""; // Inisialisasi awalan kode barang
+//        
+//        if (selectedCategory != null) {
+//            switch (selectedCategory) {
+//                case "Makanan":
+//                    prefix = "MKN";
+//                    break;
+//                case "Minuman":
+//                    prefix = "MNM";
+//                    break;
+//                case "Topping":
+//                    prefix = "TPG";
+//                    break;
+//                // Tambahkan case untuk kategori lainnya jika diperlukan
+//                default:
+//                    prefix = "" ; // Jika tidak ada kategori yang cocok, awalan menjadi kosong
+//                    break;
+//            }
+//        }
+//        
+//        // Panggil koneksi
+//        Connection connect = koneksi.getKoneksi();
+//        // Query untuk memasukan data
+//        String query = "INSERT INTO `tb_databarang` (`kode_barang`, `nama_barang`, `harga`, `stok`, `tanggal`, `kategori`) "
+//                     + "VALUES (?, ?, ?, ?, ?, ?)";
+//        PreparedStatement ps = connect.prepareStatement(query);
+//        ps.setString(1, kode);
+//        ps.setString(2, nama);
+//        ps.setString(3, harga);
+//        ps.setString(4, stok);
+//        ps.setString(5, tanggal);
+//        ps.setString(6, selectedCategory); // Inserting the selected category
+//        ps.executeUpdate();
+//       // JOptionPane.showMessageDialog(null, "Data berhasil ditambahkan");
+//         Notification panel = new Notification(this, Notification.Type.SUCCESS, Notification.Location.TOP_CENTER, "Data berhasil ditambahkan");
+//        panel.showNotification();
+//    } catch (Exception e) {
+//        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+//        e.printStackTrace();
+//    }
+//}
 
 
 
@@ -312,7 +471,7 @@ private void tambahData() {
         clear();
         
         // Memanggil autoIn() untuk memperbarui kode barang otomatis setelah proses edit data selesai
-        autoIn();
+    //    autoIn();
         
         // Mengatur nilai tanggal pada JDateChooser setelah edit data
         String tanggalString = "";
@@ -688,7 +847,7 @@ private void tambahData() {
         jLabel11.setText("NAMA BARANG");
 
         kode_text.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        kode_text.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Makanan", "Minuman", "Topping" }));
+        kode_text.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "..." }));
         kode_text.setToolTipText("");
         kode_text.setName(""); // NOI18N
         kode_text.addActionListener(new java.awt.event.ActionListener() {
@@ -957,7 +1116,10 @@ if (tanggal.matches("\\d{4}-\\d{2}-\\d{2}")) {
      kode_text.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                autoIn(); // Panggil metode autoIn saat combobox dipilih
+     //           autoIn();
+        String kategori = (String) kode_text.getSelectedItem();
+        tampilkode(kategori);
+//new CRUD_kategori().setVisible(true);// Panggil metode autoIn saat combobox dipilih
             }
         }); 
         
