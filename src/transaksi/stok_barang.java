@@ -5,6 +5,7 @@
  */
 package transaksi;
 //import static gui.FormUtama.user;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,15 +14,17 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import koneksi.koneksi;
 import transaksi.formTransaksi;
+import javax.swing.JDialog;
+import java.awt.Dialog;
 
 
-public class stok_barang extends javax.swing.JFrame {
+public class stok_barang extends javax.swing.JDialog {
     DefaultTableModel table = new DefaultTableModel();
 
     
   public stok_barang() {
     initComponents();
-    
+    setModalityType(ModalityType.APPLICATION_MODAL);
     koneksi conn = new koneksi();
     koneksi.getKoneksi();
     
@@ -327,7 +330,7 @@ private void cari(){
 
 
 
-        int row = table_barang.getSelectedRow();
+int row = table_barang.getSelectedRow();
 formTransaksi menu = new formTransaksi();
 
 String kode = table.getValueAt(row, 0).toString();
