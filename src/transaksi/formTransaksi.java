@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Date;
 //NEW
 
+import java.awt.event.KeyEvent;
+
 import transaksi.stok_barang;
 import java.util.prefs.Preferences;
 
@@ -59,7 +61,8 @@ public class formTransaksi extends javax.swing.JFrame {
     
     // Menambahkan kolom ke tabel dengan model yang sama
         tb_keranjang.setModel(table);
-         table.addColumn("no_transaksi");
+        
+     table.addColumn("no_transaksi");
    table.addColumn("Kode Barang");
     table.addColumn("Nama Barang");
     table.addColumn("Harga");
@@ -67,6 +70,7 @@ public class formTransaksi extends javax.swing.JFrame {
     table.addColumn("Total Harga");
     table.addColumn("Kategori");
     table.addColumn("catatan");
+    table.addColumn("Nama");
     
     
     // Mengatur model tabel ke tb_keranjang
@@ -139,9 +143,10 @@ private void tampilData() {
                 int total = rslt.getInt("total_harga"); // Ubah menjadi tipe data int jika total_harga adalah angka
                 String kategori = rslt.getString("kategori");
                 String catatan = rslt.getString("catatan");
+                 String namacs = rslt.getString("namacs");
 
           //masukan semua data kedalam array
-            Object[] data = { no_transaksi, kode, nama, harga, jumlah, total, kategori, catatan };
+            Object[] data = { no_transaksi, kode, nama, harga, jumlah, total, kategori, catatan, namacs };
                 //menambahakan baris sesuai dengan data yang tersimpan diarray
                 table.addRow(data);
             }
@@ -179,14 +184,14 @@ private void keranjang() {
     String kategori = txt_kategori.getText();
     String catatan = txt_catatan.getText();
     String no_transaksi = txt_kategori1.getText();
+    String namacs = txt_namacs.getText();
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     String tanggal = dateFormat.format(tgl_transaksi.getDate());
     totalnya();
 
     Connection connect = koneksi.getKoneksi();
-    String queryTambahKeranjang = "INSERT INTO tb_keranjang (no_transaksi, kode_barang, nama_barang, kategori, harga, jumlah, total_harga, catatan, tgl_transaksi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+  String queryTambahKeranjang = "INSERT INTO tb_keranjang (no_transaksi, kode_barang, nama_barang, kategori, harga, jumlah, total_harga, catatan, tgl_transaksi, namacs) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     String queryKurangiStok = "UPDATE tb_databarang SET stok = stok - ? WHERE kode_barang = ?";
-
     try {
   
         // Tambahkan item ke keranjang
@@ -200,6 +205,7 @@ private void keranjang() {
         psKeranjang.setString(7, total);
         psKeranjang.setString(8, catatan);
         psKeranjang.setString(9, tanggal);
+         psKeranjang.setString(10, namacs);
         
         // Ketika menambahkan data ke keranjang
         // Atur nilai nomorTransaksiKeranjang sesuai dengan keranjang saat ini
@@ -221,7 +227,7 @@ private void keranjang() {
             JOptionPane.showMessageDialog(null, "Data Masuk Ke Keranjang dan Disimpan ke Database");
 
             DefaultTableModel model = (DefaultTableModel) tb_keranjang.getModel();
-            model.addRow(new Object[] { no_transaksi, kode, nama, harga, jumlah, total, kategori, catatan });
+            model.addRow(new Object[] { no_transaksi, kode, nama, harga, jumlah, total, kategori, catatan, namacs });
 
             // Perbarui total harga keseluruhan di txt_totalharga2
             int totalHarga = Integer.parseInt(txt_totalharga2.getText());
@@ -321,6 +327,7 @@ private void total() {
     
     private void reset(){
         txt_uang.setText(null);
+        
     }   
     
 
@@ -558,7 +565,6 @@ private void editData() {
     }
 }
       
-
 private void kembalian() {
     String total = txt_totalharga2.getText();
     String uang = txt_uang.getText().trim(); // Trim to remove leading/trailing spaces
@@ -581,11 +587,10 @@ private void kembalian() {
             JOptionPane.showMessageDialog(null, "Jumlah uang yang diberikan kurang!");
         } else {
             int kembali = uangs - totals;
-            String fix = Integer.toString(kembali);
+            String fix = formatRupiah(kembali);
             txt_kembalian.setText(fix);
 
             JOptionPane.showMessageDialog(null, "Transaksi Berhasil!");
-          
         }
     } catch (NumberFormatException e) {
         JOptionPane.showMessageDialog(null, "Masukkan jumlah uang dengan angka yang valid!");
@@ -594,38 +599,234 @@ private void kembalian() {
     }
 }
 
- 
- private void pembayaran() {
+private String formatRupiah(int value) {
+    NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
+    return formatter.format(value);
+}
+//private void kembalian() {
+//    String total = txt_totalharga2.getText();
+//    String uang = txt_uang.getText().trim(); // Trim to remove leading/trailing spaces
+//
+//    try {
+//        // Check if input is empty
+//        if (uang.isEmpty()) {
+//            throw new NumberFormatException();
+//        }
+//
+//        // Validasi apakah input hanya berupa angka
+//        if (!uang.matches("\\d+")) {
+//            throw new NumberFormatException();
+//        }
+//
+//        int totals = Integer.parseInt(total);
+//        int uangs = Integer.parseInt(uang);
+//
+//        if (uangs < totals) {
+//            JOptionPane.showMessageDialog(null, "Jumlah uang yang diberikan kurang!");
+//        } else {
+//            int kembali = uangs - totals;
+//            String fix = Integer.toString(kembali);
+//            txt_kembalian.setText(fix);
+//
+//            JOptionPane.showMessageDialog(null, "Transaksi Berhasil!");
+//          
+//        }
+//    } catch (NumberFormatException e) {
+//        JOptionPane.showMessageDialog(null, "Masukkan jumlah uang dengan angka yang valid!");
+//        txt_uang.setText(""); // Mengosongkan nilai input yang salah
+//        txt_uang.requestFocus(); // Fokuskan kembali ke elemen input yang salah
+//    }
+//}
+
+
+private void pembayaran() {
+    String total = txt_totalharga2.getText();
+    String uang = txt_uang.getText().trim(); // Trim to remove leading/trailing spaces
+
     try {
-        // Menghubungkan ke database
-        Connection connect = koneksi.getKoneksi();
+        // Check if input is empty
+        if (uang.isEmpty()) {
+            throw new NumberFormatException();
+        }
 
-        // Membuat string query untuk memasukkan data dari tabel tb_keranjang ke dalam tabel transaksi
-        String queryInsertDetail = "INSERT INTO transaksi (no_transaksi, tgl_transaksi, kode_barang, nama_barang, kategori, harga, jumlah_barang, total_harga, catatan)"
-                + " SELECT no_transaksi, tgl_transaksi, kode_barang, nama_barang, kategori, harga, jumlah, total_harga, catatan FROM tb_keranjang";
-         String deleteQuery = "DELETE FROM tb_keranjang";
+        // Validasi apakah input hanya berupa angka
+        if (!uang.matches("\\d+")) {
+            throw new NumberFormatException();
+        }
 
-         
-        // Membuat objek PreparedStatement untuk mengeksekusi query dengan penggantian parameter (?)
-        PreparedStatement statement = connect.prepareStatement(queryInsertDetail);
-        
-  //no_transaksi(); // Panggil metode no_transaksi tanpa menggunakan nomorTransaksiDihasilkany
-        // Mengeksekusi pernyataan SQL
-        statement.executeUpdate();
+        int totals = Integer.parseInt(total);
+        int uangs = Integer.parseInt(uang);
 
-        // Menutup pernyataan
-        statement.close();
-//        nomorTransaksi++;
-        // Menghapus semua data dari tabel keranjang setelah dimasukkan ke dalam transaksi
-     //   hapusSemuaDataKeranjang();
-
-        // Menutup koneksi
-        connect.close();
-    } catch (SQLException e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Terjadi kesalahan dalam memasukkan data dari keranjang ke transaksi!");
+        if (uangs < totals) {
+            JOptionPane.showMessageDialog(null, "Jumlah uang yang diberikan kurang!");
+            // Jangan lanjutkan proses pembayaran, langsung keluar dari method
+            return;
+        } else {
+            try {
+                Connection conn = koneksi.getKoneksi();
+                
+                // Buat query untuk insert data dari tb_keranjang ke transaksi
+                String queryInsertTransaksi = "INSERT INTO transaksi " +
+                                             "(nomor_transaksi, tgl_transaksi, kode_barang, nama_barang, kategori, harga, jumlah_barang, total_harga, catatan, namacs) " +
+                                             "SELECT no_transaksi, tgl_transaksi, kode_barang, nama_barang, kategori, harga, jumlah, total_harga, catatan, namacs " +
+                                             "FROM tb_keranjang";
+                PreparedStatement psInsertTransaksi = conn.prepareStatement(queryInsertTransaksi);
+                
+                // Eksekusi query
+                int rowsAffected = psInsertTransaksi.executeUpdate();
+                
+                if (rowsAffected > 0) {
+                    // Tampilkan pesan sukses
+                    JOptionPane.showMessageDialog(null, "Pembayaran berhasil! Silahkan Reset Keranjang ");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Gagal melakukan pembayaran.");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(formTransaksi.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "Masukkan jumlah uang dengan angka yang valid!");
+        txt_uang.setText(""); // Mengosongkan nilai input yang salah
+        txt_uang.requestFocus(); // Fokuskan kembali ke elemen input yang salah
     }
 }
+//fix bisa
+//private void pembayaran() {
+//    try {
+//        Connection conn = koneksi.getKoneksi();
+//        
+//        // Buat query untuk insert data dari tb_keranjang ke transaksi
+//        String queryInsertTransaksi = "INSERT INTO transaksi " +
+//                                     "(nomor_transaksi, tgl_transaksi, kode_barang, nama_barang, kategori, harga, jumlah_barang, total_harga, catatan, namacs) " +
+//                                     "SELECT no_transaksi, tgl_transaksi, kode_barang, nama_barang, kategori, harga, jumlah, total_harga, catatan, namacs " +
+//                                     "FROM tb_keranjang";
+//        PreparedStatement psInsertTransaksi = conn.prepareStatement(queryInsertTransaksi);
+//        
+//        // Eksekusi query
+//        int rowsAffected = psInsertTransaksi.executeUpdate();
+//        
+//        if (rowsAffected > 0) {
+//            // Tampilkan pesan sukses
+//            JOptionPane.showMessageDialog(null, "Pembayaran berhasil!");
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Gagal melakukan pembayaran.");
+//        }
+//    } catch (SQLException ex) {
+//        Logger.getLogger(formTransaksi.class.getName()).log(Level.SEVERE, null, ex);
+//    }
+//}
+
+//private void pembayaran() {
+//    try {
+//        Connection conn = koneksi.getKoneksi();
+//        
+//        // Buat query untuk insert data dari tb_keranjang ke tb_transaksi
+//     String queryInsertTransaksi = "INSERT INTO transaksi " +
+//                             "(nomor_transaksi, tgl_transaksi, kode_barang, nama_barang, kategori, harga, jumlah_barang, total_harga, catatan, namacs) " +
+//                             "SELECT no_transaksi, tgl_transaksi, kode_barang, nama_barang, kategori, harga, jumlah, total_harga, catatan, namacs " +
+//                             "FROM tb_keranjang";
+//        PreparedStatement psInsertTransaksi = conn.prepareStatement(queryInsertTransaksi);
+//        
+//        // Eksekusi query
+//        int rowsAffected = psInsertTransaksi.executeUpdate();
+//        
+//        if (rowsAffected > 0) {
+//            // Hapus data dari tabel tb_keranjang
+//            String queryDeleteKeranjang = "DELETE FROM tb_keranjang";
+//            PreparedStatement psDeleteKeranjang = conn.prepareStatement(queryDeleteKeranjang);
+//            psDeleteKeranjang.executeUpdate();
+//            
+//            // Tampilkan pesan sukses
+//            JOptionPane.showMessageDialog(null, "Pembayaran berhasil!");
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Gagal melakukan pembayaran.");
+//        }
+//    } catch (SQLException ex) {
+//        Logger.getLogger(formTransaksi.class.getName()).log(Level.SEVERE, null, ex);
+//    }
+//}
+
+//
+//private void pembayaran() {
+//    try {
+//        // Menghubungkan ke database
+//        Connection connect = koneksi.getKoneksi();
+//
+//        // Membuat string query untuk memasukkan data dari tabel tb_keranjang ke dalam tabel transaksi
+//        String queryInsertDetail = "INSERT INTO transaksi (nomor, nomor_transaksi, tgl_transaksi, kode_barang, nama_barang, kategori, harga, jumlah_barang, total_harga, catatan, namacs)"
+//                + " SELECT nomor, no_transaksi, tgl_transaksi, kode_barang, nama_barang, kategori, harga, jumlah, total_harga, catatan, namacs FROM tb_keranjang WHERE no_transaksi = ?";
+//
+//        // Membuat objek PreparedStatement untuk mengeksekusi query dengan penggantian parameter (?)
+//        PreparedStatement statement = connect.prepareStatement(queryInsertDetail);
+//        statement.setString(1, txt_kategori1.getText()); // Menggunakan nilai dari txt_kategori1 sebagai no_transaksi
+//
+//        // Mengeksekusi pernyataan SQL
+//        int rowsAffected = statement.executeUpdate();
+//
+//        if (rowsAffected > 0) {
+//            // Hapus data dari tabel tb_keranjang setelah dimasukkan ke dalam transaksi
+//            String deleteQuery = "DELETE FROM tb_keranjang WHERE no_transaksi = ?";
+//            PreparedStatement deleteStatement = connect.prepareStatement(deleteQuery);
+//            deleteStatement.setString(1, txt_kategori1.getText());
+//            deleteStatement.executeUpdate();
+//
+//            JOptionPane.showMessageDialog(null, "Data transaksi berhasil disimpan.");
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Terjadi kesalahan dalam memasukkan data dari keranjang ke transaksi!");
+//        }
+//
+//        // Menutup pernyataan
+//        statement.close(); 
+//        connect.close();
+//    } catch (SQLException e) {
+//        e.printStackTrace();
+//        JOptionPane.showMessageDialog(null, "KONTLLLL!");
+//    }
+//}
+
+
+
+//private void pembayaran() {
+//    try {
+//        // Menghubungkan ke database
+//        Connection connect = koneksi.getKoneksi();
+//String no_transaksi = txt_kategori1.getText();
+//        // Membuat string query untuk memasukkan data dari tabel tb_keranjang ke dalam tabel transaksi
+//        String queryInsertDetail = "INSERT INTO transaksi (nomor, nomor_transaksi, tgl_transaksi, kode_barang, nama_barang, kategori, harga, jumlah_barang, total_harga, catatan, namacs)"
+//                + " SELECT nomor, no_transaksi, tgl_transaksi, kode_barang, nama_barang, kategori, harga, jumlah, total_harga, catatan, namacs FROM tb_keranjang WHERE no_transaksi = ?";
+//
+//       // String deleteQuery = "DELETE FROM tb_keranjang";
+//
+//        // Membuat objek PreparedStatement untuk mengeksekusi query dengan penggantian parameter (?)
+//        PreparedStatement statement = connect.prepareStatement(queryInsertDetail);
+//
+//        // Mengatur parameter (?)
+//       statement.setString(1, no_transaksi);
+//
+//        // Mengeksekusi pernyataan SQL
+//        int rowsInserted = statement.executeUpdate();
+//        if (rowsInserted > 0) {
+//            System.out.println("Data berhasil disimpan.");
+//
+//            // Menghapus semua data dari tabel keranjang setelah dimasukkan ke dalam transaksi
+//          //  statement = connect.prepareStatement(deleteQuery);
+//            statement.executeUpdate();
+//            System.out.println("Data di tabel keranjang telah dihapus.");
+//        } else {
+//            System.out.println("Data gagal disimpan.");
+//        }
+//
+//        // Menutup pernyataan
+//        statement.close();
+//
+//        // Menutup koneksi
+//        connect.close();
+//    } catch (SQLException e) {
+//        e.printStackTrace();
+//        JOptionPane.showMessageDialog(null, "Terjadi kesalahan dalam memasukkan data dari keranjang ke transaksi!");
+//    }
+//}
 
 //
 // Variabel flag untuk menandakan apakah nomor transaksi sudah dihasilkan atau belum
@@ -691,48 +892,157 @@ private void kembalian() {
 //}
 
 
+private int getLastTransactionNumber() {
+    int lastTransactionNumber = 0;
+    try {
+        // Buat koneksi ke database
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_ujilevel", "root", "");
 
+        // Buat statement dan jalankan query
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT MAX(CAST(SUBSTRING(nomor_transaksi, LOCATE('-', nomor_transaksi) + 1) AS SIGNED INTEGER)) AS last_transaction_number FROM transaksi");
 
-    private static int nomorTransaksi = 0;
-    private static String tanggalTerakhir = "";
-    
+        // Dapatkan nomor transaksi terbesar
+        if (rs.next()) {
+            lastTransactionNumber = rs.getInt("last_transaction_number");
+        }
 
-
-
-
+        // Tutup koneksi
+        rs.close();
+        stmt.close();
+        conn.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return lastTransactionNumber;
+}
 
 private void no_transaksi() {
-    // Mendapatkan tanggal saat ini
     String tanggalSekarang = new SimpleDateFormat("yyyyMMdd").format(new Date());
-    
 
-    // Mendapatkan nilai nomor transaksi dan tanggal terakhir dari Preferences
-   Preferences prefs = Preferences.userNodeForPackage(getClass());
-    int nomorTransaksi = prefs.getInt("nomorTransaksi", 1);
-    String tanggalTerakhir = prefs.get("tanggalTerakhir", "");
-
-    // Mengecek apakah tanggal saat ini sama dengan tanggal terakhir
-    if (tanggalSekarang.equals(tanggalTerakhir)) {
-            // Jika tanggal sama, increment nomor transaksi
-        //nomorTransaksi++;
+    int lastTransactionNumber = getLastTransactionNumber();
+    if (lastTransactionNumber == 0) {
+        // Jika tidak ada transaksi di database, set lastTransactionNumber menjadi 1
+        lastTransactionNumber = 1;
     } else {
-        // Jika tanggal berbeda, reset nomor transaksi menjadi 1
-        nomorTransaksi = 1;
-        tanggalTerakhir = tanggalSekarang;
+        // Jika ada transaksi di database, increment lastTransactionNumber
+        lastTransactionNumber++;
     }
 
-    // Menghasilkan nomor transaksi dengan format yang diinginkan, misalnya: T-20220507-001
-    String nomorTransaksiFormatted = "T-" + tanggalSekarang + "-" + String.format("%03d", nomorTransaksi);
-
-    // Menyimpan nilai nomor transaksi dan tanggal terakhir ke Preferences
-   prefs.putInt("nomorTransaksi", nomorTransaksi);
-    prefs.put("tanggalTerakhir", tanggalTerakhir);
+    // Menghasilkan nomor transaksi dengan format yang diinginkan, misalnya: 20220507-002
+    String nomorTransaksiFormatted = tanggalSekarang + "-" + String.format("%03d", lastTransactionNumber);
 
     // Menampilkan nomor transaksi ke dalam JTextField
     txt_kategori1.setText(nomorTransaksiFormatted);
 
-    // Lakukan apa pun yang perlu dilakukan setelah nomor transaksi dihasilkan
 }
+
+private void btnTambahTransaksi_ActionPerformed(ActionEvent evt) {
+    no_transaksi();
+}
+//private int getLastTransactionNumber() {
+//    int lastTransactionNumber = 0;
+//    try {
+//        // Buat koneksi ke database
+//        Connection conn = DriverManager.getConnection( "jdbc:mysql://localhost:3306/db_ujilevel","root","");
+//        
+//        // Buat statement dan jalankan query
+//        Statement stmt = conn.createStatement();
+//        ResultSet rs = stmt.executeQuery("SELECT MAX(nomor_transaksi) AS last_transaction_number FROM transaksi");
+//        
+//        // Dapatkan nomor transaksi terbesar
+//        if (rs.next()) {
+//            lastTransactionNumber = rs.getInt("last_transaction_number");
+//        }
+//        
+//        // Tutup koneksi
+//        rs.close();
+//        stmt.close();
+//        conn.close();
+//    } catch (SQLException e) {
+//        e.printStackTrace();
+//    }
+//    return lastTransactionNumber;
+//}
+//private static int nomorTransaksi = 0;
+//private static String tanggalTerakhir = "";
+//private boolean perluPerbarui = false;
+//
+//private void no_transaksi() {
+//    String tanggalSekarang = new SimpleDateFormat("yyyyMMdd").format(new Date());
+//
+//    int lastTransactionNumber = getLastTransactionNumber();
+//    if (lastTransactionNumber == 0) {
+//        // If there are no transactions in the database, set the lastTransactionNumber to 1
+//        lastTransactionNumber = 1;
+//    }
+//
+//    // Mengecek apakah tanggal saat ini sama dengan tanggal terakhir
+//    if (tanggalSekarang.equals(tanggalTerakhir)) {
+//        if (perluPerbarui) { // Jika tanggal sama, increment nomor transaksi
+//            lastTransactionNumber++;
+//        }
+//    } else {
+//        // Jika tanggal berbeda, simpan nomor transaksi dan tanggal terakhir ke Preferences
+//        Preferences prefs = Preferences.userNodeForPackage(getClass());
+//        prefs.putInt("nomorTransaksi", lastTransactionNumber);
+//        prefs.put("tanggalTerakhir", tanggalTerakhir);
+//        lastTransactionNumber = 1; // Reset nomor transaksi menjadi 1
+//        tanggalTerakhir = tanggalSekarang;
+//    }
+//
+//    // Menghasilkan nomor transaksi dengan format yang diinginkan, misalnya: T-20220507-001
+//    String nomorTransaksiFormatted = "T-" + tanggalSekarang + "-" + String.format("%03d", lastTransactionNumber);
+//
+//    // Menampilkan nomor transaksi ke dalam JTextField
+//    txt_kategori1.setText(nomorTransaksiFormatted);
+//}
+//
+//
+//private void btnTambahTransaksi_ActionPerformed(ActionEvent evt) {
+//    perluPerbarui = true;
+//    no_transaksi();
+//}
+
+
+
+//yang sekarang
+//    private static int nomorTransaksi = 0;
+//    private static String tanggalTerakhir = "";
+//    
+//
+//private void no_transaksi() {
+//    // Mendapatkan tanggal saat ini
+//    String tanggalSekarang = new SimpleDateFormat("yyyyMMdd").format(new Date());
+//    
+//
+//    // Mendapatkan nilai nomor transaksi dan tanggal terakhir dari Preferences
+//   Preferences prefs = Preferences.userNodeForPackage(getClass());
+//    int nomorTransaksi = prefs.getInt("nomorTransaksi", 1);
+//    String tanggalTerakhir = prefs.get("tanggalTerakhir", "");
+//
+//    // Mengecek apakah tanggal saat ini sama dengan tanggal terakhir
+//    if (tanggalSekarang.equals(tanggalTerakhir)) {
+//            // Jika tanggal sama, increment nomor transaksi
+//        //nomorTransaksi++;
+//    } else {
+//        // Jika tanggal berbeda, reset nomor transaksi menjadi 1
+//        nomorTransaksi = 1;
+//        tanggalTerakhir = tanggalSekarang;
+//    }
+//
+//    // Menghasilkan nomor transaksi dengan format yang diinginkan, misalnya: T-20220507-001
+//    String nomorTransaksiFormatted = "T-" + tanggalSekarang + "-" + String.format("%03d", nomorTransaksi);
+//
+//    // Menyimpan nilai nomor transaksi dan tanggal terakhir ke Preferences
+//   prefs.putInt("nomorTransaksi", nomorTransaksi);
+//    prefs.put("tanggalTerakhir", tanggalTerakhir);
+//
+//    // Menampilkan nomor transaksi ke dalam JTextField
+//    txt_kategori1.setText(nomorTransaksiFormatted);
+//
+//    // Lakukan apa pun yang perlu dilakukan setelah nomor transaksi dihasilkan
+//}
    
  private void startTimer() {
         // Buat objek Timer untuk memperbarui waktu setiap detik
@@ -754,6 +1064,71 @@ private void no_transaksi() {
        T_date.setText(currentTime);
     }
        
+       
+   private void getDataBarang(String kodeBarang) {
+    try {
+        // Panggil koneksi
+        Connection connect = koneksi.getKoneksi();
+        
+        // Query untuk mendapatkan data barang dari database berdasarkan kode barang
+        String query = "SELECT nama_barang, harga, kategori FROM tb_databarang WHERE kode_barang = ?";
+        PreparedStatement ps = connect.prepareStatement(query);
+        ps.setString(1, kodeBarang);
+        ResultSet resultSet = ps.executeQuery();
+        
+        // Mengisi data ke komponen yang sesuai
+        if (resultSet.next()) {
+            String namaBarang = resultSet.getString("nama_barang");
+            String harga = resultSet.getString("harga");
+            String kategori = resultSet.getString("kategori");
+            
+            txt_namabarang2.setText(namaBarang);
+            txt_harga2.setText(harga);
+            txt_kategori.setText(kategori);
+        }
+        
+        resultSet.close();
+        ps.close();
+        connect.close();
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        e.printStackTrace();
+    }
+}
+
+private String getKodeBarangFromDatabase(String inputKodeBarang) {
+    String kodeBarang = "";
+    try {
+        // Panggil koneksi
+        Connection connect = koneksi.getKoneksi();
+        
+        // Query untuk mendapatkan data barang berdasarkan kode barang yang diinput
+        String query = "SELECT * FROM tb_databarang WHERE kode_barang = ?";
+        PreparedStatement statement = connect.prepareStatement(query);
+        statement.setString(1, inputKodeBarang);
+        ResultSet resultSet = statement.executeQuery();
+        
+        // Cek apakah ada data yang ditemukan
+        if (resultSet.next()) {
+            // Ambil data barang dari database
+            kodeBarang = resultSet.getString("kode_barang");
+            // Lakukan pengambilan data lainnya yang diperlukan
+            // ...
+        } else {
+            // Jika tidak ada data yang ditemukan, kembalikan pesan error
+            kodeBarang = "Kode barang tidak ditemukan";
+        }
+        
+        resultSet.close();
+        statement.close();
+        connect.close();
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        e.printStackTrace();
+    }
+    
+    return kodeBarang;
+}
 //       
 //   private String kasirName;
 //
@@ -890,7 +1265,7 @@ private void no_transaksi() {
         txt_kategori1 = new javax.swing.JTextField();
         No_transaksi = new javax.swing.JLabel();
         catatan = new javax.swing.JLabel();
-        txt_jumlah3 = new javax.swing.JTextField();
+        txt_namacs = new javax.swing.JTextField();
         T_jumlah1 = new javax.swing.JLabel();
         txt_user = new javax.swing.JLabel();
         txt_karyawan = new javax.swing.JTextField();
@@ -933,12 +1308,16 @@ private void no_transaksi() {
             }
         });
 
-        txt_kodebarang2.setEditable(false);
         txt_kodebarang2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         txt_kodebarang2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_kodebarang2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_kodebarang2ActionPerformed(evt);
+            }
+        });
+        txt_kodebarang2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_kodebarang2KeyPressed(evt);
             }
         });
 
@@ -1176,7 +1555,7 @@ private void no_transaksi() {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 18, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -1211,18 +1590,18 @@ private void no_transaksi() {
         catatan.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         catatan.setText("Catatan");
 
-        txt_jumlah3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        txt_jumlah3.addActionListener(new java.awt.event.ActionListener() {
+        txt_namacs.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_namacs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_jumlah3ActionPerformed(evt);
+                txt_namacsActionPerformed(evt);
             }
         });
-        txt_jumlah3.addKeyListener(new java.awt.event.KeyAdapter() {
+        txt_namacs.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txt_jumlah3KeyReleased(evt);
+                txt_namacsKeyReleased(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txt_jumlah3KeyTyped(evt);
+                txt_namacsKeyTyped(evt);
             }
         });
 
@@ -1230,6 +1609,7 @@ private void no_transaksi() {
         T_jumlah1.setText("Jumlah");
 
         txt_karyawan.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_karyawan.setEnabled(false);
         txt_karyawan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_karyawanActionPerformed(evt);
@@ -1259,96 +1639,90 @@ private void no_transaksi() {
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(289, 289, 289))
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(93, 93, 93)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(93, 93, 93)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                    .addComponent(T_jumlah2)
+                                    .addGap(380, 380, 380)
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                            .addComponent(T_jumlah2)
-                                            .addGap(380, 380, 380)
-                                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(T_harga)
-                                                .addComponent(txt_harga2, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(txt_namabarang2, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(T_namabarang)
-                                                .addComponent(txt_totalharga, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(T_total)
-                                                .addComponent(catatan, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                    .addComponent(txt_user)))
-                                            .addGap(163, 163, 163))
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(T_jumlah)
-                                            .addComponent(kategori1)
-                                            .addComponent(txt_kategori, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
-                                            .addComponent(txt_jumlah2)
-                                            .addComponent(txt_jumlah3)
-                                            .addComponent(T_jumlah1)
-                                            .addComponent(txt_kategori1, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
-                                            .addComponent(No_transaksi)
-                                            .addComponent(txt_karyawan)))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(13, 13, 13)
-                                        .addComponent(txt_cari)
-                                        .addGap(34, 34, 34)
-                                        .addComponent(txt_kodebarang2, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(64, 64, 64)
-                                        .addComponent(tgl_transaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(T_harga)
+                                        .addComponent(txt_harga2, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txt_namabarang2, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(T_namabarang)
+                                        .addComponent(txt_totalharga, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(T_total)
+                                        .addComponent(catatan, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(txt_user)))
+                                    .addGap(163, 163, 163))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(T_jumlah)
+                                    .addComponent(kategori1)
+                                    .addComponent(txt_kategori, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
+                                    .addComponent(txt_jumlah2)
+                                    .addComponent(txt_namacs)
+                                    .addComponent(T_jumlah1)
+                                    .addComponent(txt_kategori1, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
+                                    .addComponent(No_transaksi)
+                                    .addComponent(txt_karyawan)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(52, 52, 52)
-                                .addComponent(jButton4)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGap(13, 13, 13)
+                                .addComponent(txt_cari)
+                                .addGap(34, 34, 34)
+                                .addComponent(txt_kodebarang2, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(64, 64, 64)
+                                .addComponent(tgl_transaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(jButton4)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 814, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(478, 478, 478))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_totalharga2, javax.swing.GroupLayout.PREFERRED_SIZE, 567, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(518, 518, 518))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(260, 260, 260)
-                                .addComponent(jButton2)
-                                .addGap(75, 75, 75)
-                                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(49, 49, 49)
-                                .addComponent(jButton6))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(457, 457, 457)
                                 .addComponent(t_total))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(292, 292, 292)
-                                .addComponent(txt_kembalian, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(283, 283, 283)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jButton6))
                                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_uang, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap())))
+                                    .addComponent(txt_uang, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_kembalian, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_totalharga2, javax.swing.GroupLayout.PREFERRED_SIZE, 567, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(518, 518, 518))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 865, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(427, 427, 427))))))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(432, 432, 432)
+                .addGap(460, 460, 460)
                 .addComponent(kategori)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(117, 117, 117)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(671, 671, 671))
+                .addGap(670, 670, 670))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
+                .addGap(14, 14, 14)
                 .addComponent(kategori)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -1371,34 +1745,34 @@ private void no_transaksi() {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt_harga2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_karyawan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(54, 54, 54)
-                                .addComponent(txt_user, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(111, 111, 111)
+                                .addComponent(txt_user, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                                 .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                                .addGap(12, 12, 12)))
                         .addComponent(txt_kembalian, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(33, 33, 33)
                         .addComponent(jLabel10)
-                        .addGap(21, 21, 21)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txt_uang, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(80, 80, 80))
+                        .addGap(29, 29, 29)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(59, 59, 59))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(T_namabarang)
@@ -1427,7 +1801,7 @@ private void no_transaksi() {
                                         .addGap(0, 0, Short.MAX_VALUE)
                                         .addComponent(T_jumlah)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txt_jumlah3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txt_namacs, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(116, 116, 116))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(txt_jumlah2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1467,8 +1841,11 @@ dispose();
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        kembalian();
-       pembayaran();
+       kembalian();
+        
+       // perluPerbarui = true;
+    no_transaksi();
+      pembayaran();
 //        tambahData();
 //        JOptionPane.showMessageDialog(null, "Transaksi Berhasil !");
 //        new struk.struk().setVisible(true);
@@ -1556,7 +1933,7 @@ dispose();
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         try{
-             String file = "/strukNew/Struck_new.jasper";
+             String file = "/Struk_baru/Nota.jasper";
             
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             HashMap param = new HashMap();
@@ -1564,8 +1941,8 @@ dispose();
             param.put("total",txt_totalharga2.getText());
             param.put("uang",txt_uang.getText());
             param.put("kembalian",txt_kembalian.getText());
-            param.put("date",T_date.getText());
-            param.put("tanggal",txt_tanggal.getText());
+             param.put("namacs",txt_namacs.getText());
+             param.put("kasir",txt_karyawan.getText());
             
             JasperPrint print = JasperFillManager.fillReport(getClass().getResourceAsStream(file),param,koneksi.getKoneksi());
             JasperViewer.viewReport(print, false);
@@ -1593,7 +1970,13 @@ dispose();
             totalnya();
             txt_uang.setText(null);
             txt_kembalian.setText(null);
-            txt_totalharga2.setText(null);
+            txt_kodebarang2.setText(null);
+            txt_harga2.setText(null);
+            txt_namabarang2.setText(null);
+            txt_kategori.setText(null);
+              txt_jumlah2.setText(null);
+              txt_totalharga.setText(null);
+              
         }
         
     }//GEN-LAST:event_jButton7ActionPerformed
@@ -1617,17 +2000,17 @@ dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_kategori1ActionPerformed
 
-    private void txt_jumlah3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_jumlah3ActionPerformed
+    private void txt_namacsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_namacsActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txt_jumlah3ActionPerformed
+    }//GEN-LAST:event_txt_namacsActionPerformed
 
-    private void txt_jumlah3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_jumlah3KeyReleased
+    private void txt_namacsKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_namacsKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_txt_jumlah3KeyReleased
+    }//GEN-LAST:event_txt_namacsKeyReleased
 
-    private void txt_jumlah3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_jumlah3KeyTyped
+    private void txt_namacsKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_namacsKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_txt_jumlah3KeyTyped
+    }//GEN-LAST:event_txt_namacsKeyTyped
 
     private void txt_karyawanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_karyawanActionPerformed
         // TODO add your handling code here:
@@ -1640,6 +2023,30 @@ dispose();
     private void txt_karyawanKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_karyawanKeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_karyawanKeyTyped
+
+    private void txt_kodebarang2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_kodebarang2KeyPressed
+// TODO add your handling code here:
+
+if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+    // Dapatkan kode barang yang diinputkan oleh pengguna
+    String inputKodeBarang = txt_kodebarang2.getText();
+    
+    // Panggil fungsi untuk mendapatkan kode barang dari database
+    String kodeBarang = getKodeBarangFromDatabase(inputKodeBarang);
+    
+    // Cek apakah kode barang ditemukan
+    if (!kodeBarang.equals("Kode barang tidak ditemukan")) {
+        // Set nilai kode barang ke txt_kodebarang2
+        txt_kodebarang2.setText(kodeBarang);
+        
+        // Memanggil fungsi untuk mendapatkan data lainnya berdasarkan kode barang
+        getDataBarang(kodeBarang);
+    } else {
+        // Jika kode barang tidak ditemukan, tampilkan pesan error
+        JOptionPane.showMessageDialog(null, kodeBarang);
+    }
+}
+    }//GEN-LAST:event_txt_kodebarang2KeyPressed
 
     /**
      * @param args the command line arguments
@@ -1717,13 +2124,13 @@ dispose();
     private javax.swing.JTextArea txt_catatan;
     public javax.swing.JTextField txt_harga2;
     public javax.swing.JTextField txt_jumlah2;
-    public javax.swing.JTextField txt_jumlah3;
     public javax.swing.JTextField txt_karyawan;
     public javax.swing.JTextField txt_kategori;
     public javax.swing.JTextField txt_kategori1;
     public static javax.swing.JTextField txt_kembalian;
     public javax.swing.JTextField txt_kodebarang2;
     public javax.swing.JTextField txt_namabarang2;
+    public javax.swing.JTextField txt_namacs;
     private javax.swing.JLabel txt_tanggal;
     public javax.swing.JTextField txt_totalharga;
     public static javax.swing.JTextField txt_totalharga2;

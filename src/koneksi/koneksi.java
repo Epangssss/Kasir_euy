@@ -6,6 +6,7 @@
 package koneksi;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -33,6 +34,35 @@ public class koneksi {
     }
  
     
-   
+ public static ResultSet ambilData(String query, String... params) {
+    Connection conn = getKoneksi();
+    ResultSet rs = null;
+    try {
+        PreparedStatement stmt = conn.prepareStatement(query);
+        for (int i = 0; i < params.length; i++) {
+            stmt.setString(i + 1, params[i]);
+        }
+        rs = stmt.executeQuery();
+    } catch (SQLException e) {
+        System.out.println("Terjadi kesalahan saat mengambil data: " + e.getMessage());
+        throw new RuntimeException("Terjadi kesalahan saat mengambil data dari database: " + e.getMessage(), e);
+    }
+    return rs;
+}}
+//   public static ResultSet ambilData(String query, String text) {
+//        Connection conn = getKoneksi();
+//        ResultSet rs = null;
+//        try {
+//            PreparedStatement stmt = conn.prepareStatement(query);
+//            rs = stmt.executeQuery();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return rs;
+//    }
+//}
+
+
 //TUTUP CLASS KONEKSI
-}
+
+   

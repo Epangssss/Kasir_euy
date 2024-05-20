@@ -12,10 +12,13 @@ import java.sql.Statement;
 import javax.swing.table.DefaultTableModel;
 import koneksi.koneksi;
 
-/**
- *
- * @author Hadi Firmansyah
- */
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.table.DefaultTableModel;
+import koneksi.koneksi;
+
 public class riwayat_transaksi extends javax.swing.JFrame {
     DefaultTableModel table = new DefaultTableModel();
 
@@ -24,14 +27,13 @@ public class riwayat_transaksi extends javax.swing.JFrame {
      */
     public riwayat_transaksi() {
         initComponents();
-         setLocationRelativeTo(null);
+        setLocationRelativeTo(null);
         koneksi conn = new koneksi();
         koneksi.getKoneksi();
         
         tb_riwayat.setModel(table);
-        table.addColumn("no_transaksi");
-        table.addColumn("Tanggal Transaksi");
-        table.addColumn("ID Transaksi");
+         table.addColumn("Tanggal Transaksi");
+         table.addColumn("No_Transaksi");
         table.addColumn("Kode Barang");
         table.addColumn("Nama Barang");
         table.addColumn("Harga");
@@ -39,16 +41,16 @@ public class riwayat_transaksi extends javax.swing.JFrame {
         table.addColumn("Total Harga");
         
         tampilData();
-        
     }
+    
     private void tampilData(){
-        //untuk mengahapus baris setelah input
+        // Untuk menghapus baris setelah input
         int row = tb_riwayat.getRowCount();
         for(int a = 0 ; a < row ; a++){
             table.removeRow(0);
         }
         
-        String query = "SELECT * FROM `transaksi` ";
+         String query = "SELECT * FROM `transaksi` ";
         
         try{
             Connection connect = koneksi.getKoneksi();//memanggil koneksi
@@ -57,27 +59,28 @@ public class riwayat_transaksi extends javax.swing.JFrame {
             
             while (rslt.next()){
                 //menampung data sementara
-                    String no_transaksi = rslt.getString("no_transaksi");
+                   
                     String tanggal = rslt.getString("tgl_transaksi");
-                    String id = rslt.getString("id_transaksi");
                     String kode = rslt.getString("kode_barang");
                     String nama = rslt.getString("nama_barang");
                     String harga = rslt.getString("harga");
                     String jumlah = rslt.getString("jumlah_barang");
                     String total = rslt.getString("total_harga");
-                    
-                //masukan semua data kedalam array
-                String[] data = {no_transaksi,tanggal,id,kode,nama,harga,jumlah,total};
-                //menambahakan baris sesuai dengan data yang tersimpan diarray
+                   String nomor_transaksi= rslt.getString("nomor_transaksi");
+                   
+                // Masukkan semua data ke dalam array
+                String[] data = {tanggal,nomor_transaksi,kode,nama,harga,jumlah,total};
+                // Menambahkan baris sesuai dengan data yang tersimpan di array
                 table.addRow(data);
             }
-                //mengeset nilai yang ditampung agar muncul di table
-                tb_riwayat.setModel(table);
+            // Mengatur nilai yang ditampung agar muncul di tabel
+            tb_riwayat.setModel(table);
             
         }catch(Exception e){
             System.out.println(e);
         }
     }
+    
     private void cari(){
         int row = tb_riwayat.getRowCount();
         for(int a = 0 ; a < row ; a++){
@@ -86,22 +89,21 @@ public class riwayat_transaksi extends javax.swing.JFrame {
         
         String cari = txt_search.getText();
         
-        String query = "SELECT * FROM `transaksi` WHERE "
-                + "`kode_barang`  LIKE '%"+cari+"%' OR "
-                + "`tgl_transaksi` LIKE '%"+cari+"%' OR"
-                + "`id_transaksi` LIKE '%"+cari+"%' OR"
-                + "`nama_barang` LIKE '%"+cari+"%' ";
+       String query = "SELECT * FROM `transaksi` WHERE "
+        + "`kode_barang`  LIKE '%"+cari+"%' OR "
+        + "`tgl_transaksi` LIKE '%"+cari+"%' OR"
+        + "`nomor_transaksi` LIKE '%"+cari+"%' OR" // Use the correct column name here
+        + "`nama_barang` LIKE '%"+cari+"%' ";
                 
        try{
-           Connection connect = koneksi.getKoneksi();//memanggil koneksi
-           Statement sttmnt = connect.createStatement();//membuat statement
-           ResultSet rslt = sttmnt.executeQuery(query);//menjalanakn query
+           Connection connect = koneksi.getKoneksi();
+           Statement sttmnt = connect.createStatement();
+           ResultSet rslt = sttmnt.executeQuery(query);
            
            while (rslt.next()){
-                //menampung data sementara
-                    String no_transaksi = rslt.getString("no_transaksi");
-                    String tanggal = rslt.getString("tgl_transaksi");
-                    String id = rslt.getString("id_transaksi");
+                // Menampung data sementara
+                  String tanggal = rslt.getString("tgl_transaksi");
+                   String id = rslt.getString("nomor_transaksi");
                     String kode = rslt.getString("kode_barang");
                     String nama = rslt.getString("nama_barang");
                     String harga = rslt.getString("harga");
@@ -110,16 +112,15 @@ public class riwayat_transaksi extends javax.swing.JFrame {
                     
                 //masukan semua data kedalam array
                 String[] data = {tanggal,id,kode,nama,harga,jumlah,total};
-                //menambahakan baris sesuai dengan data yang tersimpan diarray
+                // Menambahkan baris sesuai dengan data yang tersimpan di array
                 table.addRow(data);
             }
-                //mengeset nilai yang ditampung agar muncul di table
-                tb_riwayat.setModel(table);
+            // Mengatur nilai yang ditampung agar muncul di tabel
+            tb_riwayat.setModel(table);
            
-        
-    }catch(Exception e){
+        }catch(Exception e){
            System.out.println(e);
-    }
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -258,6 +259,7 @@ public class riwayat_transaksi extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

@@ -90,6 +90,7 @@ public class CRUD_kategori extends javax.swing.JFrame {
 //     
 //    }
     
+          
     
      public boolean tambah_kategori() {
         try {
@@ -534,7 +535,7 @@ tambah_kategori();        // TODO add your handling code here:
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        new Menu_Admin().setVisible(true);
+        new Menu_Admin("").setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 

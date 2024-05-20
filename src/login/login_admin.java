@@ -78,7 +78,7 @@ String sql;
             String username = go.getString("username"); // Ambil nama pengguna dari data yang dipilih
             JOptionPane.showMessageDialog(null, "Login Success");
             
-            Menu_Admin menuAdmin = new Menu_Admin(); // Buat instance Menu_Admin
+            Menu_Admin menuAdmin = new Menu_Admin(""); // Buat instance Menu_Admin
       //      menuAdmin.setUserNames(username); // Set nama pengguna
             menuAdmin.setVisible(true); // Tampilkan Menu_Admin
             dispose(); // Tutup frame login
@@ -95,9 +95,9 @@ String sql;
 
     
     public void setUserNameMenu(String userName1) {
-        Menu_Admin menuAdmin = new Menu_Admin();
+    //    Menu_Admin menuAdmin = new Menu_Admin();
      //   menuAdmin.setUserNames(userName1); // Mengatur nama pengguna di Menu_Admin
-        menuAdmin.setVisible(true); 
+     //   menuAdmin.setVisible(true); 
         dispose(); 
     }
 

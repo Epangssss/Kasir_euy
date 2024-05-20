@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package report;
+package Report_new;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,10 +19,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
 
 
-/**
- *
- * @author Hadi Firmansyah
- */
+
 public class riwayat extends javax.swing.JFrame {
     DefaultTableModel table = new DefaultTableModel();
 
@@ -32,12 +29,13 @@ public class riwayat extends javax.swing.JFrame {
     public riwayat() {
         initComponents();
         
-        koneksi conn = new koneksi();
+        koneksi con = new koneksi();
         koneksi.getKoneksi();
         
         tb_riwayat.setModel(table);
         table.addColumn("Tanggal Transaksi");
-        table.addColumn("ID Transaksi");
+         table.addColumn("No_Transaksi");
+      //  table.addColumn("No");
         table.addColumn("Kode Barang");
         table.addColumn("Nama Barang");
         table.addColumn("Harga");
@@ -65,15 +63,16 @@ public class riwayat extends javax.swing.JFrame {
                 //menampung data sementara
                    
                     String tanggal = rslt.getString("tgl_transaksi");
-                    String id = rslt.getString("id_transaksi");
+                   // String id = rslt.getString("nomor");
                     String kode = rslt.getString("kode_barang");
                     String nama = rslt.getString("nama_barang");
                     String harga = rslt.getString("harga");
                     String jumlah = rslt.getString("jumlah_barang");
                     String total = rslt.getString("total_harga");
+                   String nomor_transaksi= rslt.getString("nomor_transaksi");
                     
                 //masukan semua data kedalam array
-                String[] data = {tanggal,id,kode,nama,harga,jumlah,total};
+                String[] data = {tanggal,nomor_transaksi,kode,nama,harga,jumlah,total};
                 //menambahakan baris sesuai dengan data yang tersimpan diarray
                 table.addRow(data);
             }
@@ -94,7 +93,7 @@ public class riwayat extends javax.swing.JFrame {
         String query = "SELECT * FROM `transaksi` WHERE "
                 + "`kode_barang`  LIKE '%"+cari+"%' OR "
                 + "`tgl_transaksi` LIKE '%"+cari+"%' OR"
-                + "`id_transaksi` LIKE '%"+cari+"%' OR"
+                + "`nomor` LIKE '%"+cari+"%' OR"
                 + "`nama_barang` LIKE '%"+cari+"%' ";
                 
        try{
@@ -106,7 +105,7 @@ public class riwayat extends javax.swing.JFrame {
                 //menampung data sementara
                    
                     String tanggal = rslt.getString("tgl_transaksi");
-                    String id = rslt.getString("id_transaksi");
+                    String id = rslt.getString("nomor");
                     String kode = rslt.getString("kode_barang");
                     String nama = rslt.getString("nama_barang");
                     String harga = rslt.getString("harga");
@@ -292,7 +291,7 @@ public class riwayat extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        new master.Menu_Admin().setVisible(true);
+        new master.Menu_Admin("").setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 

@@ -7,7 +7,7 @@ import java.awt.HeadlessException;
 import master.Menu_Admin;
 import transaksi.*;
 import master.*;
-
+import login_new.sign_admin;
 //karyawan
 import user.Menu_User;
 import java.awt.HeadlessException;
@@ -24,6 +24,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import static koneksi.koneksi.getKoneksi;
 
 /**
  *
@@ -31,7 +32,10 @@ import java.awt.event.MouseEvent;
  */
 public class sign_in extends javax.swing.JFrame {
       public javax.swing.JTextField T_user;
-    
+   koneksi koneksi = new koneksi (); // baru
+   Menu_Admin Menu_Admin = new Menu_Admin (""); //baru
+   
+   
     private static String kasirName;
           
 Connection con;
@@ -58,9 +62,6 @@ public sign_in() {
         kasirName = name;
     }
 
-private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
-   
-}
 
 private void loginAdmin() {
     try {
@@ -77,9 +78,14 @@ private void loginAdmin() {
             
             sign_in.setKasirName(txt_username.getText());
 
-            Menu_Admin menuAdmin = new Menu_Admin(); // Buat instance Menu_Admin
-            menuAdmin.setLocationRelativeTo(null); // Set nama pengguna
-            menuAdmin.setVisible(true); // Tampilkan Menu_Admin
+            Menu_Admin Menu_Admin = new Menu_Admin(""); // Buat instance Menu_Admin
+            Menu_Admin.setLocationRelativeTo(null); // Set nama pengguna
+            Menu_Admin.setVisible(true); // Tampilkan Menu_Admin
+            
+            
+//            Menu_Admin menuAdmin = new Menu_Admin(); // Buat instance Menu_Admin
+//            menuAdmin.setLocationRelativeTo(null); // Set nama pengguna
+//            menuAdmin.setVisible(true); // Tampilkan Menu_Admin
             this.dispose(); // Tutup frame login
         } else {
             JOptionPane.showMessageDialog(null, "Username atau Password Salah");
@@ -96,7 +102,18 @@ private void loginAdmin() {
 
 
 
-   
+   public ResultSet ambilData(String sql, String... params) {
+    try {
+        PreparedStatement ps = koneksi.getKoneksi().prepareStatement(sql);
+        for (int i = 0; i < params.length; i++) {
+            ps.setString(i + 1, params[i]);
+        }
+        return ps.executeQuery();
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return null;
+    }
+}
 
 
 
@@ -155,7 +172,7 @@ if (resultSet.next()) {
 }
 
 
-    
+
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -249,6 +266,11 @@ if (resultSet.next()) {
 
         txt_username.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         txt_username.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_username.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_usernameActionPerformed(evt);
+            }
+        });
         jPanel1.add(txt_username, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 70, 220, 40));
 
         jButton1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -289,7 +311,7 @@ if (resultSet.next()) {
     }//GEN-LAST:event_sign_upMouseClicked
 
     private void txt_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_passwordActionPerformed
-        // TODO add your handling code here:
+ jButton1.requestFocus();        // TODO add your handling code here:
     }//GEN-LAST:event_txt_passwordActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -301,6 +323,10 @@ if (resultSet.next()) {
     } else {
         JOptionPane.showMessageDialog(null, "Pilihan tidak valid");
     }
+
+
+    
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void sign_upMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sign_upMouseEntered
@@ -310,6 +336,56 @@ if (resultSet.next()) {
     private void sign_upMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sign_upMouseReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_sign_upMouseReleased
+
+    private void txt_usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_usernameActionPerformed
+
+try {
+    String username = txt_username.getText();
+    if (username == null || username.trim().isEmpty()) {
+        txt_username.requestFocus();
+        return;
+    }
+
+    try (Connection conn = getKoneksi();
+         PreparedStatement stmt = conn.prepareStatement("SELECT username FROM admin WHERE username = ?")) {
+        stmt.setString(1, username);
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                txt_username.setText("");
+                int asn = JOptionPane.showConfirmDialog(null, "Apakah Anda Akan Login sebagai admin: '" + rs.getString("username") + "'?");
+                if (asn == JOptionPane.YES_OPTION) {
+                    Menu_Admin menu_admin = new Menu_Admin(rs.getString("username"));
+                    menu_admin.setVisible(true);
+                    this.dispose();
+                }
+            } else {
+                txt_username.setText("");
+            }
+            txt_password.requestFocus();
+        }
+    }
+} catch (SQLException e) {
+    e.printStackTrace();
+} catch (RuntimeException e) {
+    e.printStackTrace();
+}
+//        ResultSet rs = koneksi.ambilData("select * from admin where username = '" + txt_username.getText() + "'");
+//try {
+//    if (rs.next()) {
+//        txt_username.setText("");
+//        int asn = JOptionPane.showConfirmDialog(null, "Apakah Anda Akan Login sebagai admin: '" + rs.getString("Username") + "'deangsn role: '" + rs.getString("admin") + "'?");
+//        if (asn == JOptionPane.YES_OPTION) {
+//           Menu_Admin Menu_Admin = new Menu_Admin(rs.getString("Username"));
+//          Menu_Admin.setVisible(true);
+//            this.dispose();
+//        }
+//    }
+//    txt_username.setText("");
+//} catch (Exception e) {
+//    e.printStackTrace();
+//}
+//txt_password.requestFocus();
+    }//GEN-LAST:event_txt_usernameActionPerformed
 
     /**
      * @param args the command line arguments
