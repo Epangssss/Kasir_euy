@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package master;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,8 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 import koneksi.koneksi;
@@ -22,9 +19,12 @@ import master.akun_karyawan;
 
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 import login_new.sign_in;
 
 public class Menu_Admin extends javax.swing.JFrame {
+      DefaultTableModel table = new DefaultTableModel();
+
    // public javax.swing.JTextField T_user;
   // private JLabel User;
 //       private String userName;
@@ -41,18 +41,88 @@ public class Menu_Admin extends javax.swing.JFrame {
            displayDateTime();
            tampilJumlahKaryawan();
            tampilData();
+            pendapatan();
            T_user.setText(sign_in.getKasirName());
         startTimer();
+        
+        
+          tb_riwayat.setModel(table);
+         table.addColumn("Tanggal Transaksi");
+         table.addColumn("No_Transaksi");
+        table.addColumn("Kode Barang");
+        table.addColumn("Nama Barang");
+        table.addColumn("Harga");
+        table.addColumn("Jumlah");
+        table.addColumn("Total Harga");
+         tampildatatransaksi();
     }
 
     
     
-
+ private void tampildatatransaksi(){
+        // Untuk menghapus baris setelah input
+        int row = tb_riwayat.getRowCount();
+        for(int a = 0 ; a < row ; a++){
+            table.removeRow(0);
+        }
+        
+         String query = "SELECT * FROM `transaksi` ";
+        
+        try{
+            Connection connect = koneksi.getKoneksi();//memanggil koneksi
+            Statement sttmnt = connect.createStatement();//membuat statement
+            ResultSet rslt = sttmnt.executeQuery(query);//menjalanakn query
+            
+            while (rslt.next()){
+                //menampung data sementara
+                   
+                    String tanggal = rslt.getString("tgl_transaksi");
+                    String kode = rslt.getString("kode_barang");
+                    String nama = rslt.getString("nama_barang");
+                    String harga = rslt.getString("harga");
+                    String jumlah = rslt.getString("jumlah_barang");
+                    String total = rslt.getString("total_harga");
+                   String nomor_transaksi= rslt.getString("nomor_transaksi");
+                   
+                // Masukkan semua data ke dalam array
+                String[] data = {tanggal,nomor_transaksi,kode,nama,harga,jumlah,total};
+                // Menambahkan baris sesuai dengan data yang tersimpan di array
+                table.addRow(data);
+            }
+            // Mengatur nilai yang ditampung agar muncul di tabel
+            tb_riwayat.setModel(table);
+            
+        }catch(Exception e){
+            System.out.println(e);
+        }
+    }
 
 
     // ...
 
-   
+public void pendapatan() {
+    double totalRevenue = 0;
+    try {
+        // Assuming you have a database connection named "conn"
+        Connection connect = koneksi.getKoneksi();
+        Statement stmt = connect.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT SUM(total_harga) AS total_revenue FROM transaksi");
+        if (rs.next()) {
+            totalRevenue = rs.getDouble("total_revenue");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    String formattedTotalRevenue = formatRupiah(totalRevenue);
+    t_pendapatan.setText(formattedTotalRevenue);
+}
+
+private String formatRupiah(double value) {
+    NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
+    return formatter.format(value);
+}
+
 
 
   
@@ -175,7 +245,7 @@ private void tampilData() {
         jLabel2 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
-        pendapatan = new javax.swing.JTextField();
+        t_pendapatan = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -183,6 +253,8 @@ private void tampilData() {
         jPanel8 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         T_karyawan = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tb_riwayat = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -360,7 +432,7 @@ private void tampilData() {
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(57, 57, 57)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(59, 59, 59)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -369,23 +441,24 @@ private void tampilData() {
                 .addGap(98, 98, 98))
         );
 
-        jPanel6.setBackground(new java.awt.Color(102, 204, 255));
+        jPanel6.setBackground(new java.awt.Color(51, 0, 0));
 
-        pendapatan.setEditable(false);
-        pendapatan.setBackground(new java.awt.Color(255, 255, 255));
-        pendapatan.setFont(new java.awt.Font("Segoe UI", 0, 25)); // NOI18N
-        pendapatan.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        pendapatan.setText("0");
-        pendapatan.setBorder(null);
+        t_pendapatan.setEditable(false);
+        t_pendapatan.setBackground(new java.awt.Color(255, 255, 255));
+        t_pendapatan.setFont(new java.awt.Font("Segoe UI", 0, 25)); // NOI18N
+        t_pendapatan.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        t_pendapatan.setText("0");
+        t_pendapatan.setBorder(null);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 2, 20)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Total Pendapatan");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pendapatan, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+            .addComponent(t_pendapatan, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3)
@@ -396,13 +469,14 @@ private void tampilData() {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(pendapatan))
+                .addGap(18, 18, 18)
+                .addComponent(t_pendapatan, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel7.setBackground(new java.awt.Color(102, 204, 255));
+        jPanel7.setBackground(new java.awt.Color(51, 0, 0));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 2, 20)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Jumlah Data Barang");
 
         T_data.setEditable(false);
@@ -433,16 +507,17 @@ private void tampilData() {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jLabel6)
-                .addGap(0, 124, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                     .addGap(0, 72, Short.MAX_VALUE)
                     .addComponent(T_data, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        jPanel8.setBackground(new java.awt.Color(102, 204, 255));
+        jPanel8.setBackground(new java.awt.Color(51, 0, 0));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 2, 20)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Jumlah Karyawan");
 
         T_karyawan.setEditable(false);
@@ -477,6 +552,19 @@ private void tampilData() {
                 .addGap(0, 0, 0))
         );
 
+        tb_riwayat.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tb_riwayat);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -486,19 +574,24 @@ private void tampilData() {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(183, 183, 183)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(217, 217, 217)
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(204, 204, 204)
-                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1475, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                            .addGap(110, 110, 110)
+                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(217, 217, 217)
+                            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(236, 236, 236)
+                            .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
@@ -508,8 +601,9 @@ private void tampilData() {
                             .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 682, Short.MAX_VALUE))
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(35, 35, 35)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -637,6 +731,8 @@ private void tampilData() {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JTextField pendapatan;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField t_pendapatan;
+    private javax.swing.JTable tb_riwayat;
     // End of variables declaration//GEN-END:variables
 }

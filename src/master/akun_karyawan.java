@@ -7,7 +7,6 @@ package master;
 import master.*;
 import com.toedter.calendar.JDateChooser;
 import koneksi.koneksi;
-import login.login_karyawan;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

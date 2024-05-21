@@ -15,7 +15,8 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 public class JPanelGradient extends JPanel {
-    private Color Colorstart = Color.red;
+    private Color Colorstart = Color.blue
+           ;
     private Color Colorend   = Color.white;
 
    public JPanelGradient(Color startColor, Color endColor) {
