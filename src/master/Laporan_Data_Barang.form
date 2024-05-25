@@ -2,17 +2,17 @@
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
-    <Component class="custom_date.DateChooser" name="date_dari">
+    <Component class="custom_date.DateChooser" name="dateChooser3">
       <Properties>
-        <Property name="dateFormat" type="java.lang.String" value="yyyy-MM-dd&#xa;"/>
+        <Property name="dateFormat" type="java.lang.String" value="yyyy-MM-dd"/>
+        <Property name="name" type="java.lang.String" value="" noResource="true"/>
         <Property name="textRefernce" type="javax.swing.JTextField" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="t_datadari"/>
         </Property>
       </Properties>
     </Component>
-    <Component class="custom_date.DateChooser" name="date_sampai">
+    <Component class="custom_date.DateChooser" name="dateChooser4">
       <Properties>
-        <Property name="dateFormat" type="java.lang.String" value="yyyy-MM-dd&#xa;"/>
         <Property name="textRefernce" type="javax.swing.JTextField" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="t_datasampai"/>
         </Property>
@@ -207,9 +207,6 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JTextField" name="t_datasampai">
-          <Properties>
-            <Property name="text" type="java.lang.String" value=""/>
-          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="t_datasampaiActionPerformed"/>
           </Events>
@@ -258,9 +255,6 @@
           </AuxValues>
         </Component>
         <Component class="javax.swing.JTextField" name="t_datadari">
-          <Properties>
-            <Property name="text" type="java.lang.String" value=""/>
-          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="t_datadariActionPerformed"/>
           </Events>

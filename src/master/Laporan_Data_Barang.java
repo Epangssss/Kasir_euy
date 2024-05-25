@@ -109,8 +109,8 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        date_dari = new custom_date.DateChooser();
-        date_sampai = new custom_date.DateChooser();
+        dateChooser3 = new custom_date.DateChooser();
+        dateChooser4 = new custom_date.DateChooser();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -125,11 +125,11 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         t_print = new javax.swing.JButton();
 
-        date_dari.setDateFormat("yyyy-MM-dd\n");
-        date_dari.setTextRefernce(t_datadari);
+        dateChooser3.setDateFormat("yyyy-MM-dd");
+        dateChooser3.setName(""); // NOI18N
+        dateChooser3.setTextRefernce(t_datadari);
 
-        date_sampai.setDateFormat("yyyy-MM-dd\n");
-        date_sampai.setTextRefernce(t_datasampai);
+        dateChooser4.setTextRefernce(t_datasampai);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -162,7 +162,6 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
-        t_datasampai.setText("");
         t_datasampai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 t_datasampaiActionPerformed(evt);
@@ -199,7 +198,6 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
             }
         });
 
-        t_datadari.setText("");
         t_datadari.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 t_datadariActionPerformed(evt);
@@ -322,7 +320,7 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        date_dari.showPopup();
+     dateChooser3.showPopup();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void t_datasampaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_t_datasampaiActionPerformed
@@ -334,7 +332,7 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
     }//GEN-LAST:event_t_datadariActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        date_sampai.showPopup();        // TODO add your handling code here:
+dateChooser4.showPopup();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void t_printActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_t_printActionPerformed
@@ -466,8 +464,8 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cbo_laporan;
-    private custom_date.DateChooser date_dari;
-    private custom_date.DateChooser date_sampai;
+    private custom_date.DateChooser dateChooser3;
+    private custom_date.DateChooser dateChooser4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel2;
