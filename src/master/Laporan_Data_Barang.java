@@ -339,23 +339,24 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
 
     private void t_printActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_t_printActionPerformed
 
-        String laporan = cbo_laporan.getSelectedItem().toString();
+        String laporan = cbo_laporan.getSelectedItem().toString().trim();
         switch (laporan) {
             case "Pilih":
                 JOptionPane.showMessageDialog(null, "Terdapat inputan yang kosong.");
                 break;
 
-    case "riwayat transaksi":
+            case "riwayat transaksi":
+            
     try {
-        File file = new File("/Report_New/transaksi.jasper");
-        JasperPrint print = JasperFillManager.fillReport(file.getAbsolutePath(), null, koneksi.getKoneksi());
-        JasperViewer.viewReport(print, false);
-    } catch (JRException e) {
-        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
-    }
-    break;
-                
-                
+      
+                File file = new File("src/Report_New/transaksi.jasper");
+                JasperPrint print = JasperFillManager.fillReport(file.getAbsolutePath(), null, koneksi.getKoneksi());
+                JasperViewer.viewReport(print, false);
+            } catch (JRException e) {
+                JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+            }
+            break;
+
 //    case "riwayat transaksi":
 //        try {
 //            // Load the Jasper report design
@@ -367,8 +368,6 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
 //            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
 //        }
 //        break;
-                
-                
 //            case "riwayat transaksi":
 //                try {
 //                File file = new File("/Report_new/transaksi.jasper");
@@ -382,7 +381,6 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
 //            }
 //            //this.hide();
 //            break;
-
             case "laporan transaksi":
                 try {
                 HashMap hash = new HashMap();
@@ -423,7 +421,7 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
     private void cbo_laporanItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbo_laporanItemStateChanged
 
         String laporan = cbo_laporan.getSelectedItem().toString();
-        if (laporan.equals("riwayat") || laporan.equals("Pilih")) {
+        if (laporan.equals("riwayat transaksi") || laporan.equals("Pilih")) {
             dateEnabled(false);
         } else {
             dateEnabled(true);
