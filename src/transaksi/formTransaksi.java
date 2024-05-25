@@ -46,6 +46,10 @@ import user.Menu_User;
 
 public class formTransaksi extends javax.swing.JFrame {
     DefaultTableModel table = new DefaultTableModel();
+    
+    private Connection conn;
+    private PreparedStatement pstmt;
+    private ResultSet rs;
     /**
      * Creates new form formTransaksi
      */

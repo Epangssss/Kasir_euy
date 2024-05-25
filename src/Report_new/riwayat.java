@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Report_new;
+package master;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,9 +19,14 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
 
 
+import javax.swing.JDialog;
+import java.awt.Dialog;
 
-public class riwayat extends javax.swing.JFrame {
+
+public class riwayat extends javax.swing.JDialog {
     DefaultTableModel table = new DefaultTableModel();
+    
+  
 
     /**
      * Creates new form riwayat
@@ -31,7 +36,7 @@ public class riwayat extends javax.swing.JFrame {
         
         koneksi con = new koneksi();
         koneksi.getKoneksi();
-        
+          setModalityType(ModalityType.APPLICATION_MODAL);
         tb_riwayat.setModel(table);
         table.addColumn("Tanggal Transaksi");
          table.addColumn("No_Transaksi");
@@ -45,7 +50,8 @@ public class riwayat extends javax.swing.JFrame {
         tampilData();
         
     }
-    private void tampilData(){
+
+ private void tampilData(){
         //untuk mengahapus baris setelah input
         int row = tb_riwayat.getRowCount();
         for(int a = 0 ; a < row ; a++){
@@ -144,8 +150,6 @@ public class riwayat extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel2.setBackground(new java.awt.Color(204, 0, 0));
@@ -181,6 +185,11 @@ public class riwayat extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tb_riwayat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tb_riwayatMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tb_riwayat);
 
         jButton1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -313,7 +322,7 @@ public class riwayat extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         try{
-            JasperPrint print = JasperFillManager.fillReport(getClass().getResourceAsStream("report_transaksi.jasper"),null,koneksi.getKoneksi());
+            JasperPrint print = JasperFillManager.fillReport(getClass().getResourceAsStream("/Report_New/transaksi.jasper"),null,koneksi.getKoneksi());
             JasperViewer.viewReport(print, false);
             
         }catch(Exception e){
@@ -337,6 +346,10 @@ public class riwayat extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void tb_riwayatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_riwayatMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tb_riwayatMouseClicked
 
     /**
      * @param args the command line arguments

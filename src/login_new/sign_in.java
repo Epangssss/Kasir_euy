@@ -102,19 +102,6 @@ private void loginAdmin() {
 
 
 
-   public ResultSet ambilData(String sql, String... params) {
-    try {
-        PreparedStatement ps = koneksi.getKoneksi().prepareStatement(sql);
-        for (int i = 0; i < params.length; i++) {
-            ps.setString(i + 1, params[i]);
-        }
-        return ps.executeQuery();
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return null;
-    }
-}
-
 
 
 private void loginKaryawan() {
@@ -141,18 +128,7 @@ if (resultSet.next()) {
     
     this.dispose();
 
-        
-//       if (resultSet.next()) {
-//    JOptionPane.showMessageDialog(null, "Login Success");
-//    Menu_User menuUser = new Menu_User();
-//    menuUser.setUserName(txt_username.getText());
-//     menuUser.setVisible(true);
-//    
-    
-    //    formTransaksi FormTransaksi = new formTransaksi();
-    //    FormTransaksi.setKasirName (txt_username.getText());
-    //   FormTransaksi.setVisible(true);
-    //    
+         
     
     this.dispose();
 
@@ -339,7 +315,8 @@ if (resultSet.next()) {
 
     private void txt_usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_usernameActionPerformed
 
-try {
+        
+        try {
     String username = txt_username.getText();
     if (username == null || username.trim().isEmpty()) {
         txt_username.requestFocus();
@@ -369,6 +346,36 @@ try {
 } catch (RuntimeException e) {
     e.printStackTrace();
 }
+//try {
+//    String username = txt_username.getText();
+//    if (username == null || username.trim().isEmpty()) {
+//        txt_username.requestFocus();
+//        return;
+//    }
+//
+//    try (Connection conn = getKoneksi();
+//         PreparedStatement stmt = conn.prepareStatement("SELECT username FROM admin WHERE username = ?")) {
+//        stmt.setString(1, username);
+//        try (ResultSet rs = stmt.executeQuery()) {
+//            if (rs.next()) {
+//                txt_username.setText("");
+//                int asn = JOptionPane.showConfirmDialog(null, "Apakah Anda Akan Login sebagai admin: '" + rs.getString("username") + "'?");
+//                if (asn == JOptionPane.YES_OPTION) {
+//                    Menu_Admin menu_admin = new Menu_Admin(rs.getString("username"));
+//                    menu_admin.setVisible(true);
+//                    this.dispose();
+//                }
+//            } else {
+//                txt_username.setText("");
+//            }
+//            txt_password.requestFocus();
+//        }
+//    }
+//} catch (SQLException e) {
+//    e.printStackTrace();
+//} catch (RuntimeException e) {
+//    e.printStackTrace();
+//}
 //        ResultSet rs = koneksi.ambilData("select * from admin where username = '" + txt_username.getText() + "'");
 //try {
 //    if (rs.next()) {
@@ -418,7 +425,7 @@ try {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new sign_in().setVisible(true);
+              new sign_in().setVisible(true);
             }
         });
     }

@@ -22,6 +22,19 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import login_new.sign_in;
 
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
+
+import java.awt.Component;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
+
+
+
 public class Menu_Admin extends javax.swing.JFrame {
       DefaultTableModel table = new DefaultTableModel();
 
@@ -54,6 +67,32 @@ public class Menu_Admin extends javax.swing.JFrame {
         table.addColumn("Harga");
         table.addColumn("Jumlah");
         table.addColumn("Total Harga");
+    //    CenteredTableCellRenderer centerRenderer = new CenteredTableCellRenderer();
+  
+        
+        // Buat instance dari RightAlignedTableCellRenderer
+RightAlignedTableCellRenderer rightRenderer = new RightAlignedTableCellRenderer();
+
+// Buat instance dari CenteredTableHeaderRenderer
+CenteredTableHeaderRenderer centerRenderer = new CenteredTableHeaderRenderer();
+
+// Atur renderer untuk header kolom
+tb_riwayat.getTableHeader().setDefaultRenderer(centerRenderer);
+
+// Atur renderer untuk kolom Harga, Jumlah, dan Total Harga
+
+tb_riwayat.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
+tb_riwayat.getColumnModel().getColumn(5).setCellRenderer(rightRenderer);
+tb_riwayat.getColumnModel().getColumn(6).setCellRenderer(rightRenderer);
+
+tb_riwayat.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+tb_riwayat.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+tb_riwayat.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+tb_riwayat.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+        
+
+        
+        
          tampildatatransaksi();
     }
 
@@ -100,28 +139,7 @@ public class Menu_Admin extends javax.swing.JFrame {
 
     // ...
 
-public void pendapatan() {
-    double totalRevenue = 0;
-    try {
-        // Assuming you have a database connection named "conn"
-        Connection connect = koneksi.getKoneksi();
-        Statement stmt = connect.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT SUM(total_harga) AS total_revenue FROM transaksi");
-        if (rs.next()) {
-            totalRevenue = rs.getDouble("total_revenue");
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-
-    String formattedTotalRevenue = formatRupiah(totalRevenue);
-    t_pendapatan.setText(formattedTotalRevenue);
-}
-
-private String formatRupiah(double value) {
-    NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
-    return formatter.format(value);
-}
+;
 
 
 
@@ -172,7 +190,28 @@ private void tampilData() {
     }
 }
      
+public void pendapatan() {
+    double totalRevenue = 0;
+    try {
+        // Assuming you have a database connection named "conn"
+        Connection connect = koneksi.getKoneksi();
+        Statement stmt = connect.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT SUM(total_harga) AS total_revenue FROM transaksi");
+        if (rs.next()) {
+            totalRevenue = rs.getDouble("total_revenue");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
 
+    String formattedTotalRevenue = formatRupiah(totalRevenue);
+    t_pendapatan.setText(formattedTotalRevenue);
+}
+
+private String formatRupiah(double value) {
+    NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
+    return formatter.format(value);
+}
 //private void tampilDataKaryawan() {
 //    int jumlahKaryawan = 0;
 //
@@ -217,7 +256,30 @@ private void tampilData() {
      //    Set teks waktu ke dalam JTextField
        T_date.setText(currentTime);
     }
-
+       public class CenteredTableCellRenderer extends DefaultTableCellRenderer {
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        setHorizontalAlignment(CENTER);
+        return this;
+    }
+}
+       public class CenteredTableHeaderRenderer extends DefaultTableCellRenderer {
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        JTableHeader header = table.getTableHeader();
+        setHorizontalAlignment(CENTER);
+        return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+    }
+}
+       
+public class RightAlignedTableCellRenderer extends DefaultTableCellRenderer {
+    @Override
+    public void setValue(Object value) {
+         setHorizontalAlignment(RIGHT);
+        super.setValue(value);
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -424,9 +486,9 @@ private void tampilData() {
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addComponent(T_date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(106, 106, 106)
+                .addGap(50, 50, 50)
                 .addComponent(jLabel4)
-                .addGap(57, 57, 57)
+                .addGap(113, 113, 113)
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(55, 55, 55)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -563,6 +625,7 @@ private void tampilData() {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tb_riwayat.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane1.setViewportView(tb_riwayat);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -620,7 +683,7 @@ private void tampilData() {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        new Report_new.riwayat().setVisible(true);
+        new master.riwayat().setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 

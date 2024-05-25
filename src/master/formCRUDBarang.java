@@ -633,7 +633,7 @@ private void tampilData() {
         ps.setString(6, kode);
         ps.executeUpdate();
         
-        Notification panel = new Notification(this, Notification.Type.SUCCESS, Notification.Location.TOP_CENTER, "Data berhasil diupdate");
+        Notification panel = new Notification(this, Notification.Type.SUCCESS, Notification.Location.CENTER, "Data berhasil diupdate");
         panel.showNotification();
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
