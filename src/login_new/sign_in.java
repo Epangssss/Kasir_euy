@@ -257,10 +257,10 @@ public class sign_in extends javax.swing.JFrame {
         panelGradiente1.add(jLabel5);
         jLabel5.setBounds(390, 320, 120, 21);
 
-        jLabel6.setFont(new java.awt.Font("Yu Gothic", 3, 18)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Yu Gothic", 3, 24)); // NOI18N
         jLabel6.setText("Wellcome Admin Kasir Kuy !");
         panelGradiente1.add(jLabel6);
-        jLabel6.setBounds(240, 60, 270, 40);
+        jLabel6.setBounds(210, 50, 350, 40);
 
         jPanel1.add(panelGradiente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-60, 0, 660, 600));
 

@@ -132,7 +132,7 @@ private void clearSignUpForm() {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 20)); // NOI18N
         jLabel1.setText("Silahkan Registrasi Akun Anda ");
         panelGradiente1.add(jLabel1);
-        jLabel1.setBounds(320, 30, 340, 50);
+        jLabel1.setBounds(340, 30, 310, 50);
 
         panelGradiente2.setColorPrimario(new java.awt.Color(204, 102, 0));
         panelGradiente2.setColorSecundario(new java.awt.Color(204, 204, 204));
@@ -141,18 +141,18 @@ private void clearSignUpForm() {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel6.setText("USERNAME");
         panelGradiente2.add(jLabel6);
-        jLabel6.setBounds(110, 60, 122, 32);
+        jLabel6.setBounds(140, 60, 122, 32);
 
         txt_username.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         txt_username.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         panelGradiente2.add(txt_username);
-        txt_username.setBounds(110, 100, 250, 40);
+        txt_username.setBounds(140, 100, 250, 40);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel7.setText("PASSWORD");
         panelGradiente2.add(jLabel7);
-        jLabel7.setBounds(110, 160, 125, 32);
+        jLabel7.setBounds(140, 160, 125, 32);
 
         txt_password.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         txt_password.setHorizontalAlignment(javax.swing.JTextField.LEFT);
@@ -162,40 +162,40 @@ private void clearSignUpForm() {
             }
         });
         panelGradiente2.add(txt_password);
-        txt_password.setBounds(110, 200, 250, 40);
+        txt_password.setBounds(140, 200, 250, 40);
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel8.setText("EMAIL");
         panelGradiente2.add(jLabel8);
-        jLabel8.setBounds(540, 60, 66, 32);
+        jLabel8.setBounds(570, 60, 66, 32);
 
         txt_email.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         txt_email.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         panelGradiente2.add(txt_email);
-        txt_email.setBounds(540, 100, 290, 40);
+        txt_email.setBounds(570, 100, 290, 40);
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel9.setText("NO TELP");
         panelGradiente2.add(jLabel9);
-        jLabel9.setBounds(540, 160, 92, 32);
+        jLabel9.setBounds(570, 160, 92, 32);
 
         txt_phoneNumber.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         txt_phoneNumber.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         panelGradiente2.add(txt_phoneNumber);
-        txt_phoneNumber.setBounds(540, 200, 290, 40);
+        txt_phoneNumber.setBounds(570, 200, 290, 40);
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel10.setText("ALAMAT");
         panelGradiente2.add(jLabel10);
-        jLabel10.setBounds(110, 260, 91, 32);
+        jLabel10.setBounds(140, 260, 91, 32);
 
         txt_address.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         txt_address.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         panelGradiente2.add(txt_address);
-        txt_address.setBounds(110, 300, 260, 60);
+        txt_address.setBounds(140, 300, 260, 60);
 
         btn_signup.setFont(new java.awt.Font("Rockwell", 1, 24)); // NOI18N
         btn_signup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/mataterbuka.png"))); // NOI18N
@@ -206,7 +206,7 @@ private void clearSignUpForm() {
             }
         });
         panelGradiente2.add(btn_signup);
-        btn_signup.setBounds(540, 300, 200, 50);
+        btn_signup.setBounds(570, 300, 200, 50);
 
         jButton3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/chevron.png"))); // NOI18N
@@ -236,7 +236,6 @@ private void clearSignUpForm() {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(100, 100, 100))
                     .addGroup(layout.createSequentialGroup()

@@ -21,9 +21,11 @@ import net.sf.jasperreports.view.JasperViewer;
 
 import javax.swing.JDialog;
 import java.awt.Dialog;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 
-public class riwayat extends javax.swing.JDialog {
+public class riwayat extends javax.swing.JFrame {
     DefaultTableModel table = new DefaultTableModel();
     
   
@@ -36,7 +38,7 @@ public class riwayat extends javax.swing.JDialog {
         
         koneksi con = new koneksi();
         koneksi.getKoneksi();
-          setModalityType(ModalityType.APPLICATION_MODAL);
+       //   setModalityType(ModalityType.APPLICATION_MODAL);
         tb_riwayat.setModel(table);
         table.addColumn("Tanggal Transaksi");
          table.addColumn("No_Transaksi");
@@ -51,44 +53,51 @@ public class riwayat extends javax.swing.JDialog {
         
     }
 
- private void tampilData(){
-        //untuk mengahapus baris setelah input
-        int row = tb_riwayat.getRowCount();
-        for(int a = 0 ; a < row ; a++){
-            table.removeRow(0);
+ private void tampilData() {
+    // Untuk menghapus baris setelah input
+    int row = tb_riwayat.getRowCount();
+    for (int a = 0; a < row; a++) {
+        table.removeRow(0);
+    }
+
+    String query = "SELECT * FROM `transaksi` ";
+
+    try {
+        Connection connect = koneksi.getKoneksi(); // memanggil koneksi
+        Statement sttmnt = connect.createStatement(); // membuat statement
+        ResultSet rslt = sttmnt.executeQuery(query); // menjalankan query
+
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
+
+        while (rslt.next()) {
+            // Menampung data sementara
+            String tanggal = rslt.getString("tgl_transaksi");
+            String kode = rslt.getString("kode_barang");
+            String nama = rslt.getString("nama_barang");
+            String harga = rslt.getString("harga");
+            String jumlah = rslt.getString("jumlah_barang");
+            String total = rslt.getString("total_harga");
+            String nomor_transaksi = rslt.getString("nomor_transaksi");
+
+            // Format harga dan total harga ke dalam format Rupiah
+            String formattedHarga = currencyFormatter.format(Double.parseDouble(harga));
+            String formattedTotal = currencyFormatter.format(Double.parseDouble(total));
+
+            // Masukkan semua data ke dalam array
+            String[] data = {tanggal, nomor_transaksi, kode, nama, formattedHarga, jumlah, formattedTotal};
+            // Menambahkan baris sesuai dengan data yang tersimpan di array
+            table.addRow(data);
         }
-        
-        String query = "SELECT * FROM `transaksi` ";
-        
-        try{
-            Connection connect = koneksi.getKoneksi();//memanggil koneksi
-            Statement sttmnt = connect.createStatement();//membuat statement
-            ResultSet rslt = sttmnt.executeQuery(query);//menjalanakn query
-            
-            while (rslt.next()){
-                //menampung data sementara
-                   
-                    String tanggal = rslt.getString("tgl_transaksi");
-                   // String id = rslt.getString("nomor");
-                    String kode = rslt.getString("kode_barang");
-                    String nama = rslt.getString("nama_barang");
-                    String harga = rslt.getString("harga");
-                    String jumlah = rslt.getString("jumlah_barang");
-                    String total = rslt.getString("total_harga");
-                   String nomor_transaksi= rslt.getString("nomor_transaksi");
-                    
-                //masukan semua data kedalam array
-                String[] data = {tanggal,nomor_transaksi,kode,nama,harga,jumlah,total};
-                //menambahakan baris sesuai dengan data yang tersimpan diarray
-                table.addRow(data);
-            }
-                //mengeset nilai yang ditampung agar muncul di table
-                tb_riwayat.setModel(table);
-            
-        }catch(Exception e){
-            System.out.println(e);
-        }
-    }private void cari(){
+        // Mengatur nilai yang ditampung agar muncul di tabel
+        tb_riwayat.setModel(table);
+
+    } catch (Exception e) {
+        System.out.println(e);
+    }
+
+    }
+ 
+ private void cari(){
         int row = tb_riwayat.getRowCount();
         for(int a = 0 ; a < row ; a++){
             table.removeRow(0);
@@ -139,8 +148,6 @@ public class riwayat extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tb_riwayat = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
@@ -148,30 +155,13 @@ public class riwayat extends javax.swing.JDialog {
         jButton2 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        panelGradiente1 = new swing.PanelGradiente();
+        jLabel2 = new javax.swing.JLabel();
+        T_user = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        cmdRegister1 = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-
-        jPanel2.setBackground(new java.awt.Color(204, 0, 0));
-
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("RIWAYAT");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
 
         tb_riwayat.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         tb_riwayat.setModel(new javax.swing.table.DefaultTableModel(
@@ -231,55 +221,80 @@ public class riwayat extends javax.swing.JDialog {
             }
         });
 
-        jButton7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/refresh.png"))); // NOI18N
-        jButton7.setText("  RESET");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        panelGradiente1.setColorPrimario(new java.awt.Color(255, 204, 102));
+        panelGradiente1.setColorSecundario(new java.awt.Color(153, 153, 153));
+
+        jLabel2.setFont(new java.awt.Font("Serif", 2, 24)); // NOI18N
+        jLabel2.setText("Admin : ");
+        panelGradiente1.add(jLabel2);
+        jLabel2.setBounds(10, 120, 82, 32);
+
+        T_user.setFont(new java.awt.Font("Segoe UI", 2, 24)); // NOI18N
+        T_user.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        T_user.setText("...");
+        panelGradiente1.add(T_user);
+        T_user.setBounds(90, 120, 50, 32);
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-businessman-80.png"))); // NOI18N
+        panelGradiente1.add(jLabel5);
+        jLabel5.setBounds(40, 30, 80, 80);
+
+        cmdRegister1.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
+        cmdRegister1.setForeground(new java.awt.Color(255, 255, 255));
+        cmdRegister1.setText("Riwayat Transaksi");
+        cmdRegister1.setContentAreaFilled(false);
+        cmdRegister1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cmdRegister1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                cmdRegister1ActionPerformed(evt);
             }
         });
+        panelGradiente1.add(cmdRegister1);
+        cmdRegister1.setBounds(460, 30, 350, 110);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(52, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jButton2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelGradiente1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(0, 137, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton3)
-                        .addGap(30, 30, 30)
-                        .addComponent(jButton5)
-                        .addGap(30, 30, 30)
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 909, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txt_search, javax.swing.GroupLayout.PREFERRED_SIZE, 760, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(50, 50, 50))
+                        .addComponent(txt_search, javax.swing.GroupLayout.PREFERRED_SIZE, 808, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addComponent(jButton1))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jButton3)
+                            .addGap(45, 45, 45)
+                            .addComponent(jButton5))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 974, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 138, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addComponent(panelGradiente1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt_search, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(20, 20, 20)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton5)
                     .addComponent(jButton3)
-                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 27, Short.MAX_VALUE))
+                    .addComponent(jButton5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addGap(17, 17, 17))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -290,9 +305,7 @@ public class riwayat extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -330,26 +343,13 @@ public class riwayat extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-
-        try{
-            String clear = "TRUNCATE `transaksi`";
-            Connection connect = koneksi.getKoneksi();
-            PreparedStatement ps = (PreparedStatement) connect.prepareStatement(clear);
-            ps.execute();
-
-        }catch(Exception e){
-            System.out.println(e);
-        }finally{
-            tampilData();
-        }
-
-    }//GEN-LAST:event_jButton7ActionPerformed
-
     private void tb_riwayatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_riwayatMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_tb_riwayatMouseClicked
+
+    private void cmdRegister1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRegister1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmdRegister1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -388,15 +388,17 @@ public class riwayat extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel T_user;
+    private javax.swing.JButton cmdRegister1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private swing.PanelGradiente panelGradiente1;
     private javax.swing.JTable tb_riwayat;
     private javax.swing.JTextField txt_search;
     // End of variables declaration//GEN-END:variables

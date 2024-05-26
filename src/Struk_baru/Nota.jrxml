@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report" pageWidth="210" pageHeight="296" columnWidth="170" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="69b386fa-d4ae-4830-b552-1b314c3f38d5">
 	<property name="ireport.zoom" value="3.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="448"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="total" class="java.lang.String"/>
 	<parameter name="uang" class="java.lang.String"/>
 	<parameter name="kembalian" class="java.lang.String"/>
@@ -50,28 +50,32 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="96" splitType="Stretch">
+		<band height="136" splitType="Stretch">
 			<staticText>
-				<reportElement x="28" y="28" width="121" height="34" uuid="2df0159b-29ef-4a3d-8440-ce371d727fe5"/>
+				<reportElement x="28" y="72" width="121" height="30" uuid="2df0159b-29ef-4a3d-8440-ce371d727fe5"/>
 				<textElement textAlignment="Center">
 					<font size="8"/>
 				</textElement>
 				<text><![CDATA[Jl. Sumatra No.104, Tegal Boto Lor, Sumbersari, Kec. Sumbersari, Kabupaten Jember,]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="38" y="13" width="100" height="15" uuid="d6c7057e-10a4-4648-a10c-8f7fffd2a6cc"/>
+				<reportElement x="38" y="57" width="100" height="11" uuid="d6c7057e-10a4-4648-a10c-8f7fffd2a6cc"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[SEBLAK MANG UJANG ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="60" y="62" width="53" height="20" uuid="4395c417-7645-42d6-89df-38b60f6f1d62"/>
+				<reportElement x="60" y="106" width="53" height="16" uuid="4395c417-7645-42d6-89df-38b60f6f1d62"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<text><![CDATA[085608511588]]></text>
 			</staticText>
+			<image>
+				<reportElement x="63" y="7" width="50" height="50" uuid="a24c8422-13e8-42d0-a852-1bd568643069"/>
+				<imageExpression><![CDATA["C:\\Users\\edwar\\Downloads\\New folder (3)\\logo_kasi_kuygg50.jpg"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
