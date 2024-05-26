@@ -14,9 +14,15 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
+
+import java.awt.LinearGradientPaint;
+import java.awt.Paint;
+import java.awt.RadialGradientPaint;
+import java.awt.RenderingHints;
+import javax.swing.JLayeredPane;
+
 public class JPanelGradient extends JPanel {
-    private Color Colorstart = Color.blue
-           ;
+    private Color Colorstart = Color.green;
     private Color Colorend   = Color.white;
 
    public JPanelGradient(Color startColor, Color endColor) {

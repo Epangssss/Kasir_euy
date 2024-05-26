@@ -8,6 +8,7 @@ import com.raven.datechooser.EventDateChooser;
 import com.raven.datechooser.SelectedAction;
 import com.raven.datechooser.SelectedDate;
 import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.List;
 import java.io.File;
@@ -52,6 +53,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
@@ -61,6 +63,7 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JasperDesign;
@@ -76,11 +79,13 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
     private Connection conn;
     private PreparedStatement pstmt;
     private ResultSet rs;
+    private Component[] savedComponents;
 
     public Laporan_Data_Barang() {
         initComponents();
         dateEnabled(false);
         koneksi.getKoneksi();
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
     }
 
@@ -124,11 +129,13 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         t_print = new javax.swing.JButton();
+        pnLaporan = new javax.swing.JPanel();
 
         dateChooser3.setDateFormat("yyyy-MM-dd");
         dateChooser3.setName(""); // NOI18N
         dateChooser3.setTextRefernce(t_datadari);
 
+        dateChooser4.setDateFormat("yyyy-MM-dd");
         dateChooser4.setTextRefernce(t_datasampai);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -148,7 +155,7 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(596, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 675, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(616, 616, 616))
         );
@@ -285,34 +292,52 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
                 .addGap(157, 157, 157))
         );
 
+        pnLaporan.setBackground(new java.awt.Color(204, 204, 204));
+
+        javax.swing.GroupLayout pnLaporanLayout = new javax.swing.GroupLayout(pnLaporan);
+        pnLaporan.setLayout(pnLaporanLayout);
+        pnLaporanLayout.setHorizontalGroup(
+            pnLaporanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1293, Short.MAX_VALUE)
+        );
+        pnLaporanLayout.setVerticalGroup(
+            pnLaporanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 714, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(366, 366, 366)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(90, 90, 90)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap()
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(115, 115, 115)
+                .addComponent(pnLaporan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 270, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(476, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(488, 488, 488))))
+                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(488, 488, 488))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap())))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(68, 68, 68)
+                        .addComponent(pnLaporan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 76, Short.MAX_VALUE))))
         );
 
         pack();
@@ -336,74 +361,143 @@ dateChooser4.showPopup();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void t_printActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_t_printActionPerformed
+String laporan = cbo_laporan.getSelectedItem().toString().trim();
+switch (laporan) {
+    case "Pilih":
+        JOptionPane.showMessageDialog(null, "Terdapat inputan yang kosong.");
+        break;
 
-        String laporan = cbo_laporan.getSelectedItem().toString().trim();
-        switch (laporan) {
-            case "Pilih":
-                JOptionPane.showMessageDialog(null, "Terdapat inputan yang kosong.");
-                break;
-
-            case "riwayat transaksi":
+    case "riwayat transaksi":
+        try {
+            File file = new File("src/Report_New/transaksi.jasper");
+            JasperPrint print = JasperFillManager.fillReport(file.getAbsolutePath(), null, koneksi.getKoneksi());
+            JasperViewer viewer = new JasperViewer(print, false);
             
-    try {
-      
-                File file = new File("src/Report_New/transaksi.jasper");
-                JasperPrint print = JasperFillManager.fillReport(file.getAbsolutePath(), null, koneksi.getKoneksi());
-                JasperViewer.viewReport(print, false);
-            } catch (JRException e) {
-                JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
-            }
-            break;
+            // Hapus semua komponen dari panel laporan dan tambahkan viewer
+            pnLaporan.removeAll();
+            pnLaporan.setLayout(new BorderLayout()); // Menggunakan BorderLayout untuk tata letak yang lebih fleksibel
+            pnLaporan.add(viewer.getContentPane(), BorderLayout.CENTER);
+            pnLaporan.revalidate();
+            pnLaporan.repaint();
 
-//    case "riwayat transaksi":
-//        try {
-//            // Load the Jasper report design
-//            InputStream report = getClass().getResourceAsStream("/Report_New/transaksi.jasper");;
-//            JasperPrint Print = JasperFillManager.fillReport(report, null, koneksi.getKoneksi());
-//            JasperViewer.viewReport(Print, false);
-//            
-//        } catch (JRException e) {
-//            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
-//        }
-//        break;
-//            case "riwayat transaksi":
-//                try {
-//                File file = new File("/Report_new/transaksi.jasper");
-//                //    JasperDesign jasperDesign = JRXmlLoader.load(file);
-//                //    JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-//                JasperPrint jasperPrint = JasperFillManager.fillReport(file.getAbsolutePath(), null, koneksi.getKoneksi());
-//                JasperViewer.viewReport(jasperPrint, false);
+            // Mengatur ukuran preferensi untuk panel laporan
+            pnLaporan.setPreferredSize(new Dimension(1280, 720)); // Sesuaikan ukuran sesuai kebutuhan
+
+            // Tambahkan pnLaporan ke frame dan refresh
+            getContentPane().remove(pnLaporan);  // Hapus dulu agar diperbarui
+            getContentPane().add(pnLaporan);
+            getContentPane().revalidate();
+            getContentPane().repaint();
+        } catch (JRException e) {
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        }
+        break;
+
+    case "laporan transaksi":
+        try {
+            HashMap<String, Object> hash = new HashMap<>();
+            hash.put("dataAwal", t_datadari.getText());
+            hash.put("dataAkhir", t_datasampai.getText());
+
+            File file1 = new File("src/Report_new/laporan.jasper");
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(file1.getAbsolutePath(), hash, koneksi.getKoneksi());
+            JasperViewer viewer = new JasperViewer(jasperPrint, false);
+            
+            // Hapus semua komponen dari panel laporan dan tambahkan viewer
+            pnLaporan.removeAll();
+            pnLaporan.setLayout(new BorderLayout()); // Menggunakan BorderLayout untuk tata letak yang lebih fleksibel
+            pnLaporan.add(viewer.getContentPane(), BorderLayout.CENTER);
+            pnLaporan.revalidate();
+            pnLaporan.repaint();
+
+            // Mengatur ukuran preferensi untuk panel laporan
+            pnLaporan.setPreferredSize(new Dimension(1280, 720)); // Sesuaikan ukuran sesuai kebutuhan
+
+            // Tambahkan pnLaporan ke frame dan refresh
+            getContentPane().remove(pnLaporan);  // Hapus dulu agar diperbarui
+            getContentPane().add(pnLaporan);
+            getContentPane().revalidate();
+            getContentPane().repaint();
+        } catch (JRException e) {
+            JOptionPane.showMessageDialog(null, "Error " + e);
+        }
+        break;
+}
+
+
+
+//        String laporan = cbo_laporan.getSelectedItem().toString().trim();
+//        switch (laporan) {
+//            case "Pilih":
+//                JOptionPane.showMessageDialog(null, "Terdapat inputan yang kosong.");
+//                break;
 //
+//            case "riwayat transaksi":
+//            
+//    try {
+//      
+//                File file = new File("src/Report_New/transaksi.jasper");
+//                JasperPrint print = JasperFillManager.fillReport(file.getAbsolutePath(), null, koneksi.getKoneksi());
+//                JasperViewer.viewReport(print, false);
+//            } catch (JRException e) {
+//                JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+//            }
+//            break;
+//
+////    case "riwayat transaksi":
+////        try {
+////            // Load the Jasper report design
+////            InputStream report = getClass().getResourceAsStream("/Report_New/transaksi.jasper");;
+////            JasperPrint Print = JasperFillManager.fillReport(report, null, koneksi.getKoneksi());
+////            JasperViewer.viewReport(Print, false);
+////            
+////        } catch (JRException e) {
+////            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+////        }
+////        break;
+////            case "riwayat transaksi":
+////                try {
+////                File file = new File("/Report_new/transaksi.jasper");
+////                //    JasperDesign jasperDesign = JRXmlLoader.load(file);
+////                //    JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+////                JasperPrint jasperPrint = JasperFillManager.fillReport(file.getAbsolutePath(), null, koneksi.getKoneksi());
+////                JasperViewer.viewReport(jasperPrint, false);
+////
+////            } catch (JRException e) {
+////                JOptionPane.showMessageDialog(null, "Error " + e);
+////            }
+////            //this.hide();
+////            break;
+//            case "laporan transaksi":
+//                try {
+//                HashMap hash = new HashMap();
+//                hash.put("dataAwal", t_datadari.getText());
+//                hash.put("dataAkhir", t_datasampai.getText());
+//
+//                File file1 = new File("src/Report_new/laporan.jasper");
+//
+//                JasperPrint jasperPrint = JasperFillManager.fillReport(file1.getAbsolutePath(), hash, koneksi.getKoneksi());
+//                JasperViewer.viewReport(jasperPrint, false);
 //            } catch (JRException e) {
 //                JOptionPane.showMessageDialog(null, "Error " + e);
 //            }
 //            //this.hide();
 //            break;
-            case "laporan transaksi":
-                try {
-                HashMap hash = new HashMap();
-                hash.put("dataAwal", t_datadari.getText());
-                hash.put("dataAkhir", t_datasampai.getText());
-
-                File file1 = new File("src/Report_new/laporan.jasper");
-
-                JasperPrint jasperPrint = JasperFillManager.fillReport(file1.getAbsolutePath(), hash, koneksi.getKoneksi());
-                JasperViewer.viewReport(jasperPrint, false);
-            } catch (JRException e) {
-                JOptionPane.showMessageDialog(null, "Error " + e);
-            }
-            //this.hide();
-            break;
-
-        }
-
-//        try {
-//            JasperPrint print = JasperFillManager.fillReport(getClass().getResourceAsStream("/Report_New/transaksi.jasper"), null, koneksi.getKoneksi());
-//            JasperViewer.viewReport(print, false);
 //
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(rootPane, e);
 //        }
+//        
+//        pnLaporan.removeAll();
+//        
+//        
+//
+////        try {
+////            JasperPrint print = JasperFillManager.fillReport(getClass().getResourceAsStream("/Report_New/transaksi.jasper"), null, koneksi.getKoneksi());
+////            JasperViewer.viewReport(print, false);
+////
+////        } catch (Exception e) {
+////            JOptionPane.showMessageDialog(rootPane, e);
+////        }
 
     }//GEN-LAST:event_t_printActionPerformed
 
@@ -475,6 +569,7 @@ dateChooser4.showPopup();
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel pnLaporan;
     private javax.swing.JTextField t_datadari;
     private javax.swing.JTextField t_datasampai;
     private javax.swing.JButton t_print;

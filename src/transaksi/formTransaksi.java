@@ -106,13 +106,7 @@ private void setTanggal() {
 
     
     
-  
-   
-    //String reversedValue = sb.reverse().toString();
-    
-    //rupiah += reversedValue;
 
-  //  return rupiah;
    
     public void tanggal(){
         Date now = new Date();  
@@ -164,10 +158,6 @@ private void tampilData() {
        
     }
 
-
-
-  
-
   
 private void clear(){
     txt_kodebarang2.setText(null);
@@ -211,13 +201,7 @@ private void keranjang() {
         psKeranjang.setString(9, tanggal);
          psKeranjang.setString(10, namacs);
         
-        // Ketika menambahkan data ke keranjang
-        // Atur nilai nomorTransaksiKeranjang sesuai dengan keranjang saat ini
-
       
-        
-        // Memasukkan nomor transaksi ke dalam query INSERT
-      //  psKeranjang.setString(9, nomorTransaksiFormatted);
         
         int rowsAffected = psKeranjang.executeUpdate();
 
@@ -261,26 +245,6 @@ private void kurangiStokBarang(String itemCode, String quantity) {
     }
 }
 
-// ...
-
-
-// Metode untuk menghapus semua data dari tabel keranjang
-//private void hapusSemuaDataKeranjang() {
-//    try {
-//        Connection connect = koneksi.getKoneksi();
-//        String queryHapusDataKeranjang = "DELETE FROM tb_keranjang";
-//        PreparedStatement statement = connect.prepareStatement(queryHapusDataKeranjang);
-//        statement.executeUpdate();
-//        statement.close();
-//        connect.close();
-//    } catch (SQLException e) {
-//        e.printStackTrace();
-//        JOptionPane.showMessageDialog(null, "Terjadi kesalahan dalam menghapus data dari keranjang!");
-//    }
-//}
-
-
-  
 
 
 private int grandTotal = 0; // Deklarasikan variabel grandTotal di luar metode totalnya()
@@ -336,30 +300,6 @@ private void total() {
     
 
 
-
-
-
-// Metode untuk menghitung kembalian
-    
-//private void hitungKembalian() {
-//    String total = txt_totalharga2.getText();
-//    String uang = txt_uang.getText();
-//
-//    if (!total.isEmpty() && !uang.isEmpty()) {
-//        int totals = Integer.parseInt(total);
-//        int uangs = Integer.parseInt(uang);
-//
-//        if (uangs < totals) {
-//            txt_kembalian.setText("Jumlah uang yang diberikan kurang!");
-//        } else {
-//            int kembali = uangs - totals;
-//            String fix = Integer.toString(kembali);
-//            txt_kembalian.setText(fix);
-//        }
-//    } else {
-//        txt_kembalian.setText("");
-//    }
-//}
     
 private void hapusData() {
     // Get the selected row index from the table
@@ -428,112 +368,7 @@ private void restoreItemStock(String itemCode, int quantity) {
     }
 }
 
-//    private void hapusData() {
-//    // Get the selected row index from the table
-//    int selectedRow = tb_keranjang.getSelectedRow();
-//
-//    // Check if a row is selected
-//    if (selectedRow == -1) {
-//        // No row is selected, show an error message
-//        JOptionPane.showMessageDialog(null, "Silakan pilih baris untuk dihapus!");
-//    } else {
-//        // Confirm the deletion
-//        int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menghapus data ini?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
-//
-//        if (confirm == JOptionPane.YES_OPTION) {
-//            // Delete the selected row from the table model
-//            DefaultTableModel model = (DefaultTableModel) tb_keranjang.getModel();
-//            model.removeRow(selectedRow);
-//
-//            // Show a success message
-//            JOptionPane.showMessageDialog(null, "Data berhasil dihapus dari keranjang!");
-//        }
-//    }
-//}
-//    
-//private void kembalian(){
-//    String total = txt_totalharga2.getText();
-//    String uang = txt_uang.getText().trim(); // Trim to remove leading/trailing spaces
-//
-//    try {
-//        // Check if input is empty
-//        if (uang.isEmpty()) {
-//            throw new NumberFormatException();
-//        }
-//
-//        // Validasi apakah input hanya berupa angka
-//        if (!uang.matches("\\d+")) {
-//            throw new NumberFormatException();
-//        }
-//
-//        int totals = Integer.parseInt(total);
-//        int uangs = Integer.parseInt(uang);
-//
-//        if (uangs < totals) {
-//            JOptionPane.showMessageDialog(null, "Jumlah uang yang diberikan kurang!");
-//        } else {
-//            int kembali = uangs - totals;
-//            String fix = Integer.toString(kembali);
-//            txt_kembalian.setText(fix);
-//       
-//            JOptionPane.showMessageDialog(null, "Transaksi Berhasil!");
-//
-//            // Simpan data transaksi ke dalam database
-//         //   simpanTransaksi(totals, uangs, kembali);
-//        }
-//    } catch (NumberFormatException e) {
-//    JOptionPane.showMessageDialog(null, "Masukkan jumlah uang dengan angka yang valid!");
-//    txt_uang.setText(""); // Mengosongkan nilai input yang salah
-//    txt_uang.requestFocus(); // Fokuskan kembali ke elemen input yang salah
-//
-//    }
-//}
-    
-    
-//    private void kembalian() {
-//    String total = txt_totalharga2.getText();
-//    String uang = txt_uang.getText().trim(); // Trim to remove leading/trailing spaces
-//
-//    try {
-//        // Check if input is empty
-//        if (uang.isEmpty()) {
-//            throw new NumberFormatException();
-//        }
-//
-//        // Validasi apakah input hanya berupa angka
-//        if (!uang.matches("\\d+")) {
-//            throw new NumberFormatException();
-//        }
-//
-//        int totals = Integer.parseInt(total);
-//        int uangs = Integer.parseInt(uang);
-//
-//        if (uangs < totals) {
-//            JOptionPane.showMessageDialog(null, "Jumlah uang yang diberikan kurang!");
-//        } else {
-//            int kembali = uangs - totals;
-//            String fix = Integer.toString(kembali);
-//            txt_kembalian.setText(fix);
-//
-//            JOptionPane.showMessageDialog(null, "Transaksi Berhasil!");
-//
-//            // Perbarui nomor transaksi
-//            nomorTransaksi++;
-//
-//            // Panggil metode no_transaksi untuk menampilkan nomor transaksi yang diperbarui
-//            no_transaksi();
-//
-//            // Simpan data transaksi ke dalam database
-//            // simpanTransaksi(totals, uangs, kembali);
-//        }
-//    } catch (NumberFormatException e) {
-//        JOptionPane.showMessageDialog(null, "Masukkan jumlah uang dengan angka yang valid!");
-//        txt_uang.setText(""); // Mengosongkan nilai input yang salah
-//        txt_uang.requestFocus(); // Fokuskan kembali ke elemen input yang salah
-//    }
-//}
-    
-    
+
    
 
 private void editData() {
@@ -607,40 +442,6 @@ private String formatRupiah(int value) {
     NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
     return formatter.format(value);
 }
-//private void kembalian() {
-//    String total = txt_totalharga2.getText();
-//    String uang = txt_uang.getText().trim(); // Trim to remove leading/trailing spaces
-//
-//    try {
-//        // Check if input is empty
-//        if (uang.isEmpty()) {
-//            throw new NumberFormatException();
-//        }
-//
-//        // Validasi apakah input hanya berupa angka
-//        if (!uang.matches("\\d+")) {
-//            throw new NumberFormatException();
-//        }
-//
-//        int totals = Integer.parseInt(total);
-//        int uangs = Integer.parseInt(uang);
-//
-//        if (uangs < totals) {
-//            JOptionPane.showMessageDialog(null, "Jumlah uang yang diberikan kurang!");
-//        } else {
-//            int kembali = uangs - totals;
-//            String fix = Integer.toString(kembali);
-//            txt_kembalian.setText(fix);
-//
-//            JOptionPane.showMessageDialog(null, "Transaksi Berhasil!");
-//          
-//        }
-//    } catch (NumberFormatException e) {
-//        JOptionPane.showMessageDialog(null, "Masukkan jumlah uang dengan angka yang valid!");
-//        txt_uang.setText(""); // Mengosongkan nilai input yang salah
-//        txt_uang.requestFocus(); // Fokuskan kembali ke elemen input yang salah
-//    }
-//}
 
 
 private void pembayaran() {
@@ -751,149 +552,8 @@ private void pembayaran() {
 //    }
 //}
 
-//
-//private void pembayaran() {
-//    try {
-//        // Menghubungkan ke database
-//        Connection connect = koneksi.getKoneksi();
-//
-//        // Membuat string query untuk memasukkan data dari tabel tb_keranjang ke dalam tabel transaksi
-//        String queryInsertDetail = "INSERT INTO transaksi (nomor, nomor_transaksi, tgl_transaksi, kode_barang, nama_barang, kategori, harga, jumlah_barang, total_harga, catatan, namacs)"
-//                + " SELECT nomor, no_transaksi, tgl_transaksi, kode_barang, nama_barang, kategori, harga, jumlah, total_harga, catatan, namacs FROM tb_keranjang WHERE no_transaksi = ?";
-//
-//        // Membuat objek PreparedStatement untuk mengeksekusi query dengan penggantian parameter (?)
-//        PreparedStatement statement = connect.prepareStatement(queryInsertDetail);
-//        statement.setString(1, txt_kategori1.getText()); // Menggunakan nilai dari txt_kategori1 sebagai no_transaksi
-//
-//        // Mengeksekusi pernyataan SQL
-//        int rowsAffected = statement.executeUpdate();
-//
-//        if (rowsAffected > 0) {
-//            // Hapus data dari tabel tb_keranjang setelah dimasukkan ke dalam transaksi
-//            String deleteQuery = "DELETE FROM tb_keranjang WHERE no_transaksi = ?";
-//            PreparedStatement deleteStatement = connect.prepareStatement(deleteQuery);
-//            deleteStatement.setString(1, txt_kategori1.getText());
-//            deleteStatement.executeUpdate();
-//
-//            JOptionPane.showMessageDialog(null, "Data transaksi berhasil disimpan.");
-//        } else {
-//            JOptionPane.showMessageDialog(null, "Terjadi kesalahan dalam memasukkan data dari keranjang ke transaksi!");
-//        }
-//
-//        // Menutup pernyataan
-//        statement.close(); 
-//        connect.close();
-//    } catch (SQLException e) {
-//        e.printStackTrace();
-//        JOptionPane.showMessageDialog(null, "KONTLLLL!");
-//    }
-//}
 
 
-
-//private void pembayaran() {
-//    try {
-//        // Menghubungkan ke database
-//        Connection connect = koneksi.getKoneksi();
-//String no_transaksi = txt_kategori1.getText();
-//        // Membuat string query untuk memasukkan data dari tabel tb_keranjang ke dalam tabel transaksi
-//        String queryInsertDetail = "INSERT INTO transaksi (nomor, nomor_transaksi, tgl_transaksi, kode_barang, nama_barang, kategori, harga, jumlah_barang, total_harga, catatan, namacs)"
-//                + " SELECT nomor, no_transaksi, tgl_transaksi, kode_barang, nama_barang, kategori, harga, jumlah, total_harga, catatan, namacs FROM tb_keranjang WHERE no_transaksi = ?";
-//
-//       // String deleteQuery = "DELETE FROM tb_keranjang";
-//
-//        // Membuat objek PreparedStatement untuk mengeksekusi query dengan penggantian parameter (?)
-//        PreparedStatement statement = connect.prepareStatement(queryInsertDetail);
-//
-//        // Mengatur parameter (?)
-//       statement.setString(1, no_transaksi);
-//
-//        // Mengeksekusi pernyataan SQL
-//        int rowsInserted = statement.executeUpdate();
-//        if (rowsInserted > 0) {
-//            System.out.println("Data berhasil disimpan.");
-//
-//            // Menghapus semua data dari tabel keranjang setelah dimasukkan ke dalam transaksi
-//          //  statement = connect.prepareStatement(deleteQuery);
-//            statement.executeUpdate();
-//            System.out.println("Data di tabel keranjang telah dihapus.");
-//        } else {
-//            System.out.println("Data gagal disimpan.");
-//        }
-//
-//        // Menutup pernyataan
-//        statement.close();
-//
-//        // Menutup koneksi
-//        connect.close();
-//    } catch (SQLException e) {
-//        e.printStackTrace();
-//        JOptionPane.showMessageDialog(null, "Terjadi kesalahan dalam memasukkan data dari keranjang ke transaksi!");
-//    }
-//}
-
-//
-// Variabel flag untuk menandakan apakah nomor transaksi sudah dihasilkan atau belum
-//private boolean nomorTransaksiDihasilkan = false;
-//private int nomorTransaksi = 0;
- 
- 
- 
-//punya xidane
-//private void no_transaksi() {
-//    String tanggalSekarang = new SimpleDateFormat("yyyyMMdd").format(new Date());
-//    String nomorTransaksiFormatted = "T-" + tanggalSekarang + "-" + String.format("%03d", nomorTransaksi);
-//    System.out.println(nomorTransaksiFormatted);
-//    txt_kategori1.setText(nomorTransaksiFormatted);
-//    nomorTransaksi++;
-//}
-
-//
-//
-//private int nomorTransaksi = 1; // Initial transaction number
-//
-//private void no_transaksi() {
-//    // Get the current date
-//    String tanggalSekarang = new SimpleDateFormat("yyyyMMdd").format(new Date());
-//
-//    // Generate the transaction number in the desired format, e.g.: T-20220507-001
-//    String nomorTransaksiFormatted = "T-" + tanggalSekarang + "-" + String.format("%03d", nomorTransaksi);
-//
-//    // Display the transaction number in the JTextField
-//    txt_kategori1.setText(nomorTransaksiFormatted);
-//    if(txt_kategori1.getText().equals(nomorTransaksiFormatted)){
-////        nomorTransaksi.("T-20220507-001");
-//    } else {
-//        JOptionPane.showMessageDialog(null, "ERROR BABIK", "Error", JOptionPane.ERROR_MESSAGE);
-//    }
-////    txt_kategori1.setText("T-20220507-001");
-//    
-//    // Perform any actions needed after generating the transaction number
-//    
-//    // Increment nomorTransaksi by 1 for the next transaction
-//    
-//    nomorTransaksi++;
-//}
-
- 
- 
- 
-//private int nomorTransaksi = 1;  // Deklarasikan sebagai variabel instance di luar metode kembalian()
-//private int nomorTransaksi = 1;  // Deklarasikan sebagai variabel instance di luar metode kembalian()/
-//private int nomorTransaksiTerakhir = 1;  // Simpan nomor transaksi terakhir yang digunakan
-
-//private void no_transaksi() {
-//    // Mendapatkan tanggal saat ini
-//    String tanggalSekarang = new SimpleDateFormat("yyyyMMdd").format(new Date());
-//
-//    // Menghasilkan nomor transaksi dengan format yang diinginkan, misalnya: T-20220507-001
-//    String nomorTransaksiFormatted = "T-" + tanggalSekarang + "-" + String.format("%03d", nomorTransaksi);
-//
-//    // Menampilkan nomor transaksi ke dalam JTextField
-//    txt_kategori1.setText(nomorTransaksiFormatted);
-//
-//    // Lakukan apa pun yang perlu dilakukan setelah nomor transaksi dihasilkan
-//}
 
 
 private int getLastTransactionNumber() {
