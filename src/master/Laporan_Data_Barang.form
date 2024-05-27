@@ -164,9 +164,6 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JTextField" name="t_datasampai">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="..."/>
-          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="t_datasampaiActionPerformed"/>
           </Events>
@@ -215,9 +212,6 @@
           </AuxValues>
         </Component>
         <Component class="javax.swing.JTextField" name="t_datadari">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="..."/>
-          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="t_datadariActionPerformed"/>
           </Events>
@@ -293,10 +287,10 @@
     <Container class="swing.PanelGradiente" name="panelGradiente1">
       <Properties>
         <Property name="colorPrimario" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="66" green="cc" red="ff" type="rgb"/>
+          <Color blue="0" green="66" red="cc" type="rgb"/>
         </Property>
         <Property name="colorSecundario" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="99" green="99" red="99" type="rgb"/>
+          <Color blue="76" green="b1" red="ec" type="rgb"/>
         </Property>
       </Properties>
 
@@ -374,7 +368,7 @@
           <Color blue="0" green="66" red="cc" type="rgb"/>
         </Property>
         <Property name="colorSecundario" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="cc" red="cc" type="rgb"/>
+          <Color blue="76" green="b1" red="ec" type="rgb"/>
         </Property>
       </Properties>
 

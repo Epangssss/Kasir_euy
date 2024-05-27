@@ -42,6 +42,7 @@ import javax.swing.JLabel;
 
 //new
 import javax.swing.JOptionPane;
+import login_new.sign_in;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
@@ -60,6 +61,8 @@ public class formCRUDBarang extends javax.swing.JFrame {
      * Creates new form formAddBarang
      */
     public formCRUDBarang() {
+        
+      // T_user.setText(sign_in.getKasirName());
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 //        ViewBarcode();
@@ -806,8 +809,8 @@ private void tampilData() {
                         .addGap(60, 60, 60))))
         );
 
-        panelGradiente1.setColorPrimario(new java.awt.Color(255, 204, 102));
-        panelGradiente1.setColorSecundario(new java.awt.Color(153, 153, 153));
+        panelGradiente1.setColorPrimario(new java.awt.Color(204, 102, 0));
+        panelGradiente1.setColorSecundario(new java.awt.Color(236, 177, 118));
 
         jLabel2.setFont(new java.awt.Font("Serif", 2, 24)); // NOI18N
         jLabel2.setText("Admin : ");
@@ -1068,11 +1071,6 @@ new CRUD_kategori().setVisible(true);
     private com.toedter.calendar.JDateChooser txt_tanggal;
     // End of variables declaration//GEN-END:variables
 
-    private JDateChooser setDateFormatString(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
 
-    private void showBarcode() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }

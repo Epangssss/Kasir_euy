@@ -174,7 +174,7 @@ public class sign_in extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        panelGradiente1.setColorPrimario(new java.awt.Color(204, 204, 204));
+        panelGradiente1.setColorPrimario(new java.awt.Color(236, 177, 118));
         panelGradiente1.setColorSecundario(new java.awt.Color(204, 102, 0));
 
         jComboBox1.setFont(new java.awt.Font("SansSerif", 2, 16)); // NOI18N

@@ -65,6 +65,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import login_new.sign_in;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
@@ -85,6 +86,7 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
         initComponents();
         dateEnabled(false);
         koneksi.getKoneksi();
+           T_user.setText(sign_in.getKasirName());
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
     }
@@ -157,7 +159,6 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
-        t_datasampai.setText("...");
         t_datasampai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 t_datasampaiActionPerformed(evt);
@@ -194,7 +195,6 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
             }
         });
 
-        t_datadari.setText("...");
         t_datadari.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 t_datadariActionPerformed(evt);
@@ -292,8 +292,8 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        panelGradiente1.setColorPrimario(new java.awt.Color(255, 204, 102));
-        panelGradiente1.setColorSecundario(new java.awt.Color(153, 153, 153));
+        panelGradiente1.setColorPrimario(new java.awt.Color(204, 102, 0));
+        panelGradiente1.setColorSecundario(new java.awt.Color(236, 177, 118));
 
         jLabel2.setFont(new java.awt.Font("Serif", 2, 24)); // NOI18N
         jLabel2.setText("Admin : ");
@@ -324,7 +324,7 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
         cmdRegister1.setBounds(750, 30, 350, 110);
 
         panelGradiente2.setColorPrimario(new java.awt.Color(204, 102, 0));
-        panelGradiente2.setColorSecundario(new java.awt.Color(204, 204, 204));
+        panelGradiente2.setColorSecundario(new java.awt.Color(236, 177, 118));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/135.png"))); // NOI18N
         panelGradiente2.add(jLabel1);
@@ -502,7 +502,10 @@ switch (laporan) {
             pnLaporan.repaint();
 
             // Mengatur ukuran preferensi untuk panel laporan
-            pnLaporan.setPreferredSize(new Dimension(1280, 720)); // Sesuaikan ukuran sesuai kebutuhan
+            pnLaporan.setPreferredSize(new Dimension(1280, 720));
+             
+              
+// Sesuaikan ukuran sesuai kebutuhan
 
             // Tambahkan pnLaporan ke frame dan refresh
             getContentPane().remove(pnLaporan);  // Hapus dulu agar diperbarui
@@ -531,6 +534,7 @@ switch (laporan) {
             pnLaporan.add(viewer.getContentPane(), BorderLayout.CENTER);
             pnLaporan.revalidate();
             pnLaporan.repaint();
+                 viewer.setZoomRatio(0.75f);  
 
             // Mengatur ukuran preferensi untuk panel laporan
             pnLaporan.setPreferredSize(new Dimension(1280, 720)); // Sesuaikan ukuran sesuai kebutuhan

@@ -221,8 +221,8 @@ public class riwayat extends javax.swing.JFrame {
             }
         });
 
-        panelGradiente1.setColorPrimario(new java.awt.Color(255, 204, 102));
-        panelGradiente1.setColorSecundario(new java.awt.Color(153, 153, 153));
+        panelGradiente1.setColorPrimario(new java.awt.Color(204, 102, 0));
+        panelGradiente1.setColorSecundario(new java.awt.Color(236, 177, 118));
 
         jLabel2.setFont(new java.awt.Font("Serif", 2, 24)); // NOI18N
         jLabel2.setText("Admin : ");

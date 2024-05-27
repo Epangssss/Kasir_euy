@@ -155,14 +155,14 @@ private void cari(){
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         txt_cari = new javax.swing.JTextField();
         search = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         table_barang = new javax.swing.JTable();
         refresh = new javax.swing.JButton();
         back = new javax.swing.JButton();
+        panelGradiente1 = new swing.PanelGradiente();
+        cmdRegister1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(565, 695));
@@ -170,29 +170,6 @@ private void cari(){
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
-
-        jPanel1.setBackground(new java.awt.Color(204, 0, 0));
-        jPanel1.setFont(new java.awt.Font("Dialog", 0, 36)); // NOI18N
-
-        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("DAFTAR MENU");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
 
         txt_cari.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         txt_cari.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -249,11 +226,26 @@ private void cari(){
             }
         });
 
+        panelGradiente1.setColorPrimario(new java.awt.Color(204, 102, 0));
+        panelGradiente1.setColorSecundario(new java.awt.Color(236, 177, 118));
+
+        cmdRegister1.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
+        cmdRegister1.setForeground(new java.awt.Color(255, 255, 255));
+        cmdRegister1.setText("Stok Barang");
+        cmdRegister1.setContentAreaFilled(false);
+        cmdRegister1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cmdRegister1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdRegister1ActionPerformed(evt);
+            }
+        });
+        panelGradiente1.add(cmdRegister1);
+        cmdRegister1.setBounds(130, 10, 310, 110);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -261,36 +253,40 @@ private void cari(){
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(txt_cari, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10)
-                        .addComponent(search))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(150, 150, 150)
-                        .addComponent(refresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(150, 150, 150)))
+                        .addComponent(search)))
                 .addGap(50, 50, 50))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(229, 229, 229)
-                .addComponent(back)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(panelGradiente1, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(175, 175, 175))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(back)
+                        .addGap(218, 218, 218))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
+                .addComponent(panelGradiente1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(search, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txt_cari))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(refresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(back)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(8, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel2);
-        jPanel2.setBounds(0, 0, 581, 663);
+        jPanel2.setBounds(0, 0, 572, 680);
 
         getAccessibleContext().setAccessibleDescription("");
 
@@ -328,25 +324,23 @@ private void cari(){
 //        dispose();
 
 
-
-
 int row = table_barang.getSelectedRow();
 formTransaksi menu = new formTransaksi();
 
-String kode = table.getValueAt(row, 0).toString();
-menu.txt_kodebarang2.setText(kode);
+String kode = (String) table_barang.getValueAt(row, 0);
+menu.setKodeBarang2(kode);
 
-String kategori = table.getValueAt(row, 4).toString();
-menu.txt_kategori.setText(kategori);
+String kategori = (String) table_barang.getValueAt(row, 4);
+menu.setKategori(kategori);
 
-String nama = table.getValueAt(row, 1).toString();
-menu.txt_namabarang2.setText(nama);
+String nama = (String) table_barang.getValueAt(row, 1);
+menu.setNamaBarang(nama);
 
-String harga = table.getValueAt(row, 2).toString();
-menu.txt_harga2.setText(harga);
+String harga = (String) table_barang.getValueAt(row, 2);
+menu.setHarga(harga);
 
 // Memeriksa stok sebelum menampilkan formTransaksi
-int stok = Integer.parseInt(table.getValueAt(row, 3).toString());
+int stok = Integer.parseInt((String) table_barang.getValueAt(row, 3));
 if (stok > 0) {
     menu.setVisible(true);
     menu.pack();
@@ -355,7 +349,42 @@ if (stok > 0) {
 } else {
     JOptionPane.showMessageDialog(this, "Stok habis. Data tidak dapat diambil.");
 }
-        
+//int row = table_barang.getSelectedRow();
+//formTransaksi menu = new formTransaksi();
+//
+//String kode = table.getValueAt(row, 0).toString();
+//menu.txt_kodebarang2.setText(kode);
+//
+//
+//String kategori = table.getValueAt(row, 4).toString();
+//menu.txt_kategori.setText(kategori);
+//
+//
+//String nama = table.getValueAt(row, 1).toString();
+//menu.txt_namabarang2.setText(nama);
+//
+//
+//String harga = table.getValueAt(row, 2).toString();
+//menu.txt_harga2.setText(harga);
+//
+//
+//
+//
+//
+//// Memeriksa stok sebelum menampilkan formTransaksi
+//int stok = Integer.parseInt(table.getValueAt(row, 3).toString());
+//if (stok > 0) {
+//    menu.setVisible(true);
+//    menu.pack();
+//    menu.setDefaultCloseOperation(formTransaksi.DISPOSE_ON_CLOSE);
+//    dispose();
+//} else {
+//    JOptionPane.showMessageDialog(this, "Stok habis. Data tidak dapat diambil.");
+//}
+    
+
+
+
         
         
         
@@ -396,6 +425,10 @@ dispose();
 //this.dispose();
     }//GEN-LAST:event_backActionPerformed
 
+    private void cmdRegister1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRegister1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmdRegister1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -434,10 +467,10 @@ dispose();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton back;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton cmdRegister1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private swing.PanelGradiente panelGradiente1;
     private javax.swing.JButton refresh;
     private javax.swing.JButton search;
     public javax.swing.JTable table_barang;

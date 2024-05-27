@@ -18,6 +18,7 @@ import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import login_new.sign_in;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
@@ -40,7 +41,7 @@ public class akun_karyawan extends javax.swing.JFrame {
         
         Date now = new Date();  
         tgl_daftar.setDate(now); 
-        
+           T_user.setText(sign_in.getKasirName());
         
         koneksi conn = new koneksi();
         koneksi.getKoneksi();
@@ -426,7 +427,7 @@ public class akun_karyawan extends javax.swing.JFrame {
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelGradiente2.setColorPrimario(new java.awt.Color(204, 102, 0));
-        panelGradiente2.setColorSecundario(new java.awt.Color(204, 204, 204));
+        panelGradiente2.setColorSecundario(new java.awt.Color(236, 177, 118));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/135.png"))); // NOI18N
         panelGradiente2.add(jLabel3);
@@ -527,8 +528,8 @@ public class akun_karyawan extends javax.swing.JFrame {
         panelGradiente2.add(jButton17);
         jButton17.setBounds(40, 952, 134, 50);
 
-        panelGradiente1.setColorPrimario(new java.awt.Color(255, 204, 102));
-        panelGradiente1.setColorSecundario(new java.awt.Color(153, 153, 153));
+        panelGradiente1.setColorPrimario(new java.awt.Color(204, 102, 0));
+        panelGradiente1.setColorSecundario(new java.awt.Color(236, 177, 118));
 
         jLabel2.setFont(new java.awt.Font("Serif", 2, 24)); // NOI18N
         jLabel2.setText("Admin : ");
