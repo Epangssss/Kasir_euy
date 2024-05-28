@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package master;
+package Report_new;
 
+import java.awt.BorderLayout;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,18 +24,28 @@ import javax.swing.JDialog;
 import java.awt.Dialog;
 import java.text.NumberFormat;
 import java.util.Locale;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumnModel;
+import login_new.sign_in;
+
 
 
 public class riwayat extends javax.swing.JFrame {
     DefaultTableModel table = new DefaultTableModel();
     
   
-
+    //private DefaultTableModel table = new DefaultTableModel();
+   
     /**
      * Creates new form riwayat
      */
     public riwayat() {
         initComponents();
+        
+          T_user.setText(sign_in.getKasirName());
         
         koneksi con = new koneksi();
         koneksi.getKoneksi();
@@ -48,6 +59,32 @@ public class riwayat extends javax.swing.JFrame {
         table.addColumn("Harga");
         table.addColumn("Jumlah");
         table.addColumn("Total Harga");
+            // Add the table to the panel
+            
+            
+
+        // Set alignment for each column
+    DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+    centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+    DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+    rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+
+    TableColumnModel columnModel = tb_riwayat.getColumnModel();
+    columnModel.getColumn(0).setCellRenderer(centerRenderer); // Tanggal Transaksi
+    columnModel.getColumn(1).setCellRenderer(centerRenderer); // No_Transaksi
+    columnModel.getColumn(2).setCellRenderer(centerRenderer); // Kode Barang
+    columnModel.getColumn(3).setCellRenderer(centerRenderer); // Nama Barang
+    columnModel.getColumn(4).setCellRenderer(rightRenderer); // Harga
+    columnModel.getColumn(5).setCellRenderer(centerRenderer); // Jumlah
+    columnModel.getColumn(6).setCellRenderer(rightRenderer); // Total Harga
+
+    // Set table alignment
+ 
+        
+              
+
+
         
         tampilData();
         

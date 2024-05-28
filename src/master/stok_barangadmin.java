@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package transaksi;
+package master;
 //import static gui.FormUtama.user;
 
 import java.sql.Connection;
@@ -18,12 +18,12 @@ import javax.swing.JDialog;
 import java.awt.Dialog;
 
 
-public class stok_barang extends javax.swing.JDialog {
+public class stok_barangadmin extends javax.swing.JDialog {
     DefaultTableModel table = new DefaultTableModel();
     
 
     
-  public stok_barang() {
+  public stok_barangadmin() {
     initComponents();
     
     
@@ -324,7 +324,7 @@ private void cari(){
 
 
 int row = table_barang.getSelectedRow();
-formTransaksi menu = new formTransaksi();
+formTransaksiadmin menu = new formTransaksiadmin();
 
 String kode = (String) table_barang.getValueAt(row, 0);
 menu.setKodeBarang2(kode);
@@ -401,7 +401,7 @@ if (stok > 0) {
         tampilData();
 
         //        dispose();
-        //        new stok_barang().setVisible(true);
+        //        new stok_barangadmin().setVisible(true);
     }//GEN-LAST:event_refreshActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
@@ -445,21 +445,22 @@ dispose();
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(stok_barang.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(stok_barangadmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(stok_barang.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(stok_barangadmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(stok_barang.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(stok_barangadmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(stok_barang.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(stok_barangadmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new stok_barang().setVisible(true);
+                new stok_barangadmin().setVisible(true);
             }
         });
     }

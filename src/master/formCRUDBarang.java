@@ -29,6 +29,8 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.DriverManager;
 import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
@@ -42,15 +44,15 @@ import javax.swing.JLabel;
 
 //new
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 import login_new.sign_in;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
+import transaksi.formTransaksi;
 
-/**
- *
- * @author Hadi Firmansyah
- */
+
 
 
 public class formCRUDBarang extends javax.swing.JFrame {
@@ -62,9 +64,11 @@ public class formCRUDBarang extends javax.swing.JFrame {
      */
     public formCRUDBarang() {
         
-      // T_user.setText(sign_in.getKasirName());
+    //   T_user.setText(sign_in.getKasirName());
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
+      notifstokhabis();
 //        ViewBarcode();
         tanggal();
         
@@ -82,25 +86,95 @@ con = koneksi.getKoneksi();
         table.addColumn("Tanggal Masuk");
       //  ViewBarcode();
        // showBarcode();
-        tampilkode("");
+     //   tampilkode("");
        tampilkan();
        tampilData();
        
-       
-        
     }
+    
+    
+    private void barang(String kodeBarang, int jumlahDikurangi) {
+    try {
+        // Ambil koneksi ke database
+        Connection connect = koneksi.getKoneksi();
+
+        // Query untuk mendapatkan stok barang
+        String queryGetStok = "SELECT stok FROM tb_databarang WHERE kode_barang = ?";
+        PreparedStatement psGetStok = connect.prepareStatement(queryGetStok);
+        psGetStok.setString(1, kodeBarang);
+        ResultSet rs = psGetStok.executeQuery();
+
+        if (rs.next()) {
+            int stok = rs.getInt("stok");
+
+            // Cek jika jumlah dikurangi melebihi stok
+            if (jumlahDikurangi > stok) {
+                JOptionPane.showMessageDialog(null, "Jumlah yang dikurangi melebihi stok yang tersedia! Stok saat ini: " + stok);
+            } else if (stok <= 0) {
+                JOptionPane.showMessageDialog(null, "Stok barang habis! Tidak dapat mengurangi lebih lanjut.");
+            } else {
+                // Kurangi stok barang
+                String queryKurangiStok = "UPDATE tb_databarang SET stok = stok - ? WHERE kode_barang = ?";
+                PreparedStatement psKurangiStok = connect.prepareStatement(queryKurangiStok);
+                psKurangiStok.setInt(1, jumlahDikurangi);
+                psKurangiStok.setString(2, kodeBarang);
+                psKurangiStok.executeUpdate();
+
+                JOptionPane.showMessageDialog(null, "Stok barang berhasil dikurangi. Stok baru: " + (stok - jumlahDikurangi));
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Barang dengan kode " + kodeBarang + " tidak ditemukan.");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+    }
+}
+
+
+private void notifstokhabis() {
+    try {
+        // Retrieve data from the database
+        String query = "SELECT kode_barang, nama_barang, stok FROM tb_databarang WHERE stok <= 5";
+        Connection connect = koneksi.getKoneksi();
+        Statement statement = connect.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+
+        // Iterate through the results and display notifications
+        while (resultSet.next()) {
+            String kodeBarang = resultSet.getString("kode_barang");
+            String namaBarang = resultSet.getString("nama_barang");
+            int stok = resultSet.getInt("stok");
+
+            // Display a notification for low stock items
+            showLowStockNotification(kodeBarang, namaBarang, stok);
+        }
+    } catch (Exception e) {
+        System.out.println(e);
+    }
+}
+
+private void showLowStockNotification(String kodeBarang, String namaBarang, int stok) {
+    // You can use a library like JOptionPane or Swing's JDialog to display the notification
+    JOptionPane.showMessageDialog(
+        null,
+        "Barang yang habis:\nCode: " + kodeBarang + "\nName: " + namaBarang + "\nStock: " + stok,
+        "Stok Habis!!",
+        JOptionPane.WARNING_MESSAGE
+    );
+}
 
 
 private void tampilData() {
     try {
         // Menghapus semua baris yang ada dalam tabel sebelum menampilkan data baru
         int row = table_barang1.getRowCount();
-        for(int a = 0 ; a < row ; a++){
+        for(int a = 0; a < row; a++){
             table.removeRow(0); 
         }
         
         // Mengambil data dari database
-        String query = "SELECT * FROM `tb_databarang` ";
+        String query = "SELECT * FROM `tb_databarang`";
         Connection connect = koneksi.getKoneksi();
         Statement sttmnt = connect.createStatement();
         ResultSet rslt = sttmnt.executeQuery(query);
@@ -111,24 +185,53 @@ private void tampilData() {
             String nama = rslt.getString("nama_barang");
             String kategori = rslt.getString("kategori");
             String harga = rslt.getString("harga");
-            String stok = rslt.getString("stok");
+            int stok = rslt.getInt("stok");
             String tanggal = rslt.getString("tanggal");
-                    
+            
+            // Mengatur stok menjadi 0 jika habis
+            if (stok < 0) {
+                stok = 0;
+            }
+
             // Memasukkan data ke dalam array
-            String[] data = {kode, nama, kategori, harga, stok, tanggal};
+            String[] data = {kode, nama, kategori, harga, String.valueOf(stok), tanggal};
             
             // Menambahkan baris baru ke dalam tabel
             table.addRow(data);
-            
-            
         }
         
         // Mengeset nilai tabel agar ditampilkan
         table_barang1.setModel(table);
+        
+        // Mengatur agar stok dan nama tabel berada di tengah
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        
+        // Mengatur renderer untuk kolom stok
+         table_barang1.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+         table_barang1.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+         table_barang1.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        table_barang1.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+         table_barang1.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
+
+        // Mengatur renderer untuk header tabel agar berada di tengah
+        JTableHeader tableHeader = table_barang1.getTableHeader();
+        DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) tableHeader.getDefaultRenderer();
+        headerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        
+        
+             DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+        rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+        table_barang1.getColumnModel().getColumn(3).setCellRenderer(rightRenderer);
+
     } catch(Exception e) {
         System.out.println(e);
     }  
-    }
+}
+
+
+
+
 
 
      private void clear(){
@@ -142,6 +245,7 @@ private void tampilData() {
      
      
     
+
 
 
      private void tampilkan() {
@@ -164,24 +268,33 @@ private void tampilData() {
     }
      }
       
-
-     private void tampilkode(String kategori) {
+     
+ private void tampilkode(String kategori) {
     try {
         // Bersihkan data pada JTextField
         txt_kodebarang.setText("");
 
         // Query untuk mengambil kode prefiks dari tabel tb_kategori
-        String selectKategoriQuery = "SELECT LEFT(kode_barang, 3) AS prefix FROM tb_kategori WHERE kategori = ? LIMIT 1";
+        String selectKategoriQuery = "SELECT LEFT(kode_barang, 3) AS prefix, kategori FROM tb_kategori WHERE kategori = ? LIMIT 1";
         PreparedStatement selectKategoriStatement = con.prepareStatement(selectKategoriQuery);
         selectKategoriStatement.setString(1, kategori);
         ResultSet kategoriResultSet = selectKategoriStatement.executeQuery();
 
         String prefix = "";
+        String kategoriDB = "";
         if (kategoriResultSet.next()) {
             prefix = kategoriResultSet.getString("prefix");
+            kategoriDB = kategoriResultSet.getString("kategori");
         } else {
-            // Jika kategori tidak ditemukan di tb_kategori, gunakan 3 karakter pertama dari kategori
-            prefix = kategori.substring(0, Math.min(3, kategori.length())).toUpperCase();
+            // Jika kategori tidak ditemukan di tb_kategori, tampilkan pesan error
+            JOptionPane.showMessageDialog(null, "Kategori tidak terdaftar di dalam sistem.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Periksa apakah kategori yang diinput sesuai dengan kategori di db
+        if (!kategori.equalsIgnoreCase(kategoriDB)) {
+            JOptionPane.showMessageDialog(null, "Kategori yang diinput tidak sesuai dengan kategori yang terdaftar.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
         // Query untuk mengambil data dari tabel tb_databarang yang sesuai dengan prefix
@@ -205,6 +318,50 @@ private void tampilData() {
         e.printStackTrace();
     }
 }
+     
+// yang bisa
+//     private void tampilkode(String kategori) {
+//    try {
+//        // Bersihkan data pada JTextField
+//        txt_kodebarang.setText("");
+//
+//        // Query untuk mengambil kode prefiks dari tabel tb_kategori
+//        String selectKategoriQuery = "SELECT LEFT(kode_barang, 3) AS prefix FROM tb_kategori WHERE kategori = ? LIMIT 1";
+//        PreparedStatement selectKategoriStatement = con.prepareStatement(selectKategoriQuery);
+//        selectKategoriStatement.setString(1, kategori);
+//        ResultSet kategoriResultSet = selectKategoriStatement.executeQuery();
+//
+//        String prefix = "";
+//        if (kategoriResultSet.next()) {
+//            prefix = kategoriResultSet.getString("prefix");
+//        } else {
+//            // Jika kategori tidak ditemukan di tb_kategori, gunakan 3 karakter pertama dari kategori
+//            prefix = kategori.substring(0, Math.min(3, kategori.length())).toUpperCase();
+//        }
+//
+//        // Query untuk mengambil data dari tabel tb_databarang yang sesuai dengan prefix
+//        String selectDatabarangQuery = "SELECT MAX(CAST(SUBSTRING(kode_barang, " + (prefix.length() + 1) + ") AS SIGNED)) AS max_number " +
+//                                      "FROM tb_databarang " +
+//                                      "WHERE SUBSTRING(kode_barang, 1, ?) = ?";
+//        PreparedStatement selectDatabarangStatement = con.prepareStatement(selectDatabarangQuery);
+//        selectDatabarangStatement.setInt(1, prefix.length());
+//        selectDatabarangStatement.setString(2, prefix);
+//        ResultSet databarangResultSet = selectDatabarangStatement.executeQuery();
+//
+//        int maxNumber = 0;
+//        if (databarangResultSet.next()) {
+//            maxNumber = databarangResultSet.getInt("max_number");
+//        }
+//
+//        // Buat kode barang baru
+//        String newKodeBarang = prefix + String.format("%03d", maxNumber + 1);
+//        txt_kodebarang.setText(newKodeBarang);
+//    } catch (SQLException e) {
+//        e.printStackTrace();
+//    }
+//}
+
+
 
   
   
@@ -494,8 +651,6 @@ private void tampilData() {
         jButton5 = new javax.swing.JButton();
         cmdRegister = new javax.swing.JButton();
         panelGradiente1 = new swing.PanelGradiente();
-        jLabel2 = new javax.swing.JLabel();
-        T_user = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         cmdRegister1 = new javax.swing.JButton();
 
@@ -812,20 +967,9 @@ private void tampilData() {
         panelGradiente1.setColorPrimario(new java.awt.Color(204, 102, 0));
         panelGradiente1.setColorSecundario(new java.awt.Color(236, 177, 118));
 
-        jLabel2.setFont(new java.awt.Font("Serif", 2, 24)); // NOI18N
-        jLabel2.setText("Admin : ");
-        panelGradiente1.add(jLabel2);
-        jLabel2.setBounds(10, 120, 82, 32);
-
-        T_user.setFont(new java.awt.Font("Segoe UI", 2, 24)); // NOI18N
-        T_user.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        T_user.setText("...");
-        panelGradiente1.add(T_user);
-        T_user.setBounds(90, 120, 50, 32);
-
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-businessman-80.png"))); // NOI18N
         panelGradiente1.add(jLabel5);
-        jLabel5.setBounds(40, 30, 80, 80);
+        jLabel5.setBounds(30, 40, 90, 90);
 
         cmdRegister1.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
         cmdRegister1.setForeground(new java.awt.Color(255, 255, 255));
@@ -957,7 +1101,7 @@ if (tanggal.matches("\\d{4}-\\d{2}-\\d{2}")) {
 //            JOptionPane.showMessageDialog(rootPane, e);
 //        }
         try{
-            String file = "/report/report_barang.jasper";
+            String file = "/Report_new/Databarang.jasper";
             JasperPrint print = JasperFillManager.fillReport(getClass().getResourceAsStream(file),null,koneksi.getKoneksi());
             JasperViewer.viewReport(print, false);
             
@@ -1035,7 +1179,6 @@ new CRUD_kategori().setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel T_user;
     private javax.swing.JButton button5;
     private javax.swing.JButton cmdRegister;
     private javax.swing.JButton cmdRegister1;
@@ -1048,7 +1191,6 @@ new CRUD_kategori().setVisible(true);
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;

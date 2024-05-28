@@ -247,12 +247,12 @@ public class akun_karyawan extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         T_date = new javax.swing.JTextField();
         cmdRegister = new javax.swing.JButton();
-        jButton13 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton14 = new javax.swing.JButton();
         jButton15 = new javax.swing.JButton();
         jButton16 = new javax.swing.JButton();
         jButton17 = new javax.swing.JButton();
+        jButton13 = new javax.swing.JButton();
         panelGradiente1 = new swing.PanelGradiente();
         jLabel2 = new javax.swing.JLabel();
         T_user = new javax.swing.JLabel();
@@ -329,6 +329,7 @@ public class akun_karyawan extends javax.swing.JFrame {
         jLabel11.setText("Email");
 
         txt_email.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_email.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         txt_email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_emailActionPerformed(evt);
@@ -339,6 +340,7 @@ public class akun_karyawan extends javax.swing.JFrame {
         jLabel12.setText("Username");
 
         txt_username.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_username.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         txt_username.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_usernameActionPerformed(evt);
@@ -349,6 +351,7 @@ public class akun_karyawan extends javax.swing.JFrame {
         jLabel7.setText("Password");
 
         txt_password.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_password.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         txt_password.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_passwordActionPerformed(evt);
@@ -395,6 +398,7 @@ public class akun_karyawan extends javax.swing.JFrame {
         txt_alamat.setColumns(20);
         txt_alamat.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         txt_alamat.setRows(5);
+        txt_alamat.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         jScrollPane4.setViewportView(txt_alamat);
 
         jLabel13.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -457,18 +461,6 @@ public class akun_karyawan extends javax.swing.JFrame {
         panelGradiente2.add(cmdRegister);
         cmdRegister.setBounds(20, 250, 190, 50);
 
-        jButton13.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/file.png"))); // NOI18N
-        jButton13.setText("  DATA KARYAWAN");
-        jButton13.setPreferredSize(new java.awt.Dimension(171, 40));
-        jButton13.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton13ActionPerformed(evt);
-            }
-        });
-        panelGradiente2.add(jButton13);
-        jButton13.setBounds(30, 360, 171, 50);
-
         jButton2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/bar-chart.png"))); // NOI18N
         jButton2.setText("  KATEGORI BARANG");
@@ -479,7 +471,7 @@ public class akun_karyawan extends javax.swing.JFrame {
             }
         });
         panelGradiente2.add(jButton2);
-        jButton2.setBounds(30, 460, 171, 50);
+        jButton2.setBounds(30, 380, 171, 50);
 
         jButton14.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jButton14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/bar-chart.png"))); // NOI18N
@@ -491,7 +483,7 @@ public class akun_karyawan extends javax.swing.JFrame {
             }
         });
         panelGradiente2.add(jButton14);
-        jButton14.setBounds(30, 560, 171, 50);
+        jButton14.setBounds(30, 490, 171, 50);
 
         jButton15.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jButton15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/bar-chart.png"))); // NOI18N
@@ -503,7 +495,7 @@ public class akun_karyawan extends javax.swing.JFrame {
             }
         });
         panelGradiente2.add(jButton15);
-        jButton15.setBounds(30, 660, 171, 50);
+        jButton15.setBounds(30, 600, 171, 50);
 
         jButton16.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jButton16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/attachment.png"))); // NOI18N
@@ -515,7 +507,7 @@ public class akun_karyawan extends javax.swing.JFrame {
             }
         });
         panelGradiente2.add(jButton16);
-        jButton16.setBounds(30, 760, 171, 50);
+        jButton16.setBounds(30, 720, 171, 50);
 
         jButton17.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jButton17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/logout.png"))); // NOI18N
@@ -527,6 +519,18 @@ public class akun_karyawan extends javax.swing.JFrame {
         });
         panelGradiente2.add(jButton17);
         jButton17.setBounds(40, 952, 134, 50);
+
+        jButton13.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/file.png"))); // NOI18N
+        jButton13.setText("  TRANSAKSI");
+        jButton13.setPreferredSize(new java.awt.Dimension(171, 40));
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
+        panelGradiente2.add(jButton13);
+        jButton13.setBounds(30, 820, 170, 48);
 
         panelGradiente1.setColorPrimario(new java.awt.Color(204, 102, 0));
         panelGradiente1.setColorSecundario(new java.awt.Color(236, 177, 118));
@@ -540,7 +544,7 @@ public class akun_karyawan extends javax.swing.JFrame {
         T_user.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         T_user.setText("...");
         panelGradiente1.add(T_user);
-        T_user.setBounds(90, 120, 50, 32);
+        T_user.setBounds(90, 120, 70, 32);
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-businessman-80.png"))); // NOI18N
         panelGradiente1.add(jLabel5);
@@ -759,11 +763,6 @@ new Menu_Admin("").setVisible(true);
 // TODO add your handling code here:
     }//GEN-LAST:event_cmdRegisterActionPerformed
 
-    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        new master.akun_karyawan().setVisible(true);
-        dispose();        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton13ActionPerformed
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         new master.CRUD_kategori().setVisible(true);
         dispose();        // TODO add your handling code here:
@@ -784,7 +783,7 @@ new Menu_Admin("").setVisible(true);
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
         // TODO add your handling code here:
-        new master.riwayat().setVisible(true);
+        new Report_new.riwayat().setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton16ActionPerformed
 
@@ -799,6 +798,12 @@ new Menu_Admin("").setVisible(true);
     private void cmdRegister1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRegister1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmdRegister1ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        // TODO add your handling code here:
+        new formTransaksiadmin().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton13ActionPerformed
 
     /**
      * @param args the command line arguments

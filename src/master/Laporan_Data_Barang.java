@@ -140,11 +140,12 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
         T_date = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         cmdRegister = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        jButton13 = new javax.swing.JButton();
 
         dateChooser3.setDateFormat("yyyy-MM-dd");
         dateChooser3.setName(""); // NOI18N
@@ -177,7 +178,7 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Dari Tanggal");
 
-        cbo_laporan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "pilih", "riwayat transaksi ", "laporan transaksi", " " }));
+        cbo_laporan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Laporan Data Barang", "Laporan Riwayat Transaksi ", "Laporan Transaksi", " " }));
         cbo_laporan.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         cbo_laporan.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -304,7 +305,7 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
         T_user.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         T_user.setText("...");
         panelGradiente1.add(T_user);
-        T_user.setBounds(90, 120, 50, 32);
+        T_user.setBounds(90, 120, 80, 32);
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-businessman-80.png"))); // NOI18N
         panelGradiente1.add(jLabel6);
@@ -351,7 +352,7 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
             }
         });
         panelGradiente2.add(jButton2);
-        jButton2.setBounds(30, 540, 171, 50);
+        jButton2.setBounds(30, 440, 171, 50);
 
         jButton1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/bar-chart.png"))); // NOI18N
@@ -363,19 +364,7 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
             }
         });
         panelGradiente2.add(jButton1);
-        jButton1.setBounds(30, 650, 171, 50);
-
-        jButton3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/bar-chart.png"))); // NOI18N
-        jButton3.setText("LAPORAN");
-        jButton3.setPreferredSize(new java.awt.Dimension(171, 40));
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        panelGradiente2.add(jButton3);
-        jButton3.setBounds(30, 330, 171, 50);
+        jButton1.setBounds(30, 550, 171, 50);
 
         jButton4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/attachment.png"))); // NOI18N
@@ -387,7 +376,7 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
             }
         });
         panelGradiente2.add(jButton4);
-        jButton4.setBounds(30, 760, 171, 50);
+        jButton4.setBounds(30, 670, 171, 50);
 
         jButton8.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/logout.png"))); // NOI18N
@@ -411,9 +400,9 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
             }
         });
         panelGradiente2.add(cmdRegister);
-        cmdRegister.setBounds(20, 250, 190, 50);
+        cmdRegister.setBounds(10, 250, 210, 50);
 
-        jButton7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButton7.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/file.png"))); // NOI18N
         jButton7.setText("  DATA KARYAWAN");
         jButton7.setPreferredSize(new java.awt.Dimension(171, 40));
@@ -423,7 +412,25 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
             }
         });
         panelGradiente2.add(jButton7);
-        jButton7.setBounds(30, 430, 171, 50);
+        jButton7.setBounds(30, 340, 171, 50);
+
+        jLabel7.setFont(new java.awt.Font("Serif", 0, 12)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Back To Dashboard");
+        panelGradiente2.add(jLabel7);
+        jLabel7.setBounds(70, 250, 96, 17);
+
+        jButton13.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/file.png"))); // NOI18N
+        jButton13.setText("  TRANSAKSI");
+        jButton13.setPreferredSize(new java.awt.Dimension(171, 40));
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
+        panelGradiente2.add(jButton13);
+        jButton13.setBounds(30, 790, 170, 48);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -484,18 +491,14 @@ dateChooser4.showPopup();
     private void t_printActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_t_printActionPerformed
 String laporan = cbo_laporan.getSelectedItem().toString().trim();
 switch (laporan) {
-    case "Pilih":
-        JOptionPane.showMessageDialog(null, "Terdapat inputan yang kosong.");
-        break;
-
-    case "riwayat transaksi":
+    case "Laporan Data Barang":
         try {
-            File file = new File("src/Report_New/transaksi.jasper");
+            File file = new File("src/Report_New/Databarang.jasper");
             JasperPrint print = JasperFillManager.fillReport(file.getAbsolutePath(), null, koneksi.getKoneksi());
             JasperViewer viewer = new JasperViewer(print, false);
             
-            // Hapus semua komponen dari panel laporan dan tambahkan viewer
-            pnLaporan.removeAll();
+            // Hapus semua komponen dari panel laporan dan tambahkan 
+             pnLaporan.removeAll();
             pnLaporan.setLayout(new BorderLayout()); // Menggunakan BorderLayout untuk tata letak yang lebih fleksibel
             pnLaporan.add(viewer.getContentPane(), BorderLayout.CENTER);
             pnLaporan.revalidate();
@@ -504,8 +507,7 @@ switch (laporan) {
             // Mengatur ukuran preferensi untuk panel laporan
             pnLaporan.setPreferredSize(new Dimension(1280, 720));
              
-              
-// Sesuaikan ukuran sesuai kebutuhan
+             
 
             // Tambahkan pnLaporan ke frame dan refresh
             getContentPane().remove(pnLaporan);  // Hapus dulu agar diperbarui
@@ -517,7 +519,35 @@ switch (laporan) {
         }
         break;
 
-    case "laporan transaksi":
+    case " Laporan Riwayat Transaksi":
+        try {
+            File file = new File("src/Report_New/transaksi.jasper");
+            JasperPrint print = JasperFillManager.fillReport(file.getAbsolutePath(), null, koneksi.getKoneksi());
+            JasperViewer viewer = new JasperViewer(print, false);
+            
+            // Hapus semua komponen dari panel laporan dan tambahkan 
+             pnLaporan.removeAll();
+            pnLaporan.setLayout(new BorderLayout()); // Menggunakan BorderLayout untuk tata letak yang lebih fleksibel
+            pnLaporan.add(viewer.getContentPane(), BorderLayout.CENTER);
+            pnLaporan.revalidate();
+            pnLaporan.repaint();
+
+            // Mengatur ukuran preferensi untuk panel laporan
+            pnLaporan.setPreferredSize(new Dimension(1280, 720));
+             
+             
+
+            // Tambahkan pnLaporan ke frame dan refresh
+            getContentPane().remove(pnLaporan);  // Hapus dulu agar diperbarui
+            getContentPane().add(pnLaporan);
+            getContentPane().revalidate();
+            getContentPane().repaint();
+        } catch (JRException e) {
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        }
+        break;
+
+    case "Laporan Transaksi":
         try {
             HashMap<String, Object> hash = new HashMap<>();
             hash.put("dataAwal", t_datadari.getText());
@@ -670,16 +700,9 @@ switch (laporan) {
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        new master.Laporan_Data_Barang().setVisible(true);
-        dispose();
-
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        new master.riwayat().setVisible(true);
+        new Report_new.riwayat().setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -697,6 +720,12 @@ switch (laporan) {
 
         // TODO add your handling code here:
     }//GEN-LAST:event_cmdRegisterActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        // TODO add your handling code here:
+        new formTransaksiadmin().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton13ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -742,8 +771,8 @@ switch (laporan) {
     private custom_date.DateChooser dateChooser3;
     private custom_date.DateChooser dateChooser4;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
@@ -755,6 +784,7 @@ switch (laporan) {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
     private swing.PanelGradiente panelGradiente1;

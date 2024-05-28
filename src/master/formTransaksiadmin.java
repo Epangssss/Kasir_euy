@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package transaksi;
+package master;
 //import static gui.Transaksi.harga;
 import Notification.Notification;
 import java.awt.HeadlessException;
@@ -45,7 +45,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
 import user.Menu_User;
 
-public class formTransaksi extends javax.swing.JFrame {
+public class formTransaksiadmin extends javax.swing.JFrame {
     DefaultTableModel table = new DefaultTableModel();
     
     
@@ -57,7 +57,7 @@ public class formTransaksi extends javax.swing.JFrame {
     
     
     
-   public formTransaksi() {
+   public formTransaksiadmin() {
     initComponents();
     
     
@@ -362,7 +362,7 @@ private void keranjang() {
         txt_totalharga2.setText(Integer.toString(totalHarga));
 
     } catch (SQLException ex) {
-        Logger.getLogger(formTransaksi.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(formTransaksiadmin.class.getName()).log(Level.SEVERE, null, ex);
     }
 }
 
@@ -428,7 +428,7 @@ private void keranjang() {
 //            JOptionPane.showMessageDialog(null, "Gagal menyimpan data ke keranjang");
 //        }
 //    } catch (SQLException ex) {
-//        Logger.getLogger(formTransaksi.class.getName()).log(Level.SEVERE, null, ex);
+//        Logger.getLogger(formTransaksiadmin.class.getName()).log(Level.SEVERE, null, ex);
 //    }
 //}
 
@@ -655,7 +655,7 @@ private void pembayaran() {
                     JOptionPane.showMessageDialog(null, "Gagal melakukan pembayaran.");
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(formTransaksi.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(formTransaksiadmin.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     } catch (NumberFormatException e) {
@@ -686,7 +686,7 @@ private void pembayaran() {
 //            JOptionPane.showMessageDialog(null, "Gagal melakukan pembayaran.");
 //        }
 //    } catch (SQLException ex) {
-//        Logger.getLogger(formTransaksi.class.getName()).log(Level.SEVERE, null, ex);
+//        Logger.getLogger(formTransaksiadmin.class.getName()).log(Level.SEVERE, null, ex);
 //    }
 //}
 
@@ -716,7 +716,7 @@ private void pembayaran() {
 //            JOptionPane.showMessageDialog(null, "Gagal melakukan pembayaran.");
 //        }
 //    } catch (SQLException ex) {
-//        Logger.getLogger(formTransaksi.class.getName()).log(Level.SEVERE, null, ex);
+//        Logger.getLogger(formTransaksiadmin.class.getName()).log(Level.SEVERE, null, ex);
 //    }
 //}
 
@@ -1039,18 +1039,8 @@ private String getKodeBarangFromDatabase(String inputKodeBarang) {
         panel_lembaga = new javax.swing.JPanel();
         panelGradiente1 = new swing.PanelGradiente();
         cmdRegister1 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txt_username = new javax.swing.JLabel();
         tgl_transaksi = new com.toedter.calendar.JDateChooser();
-        panelGradiente2 = new swing.PanelGradiente();
-        jLabel1 = new javax.swing.JLabel();
-        T_date = new javax.swing.JTextField();
-        cmdRegister = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         kategori = new javax.swing.JLabel();
         txt_kodebarang2 = new javax.swing.JTextField();
         txt_cari = new javax.swing.JButton();
@@ -1089,6 +1079,17 @@ private String getKodeBarangFromDatabase(String inputKodeBarang) {
         txt_uang = new javax.swing.JTextField();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
+        panelGradiente2 = new swing.PanelGradiente();
+        jLabel1 = new javax.swing.JLabel();
+        T_date = new javax.swing.JTextField();
+        cmdRegister = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
+        jButton13 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1926, 1142));
@@ -1112,103 +1113,15 @@ private String getKodeBarangFromDatabase(String inputKodeBarang) {
         panelGradiente1.add(cmdRegister1);
         cmdRegister1.setBounds(770, 20, 270, 110);
 
-        jLabel2.setFont(new java.awt.Font("Serif", 2, 20)); // NOI18N
-        jLabel2.setText("Karyawan :");
-        panelGradiente1.add(jLabel2);
-        jLabel2.setBounds(10, 110, 95, 27);
-
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-businessman-80.png"))); // NOI18N
         panelGradiente1.add(jLabel5);
         jLabel5.setBounds(50, 30, 80, 80);
-
-        txt_username.setFont(new java.awt.Font("Serif", 2, 20)); // NOI18N
-        txt_username.setText(".....");
-        panelGradiente1.add(txt_username);
-        txt_username.setBounds(120, 110, 25, 27);
 
         tgl_transaksi.setDateFormatString("dd-MM-yyyy");
         tgl_transaksi.setEnabled(false);
         tgl_transaksi.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         panelGradiente1.add(tgl_transaksi);
         tgl_transaksi.setBounds(1480, 110, 201, 29);
-
-        panelGradiente2.setColorPrimario(new java.awt.Color(204, 102, 0));
-        panelGradiente2.setColorSecundario(new java.awt.Color(236, 177, 118));
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/135.png"))); // NOI18N
-        panelGradiente2.add(jLabel1);
-        jLabel1.setBounds(50, 110, 135, 125);
-
-        T_date.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        T_date.setBorder(null);
-        T_date.setEnabled(false);
-        T_date.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                T_dateActionPerformed(evt);
-            }
-        });
-        panelGradiente2.add(T_date);
-        T_date.setBounds(40, 40, 156, 48);
-
-        cmdRegister.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
-        cmdRegister.setForeground(new java.awt.Color(255, 255, 255));
-        cmdRegister.setText("Dashboard");
-        cmdRegister.setContentAreaFilled(false);
-        cmdRegister.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        cmdRegister.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdRegisterActionPerformed(evt);
-            }
-        });
-        panelGradiente2.add(cmdRegister);
-        cmdRegister.setBounds(20, 250, 190, 50);
-
-        jButton5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/logout.png"))); // NOI18N
-        jButton5.setText("  LOGOUT");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-        panelGradiente2.add(jButton5);
-        jButton5.setBounds(40, 952, 134, 50);
-
-        jButton4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/attachment.png"))); // NOI18N
-        jButton4.setText("  RIWAYAT");
-        jButton4.setPreferredSize(new java.awt.Dimension(171, 40));
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-        panelGradiente2.add(jButton4);
-        jButton4.setBounds(20, 590, 185, 48);
-
-        jButton1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/file.png"))); // NOI18N
-        jButton1.setText("  TRANSAKSI");
-        jButton1.setPreferredSize(new java.awt.Dimension(171, 40));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        panelGradiente2.add(jButton1);
-        jButton1.setBounds(20, 350, 185, 48);
-
-        jButton2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/folder.png"))); // NOI18N
-        jButton2.setText("  DAFTAR MENU");
-        jButton2.setPreferredSize(new java.awt.Dimension(171, 40));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        panelGradiente2.add(jButton2);
-        jButton2.setBounds(20, 470, 185, 48);
 
         kategori.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         kategori.setText("kode barang");
@@ -1518,13 +1431,128 @@ private String getKodeBarangFromDatabase(String inputKodeBarang) {
             }
         });
 
+        panelGradiente2.setColorPrimario(new java.awt.Color(204, 102, 0));
+        panelGradiente2.setColorSecundario(new java.awt.Color(236, 177, 118));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/135.png"))); // NOI18N
+        panelGradiente2.add(jLabel1);
+        jLabel1.setBounds(50, 110, 135, 125);
+
+        T_date.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        T_date.setBorder(null);
+        T_date.setEnabled(false);
+        T_date.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                T_dateActionPerformed(evt);
+            }
+        });
+        panelGradiente2.add(T_date);
+        T_date.setBounds(40, 40, 156, 48);
+
+        cmdRegister.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
+        cmdRegister.setForeground(new java.awt.Color(255, 255, 255));
+        cmdRegister.setText("Dashboard");
+        cmdRegister.setContentAreaFilled(false);
+        cmdRegister.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cmdRegister.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdRegisterActionPerformed(evt);
+            }
+        });
+        panelGradiente2.add(cmdRegister);
+        cmdRegister.setBounds(20, 250, 190, 50);
+
+        jButton11.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/file.png"))); // NOI18N
+        jButton11.setText("  DATA KARYAWAN");
+        jButton11.setPreferredSize(new java.awt.Dimension(171, 40));
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+        panelGradiente2.add(jButton11);
+        jButton11.setBounds(30, 360, 171, 50);
+
+        jButton2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/bar-chart.png"))); // NOI18N
+        jButton2.setText("  KATEGORI BARANG");
+        jButton2.setPreferredSize(new java.awt.Dimension(171, 40));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        panelGradiente2.add(jButton2);
+        jButton2.setBounds(30, 460, 171, 50);
+
+        jButton1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/bar-chart.png"))); // NOI18N
+        jButton1.setText("DATA BARANG");
+        jButton1.setPreferredSize(new java.awt.Dimension(171, 40));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        panelGradiente2.add(jButton1);
+        jButton1.setBounds(30, 560, 171, 50);
+
+        jButton4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/bar-chart.png"))); // NOI18N
+        jButton4.setText("LAPORAN");
+        jButton4.setPreferredSize(new java.awt.Dimension(171, 40));
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        panelGradiente2.add(jButton4);
+        jButton4.setBounds(30, 660, 171, 50);
+
+        jButton5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/attachment.png"))); // NOI18N
+        jButton5.setText("  RIWAYAT");
+        jButton5.setPreferredSize(new java.awt.Dimension(171, 40));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        panelGradiente2.add(jButton5);
+        jButton5.setBounds(30, 760, 171, 50);
+
+        jButton12.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/logout.png"))); // NOI18N
+        jButton12.setText("  LOGOUT");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+        panelGradiente2.add(jButton12);
+        jButton12.setBounds(40, 980, 134, 50);
+
+        jButton13.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/file.png"))); // NOI18N
+        jButton13.setText("  TRANSAKSI");
+        jButton13.setPreferredSize(new java.awt.Dimension(171, 40));
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
+        panelGradiente2.add(jButton13);
+        jButton13.setBounds(30, 860, 170, 48);
+
         javax.swing.GroupLayout panel_lembagaLayout = new javax.swing.GroupLayout(panel_lembaga);
         panel_lembaga.setLayout(panel_lembagaLayout);
         panel_lembagaLayout.setHorizontalGroup(
             panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createSequentialGroup()
-                .addGap(0, 4, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(panelGradiente2, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
                 .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(panelGradiente1, javax.swing.GroupLayout.PREFERRED_SIZE, 1689, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panel_lembagaLayout.createSequentialGroup()
@@ -1695,7 +1723,9 @@ private String getKodeBarangFromDatabase(String inputKodeBarang) {
                 .addGap(18, 18, 18)
                 .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(57, Short.MAX_VALUE))
-            .addComponent(panelGradiente2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(panel_lembagaLayout.createSequentialGroup()
+                .addComponent(panelGradiente2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         getContentPane().add(panel_lembaga);
@@ -1936,7 +1966,7 @@ int baris = tb_keranjang.getSelectedRow();
 
     private void txt_cariMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_cariMouseClicked
         // TODO add your handling code here
-        new stok_barang().setVisible(true);
+        new stok_barangadmin().setVisible(true);
         dispose();
     }//GEN-LAST:event_txt_cariMouseClicked
 
@@ -1968,40 +1998,6 @@ int baris = tb_keranjang.getSelectedRow();
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_kodebarang2ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        new transaksi.daftar_menu().setVisible(true);
-        dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        new formTransaksi().setVisible(true);
-        dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-        //new ().setVisible(true);
-        dispose();
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-        //  new login.menu_login().setVisible(true);
-
-        new login_new.sign_in().setVisible(true);
-        dispose();
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void cmdRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRegisterActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmdRegisterActionPerformed
-
-    private void T_dateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_T_dateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_T_dateActionPerformed
-
     private void cmdRegister1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRegister1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmdRegister1ActionPerformed
@@ -2010,6 +2006,57 @@ int baris = tb_keranjang.getSelectedRow();
         // TODO add your handling code here:
         editData();
     }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void T_dateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_T_dateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_T_dateActionPerformed
+
+    private void cmdRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRegisterActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmdRegisterActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        new master.akun_karyawan().setVisible(true);
+        dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        new master.CRUD_kategori().setVisible(true);
+        dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        new formCRUDBarang().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        new master.Laporan_Data_Barang().setVisible(true);
+        dispose();
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        new Report_new.riwayat().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        // TODO add your handling code here:
+        //  new login.menu_login().setVisible(true);
+
+        new login_new.sign_in().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        // TODO add your handling code here:
+        new formTransaksiadmin().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton13ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2028,14 +2075,16 @@ int baris = tb_keranjang.getSelectedRow();
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(formTransaksi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(formTransaksiadmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(formTransaksi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(formTransaksiadmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(formTransaksi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(formTransaksiadmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(formTransaksi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(formTransaksiadmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
@@ -2044,7 +2093,7 @@ int baris = tb_keranjang.getSelectedRow();
 
             @Override
             public void run() {
-                new formTransaksi().setVisible(true);
+                new formTransaksiadmin().setVisible(true);
             }
         });
     }
@@ -2063,6 +2112,9 @@ int baris = tb_keranjang.getSelectedRow();
     private javax.swing.JButton cmdRegister1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -2073,7 +2125,6 @@ int baris = tb_keranjang.getSelectedRow();
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
@@ -2102,7 +2153,6 @@ int baris = tb_keranjang.getSelectedRow();
     public javax.swing.JTextField txt_totalharga;
     public static javax.swing.JTextField txt_totalharga2;
     public static javax.swing.JTextField txt_uang;
-    private javax.swing.JLabel txt_username;
     // End of variables declaration//GEN-END:variables
 
     static class dispose {

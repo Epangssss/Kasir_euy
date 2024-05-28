@@ -16,6 +16,8 @@ public class koneksi {
     Statement sttmnt;
     ResultSet rslt;
     private static Connection koneksi;  
+    
+    
     public static Connection getKoneksi(){
         try{
           
