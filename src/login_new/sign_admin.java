@@ -29,16 +29,55 @@ ResultSet rs;
 String sql;
 
 
-private boolean saveAdminAccount(String username, String password, String email, String no_telp, String alamat) {
+private String generateAdminCode() {
+    String lastAdminCode = getLastAdminCode();
+    if (lastAdminCode == null) {
+        return "ADM001";
+    }
+    
+    int number = Integer.parseInt(lastAdminCode.substring(3)) + 1;
+    return String.format("ADM%03d", number);
+}
+
+private String getLastAdminCode() {
+    String lastAdminCode = null;
     try {
         Connection connect = koneksi.getKoneksi();
-        String query = "INSERT INTO `admin` (`username`, `password`, `email`, `no_telp`, `alamat`) VALUES (?, ?, ?, ?, ?)";
+        String query = "SELECT admin_code FROM admin ORDER BY admin_code DESC LIMIT 1";
+        PreparedStatement statement = connect.prepareStatement(query);
+        ResultSet resultSet = statement.executeQuery();
+        
+        if (resultSet.next()) {
+            lastAdminCode = resultSet.getString("admin_code");
+        }
+        
+        resultSet.close();
+        statement.close();
+        connect.close();
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+    return lastAdminCode;
+}
+
+//private String generateAdminCode() {
+//    // Generate a unique admin code. This is just an example.
+//    // You might want to implement a more sophisticated code generation logic.
+//    return "ADM" + System.currentTimeMillis();
+//}
+
+private boolean saveAdminAccount(String username, String password, String email, String no_telp, String alamat, String adminCode) {
+    try {
+        Connection connect = koneksi.getKoneksi();
+
+        String query = "INSERT INTO admin (username, password, email, no_telp, alamat, admin_code) VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement statement = connect.prepareStatement(query);
         statement.setString(1, username);
         statement.setString(2, password);
         statement.setString(3, email);
         statement.setString(4, no_telp);
         statement.setString(5, alamat);
+        statement.setString(6, adminCode); // Set admin code
 
         int rowsInserted = statement.executeUpdate();
 
@@ -51,6 +90,56 @@ private boolean saveAdminAccount(String username, String password, String email,
         return false;
     }
 }
+
+
+private boolean saveAdminData(String adminCode, String data, String username) {
+    try {
+        Connection connect = koneksi.getKoneksi();
+
+        String query = "INSERT INTO admin_data (admin_code, data, username) VALUES (?, ?, ?)";
+        PreparedStatement statement = connect.prepareStatement(query);
+        statement.setString(1, adminCode); // Set admin code
+        statement.setString(2, data);
+        statement.setString(3, username);
+
+        int rowsInserted = statement.executeUpdate();
+
+        statement.close();
+        connect.close();
+
+        return rowsInserted > 0;
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        return false;
+    }
+}
+
+
+
+
+
+//private boolean saveAdminAccount(String username, String password, String email, String no_telp, String alamat) {
+//    try {
+//        Connection connect = koneksi.getKoneksi();
+//        String query = "INSERT INTO `admin` (`username`, `password`, `email`, `no_telp`, `alamat`) VALUES (?, ?, ?, ?, ?)";
+//        PreparedStatement statement = connect.prepareStatement(query);
+//        statement.setString(1, username);
+//        statement.setString(2, password);
+//        statement.setString(3, email);
+//        statement.setString(4, no_telp);
+//        statement.setString(5, alamat);
+//
+//        int rowsInserted = statement.executeUpdate();
+//
+//        statement.close();
+//        connect.close();
+//
+//        return rowsInserted > 0;
+//    } catch (SQLException ex) {
+//        ex.printStackTrace();
+//        return false;
+//    }
+//}
 
 private void clearSignUpForm() {
     txt_username.setText("");
@@ -249,30 +338,82 @@ private void clearSignUpForm() {
     }//GEN-LAST:event_txt_passwordActionPerformed
 
     private void btn_signupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_signupActionPerformed
+ String username = txt_username.getText();
+    String password = String.valueOf(txt_password.getPassword());
+    String email = txt_email.getText();
+    String no_telp = txt_phoneNumber.getText();
+    String alamat = txt_address.getText();
+    String adminCode = generateAdminCode(); // Generate the admin code here
+  
+    // Melakukan validasi input
+    if (username.isEmpty() || password.isEmpty() || email.isEmpty() || no_telp.isEmpty() || alamat.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Harap lengkapi semua kolom");
+        return;
+    }
 
-        String username = txt_username.getText();
-        String password = String.valueOf(txt_password.getPassword());
-        String email = txt_email.getText();
-        String no_telp = txt_phoneNumber.getText();
-        String alamat = txt_address.getText();
-
-        // Melakukan validasi input
-        if (username.isEmpty() || password.isEmpty() || email.isEmpty() || no_telp.isEmpty() || alamat.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Harap lengkapi semua kolom");
-            return;
-        }
-
-        // Menyimpan informasi akun admin ke database atau penyimpanan yang sesuai
-        if (saveAdminAccount(username, password, email, no_telp, alamat)) {
+    // Menyimpan informasi akun admin ke database atau penyimpanan yang sesuai
+    if (saveAdminAccount(username, password, email, no_telp, alamat, adminCode)) {
+        // Memanggil metode saveAdminData untuk menyimpan data admin spesifik
+        if (saveAdminData(adminCode, "initial data", username)) { // Pass initial data and username
             JOptionPane.showMessageDialog(null, "Akun admin berhasil dibuat");
-
             dispose();
             new sign_in().setVisible(true);
-            // clearSignUpForm(); // Mengosongkan formulir sign up
-
         } else {
-            JOptionPane.showMessageDialog(null, "Gagal membuat akun admin. Silakan coba lagi.");
+            JOptionPane.showMessageDialog(null, "Gagal menyimpan data admin. Silakan coba lagi.");
         }
+    } else {
+        JOptionPane.showMessageDialog(null, "Gagal membuat akun admin. Silakan coba lagi.");
+    }
+
+
+//  String username = txt_username.getText();
+//    String password = String.valueOf(txt_password.getPassword());
+//    String email = txt_email.getText();
+//    String no_telp = txt_phoneNumber.getText();
+//    String alamat = txt_address.getText();
+//
+//    // Melakukan validasi input
+//    if (username.isEmpty() || password.isEmpty() || email.isEmpty() || no_telp.isEmpty() || alamat.isEmpty()) {
+//        JOptionPane.showMessageDialog(null, "Harap lengkapi semua kolom");
+//        return;
+//    }
+//
+//    // Menyimpan informasi akun admin ke database atau penyimpanan yang sesuai
+//    if (saveAdminAccount(username, password, email, no_telp, alamat)) {
+//        JOptionPane.showMessageDialog(null, "Akun admin berhasil dibuat");
+//
+//        dispose();
+//        new sign_in().setVisible(true);
+//    } else {
+//        JOptionPane.showMessageDialog(null, "Gagal membuat akun admin. Silakan coba lagi.");
+//    }
+
+
+
+
+//        String username = txt_username.getText();
+//        String password = String.valueOf(txt_password.getPassword());
+//        String email = txt_email.getText();
+//        String no_telp = txt_phoneNumber.getText();
+//        String alamat = txt_address.getText();
+//
+//        // Melakukan validasi input
+//        if (username.isEmpty() || password.isEmpty() || email.isEmpty() || no_telp.isEmpty() || alamat.isEmpty()) {
+//            JOptionPane.showMessageDialog(null, "Harap lengkapi semua kolom");
+//            return;
+//        }
+//
+//        // Menyimpan informasi akun admin ke database atau penyimpanan yang sesuai
+//        if (saveAdminAccount(username, password, email, no_telp, alamat)) {
+//            JOptionPane.showMessageDialog(null, "Akun admin berhasil dibuat");
+//
+//            dispose();
+//            new sign_in().setVisible(true);
+//            // clearSignUpForm(); // Mengosongkan formulir sign up
+//
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Gagal membuat akun admin. Silakan coba lagi.");
+//        }
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_signupActionPerformed
 

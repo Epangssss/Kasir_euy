@@ -92,8 +92,7 @@ con = koneksi.getKoneksi();
        
     }
     
-    
-    private void barang(String kodeBarang, int jumlahDikurangi) {
+private void barang(String kodeBarang, int jumlahDikurangi) {
     try {
         // Ambil koneksi ke database
         Connection connect = koneksi.getKoneksi();
@@ -107,11 +106,13 @@ con = koneksi.getKoneksi();
         if (rs.next()) {
             int stok = rs.getInt("stok");
 
-            // Cek jika jumlah dikurangi melebihi stok
-            if (jumlahDikurangi > stok) {
-                JOptionPane.showMessageDialog(null, "Jumlah yang dikurangi melebihi stok yang tersedia! Stok saat ini: " + stok);
-            } else if (stok <= 0) {
-                JOptionPane.showMessageDialog(null, "Stok barang habis! Tidak dapat mengurangi lebih lanjut.");
+            // Cek jika stok kurang dari 0
+            if (stok < 0) {
+                JOptionPane.showMessageDialog(null, "Data stok tidak valid untuk barang dengan kode: " + kodeBarang);
+            } else if (stok == 0) {
+                JOptionPane.showMessageDialog(null, "Stok barang habis! Stok saat ini: " + stok);
+            } else if (jumlahDikurangi > stok) {
+                JOptionPane.showMessageDialog(null, "Jumlah yang diminta melebihi stok yang tersedia! Stok saat ini: " + stok);
             } else {
                 // Kurangi stok barang
                 String queryKurangiStok = "UPDATE tb_databarang SET stok = stok - ? WHERE kode_barang = ?";
@@ -132,10 +133,50 @@ con = koneksi.getKoneksi();
 }
 
 
+    
+//    private void barang(String kodeBarang, int jumlahDikurangi) {
+//    try {
+//        // Ambil koneksi ke database
+//        Connection connect = koneksi.getKoneksi();
+//
+//        // Query untuk mendapatkan stok barang
+//        String queryGetStok = "SELECT stok FROM tb_databarang WHERE kode_barang = ?";
+//        PreparedStatement psGetStok = connect.prepareStatement(queryGetStok);
+//        psGetStok.setString(1, kodeBarang);
+//        ResultSet rs = psGetStok.executeQuery();
+//
+//        if (rs.next()) {
+//            int stok = rs.getInt("stok");
+//
+//            // Cek jika jumlah dikurangi melebihi stok
+//            if (jumlahDikurangi > stok) {
+//                JOptionPane.showMessageDialog(null, "Jumlah yang dikurangi melebihi stok yang tersedia! Stok saat ini: " + stok);
+//            } else if (stok <= 0) {
+//                JOptionPane.showMessageDialog(null, "Stok barang habis! Tidak dapat mengurangi lebih lanjut.");
+//            } else {
+//                // Kurangi stok barang
+//                String queryKurangiStok = "UPDATE tb_databarang SET stok = stok - ? WHERE kode_barang = ?";
+//                PreparedStatement psKurangiStok = connect.prepareStatement(queryKurangiStok);
+//                psKurangiStok.setInt(1, jumlahDikurangi);
+//                psKurangiStok.setString(2, kodeBarang);
+//                psKurangiStok.executeUpdate();
+//
+//                JOptionPane.showMessageDialog(null, "Stok barang berhasil dikurangi. Stok baru: " + (stok - jumlahDikurangi));
+//            }
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Barang dengan kode " + kodeBarang + " tidak ditemukan.");
+//        }
+//    } catch (SQLException e) {
+//        e.printStackTrace();
+//        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+//    }
+//}
+
+
 private void notifstokhabis() {
     try {
         // Retrieve data from the database
-        String query = "SELECT kode_barang, nama_barang, stok FROM tb_databarang WHERE stok <= 5";
+        String query = "SELECT kode_barang, nama_barang, stok FROM tb_databarang WHERE stok <= 0";
         Connection connect = koneksi.getKoneksi();
         Statement statement = connect.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
@@ -973,7 +1014,7 @@ private void tampilData() {
 
         cmdRegister1.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
         cmdRegister1.setForeground(new java.awt.Color(255, 255, 255));
-        cmdRegister1.setText("Crud Data Barang");
+        cmdRegister1.setText("Data Barang");
         cmdRegister1.setContentAreaFilled(false);
         cmdRegister1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmdRegister1.addActionListener(new java.awt.event.ActionListener() {

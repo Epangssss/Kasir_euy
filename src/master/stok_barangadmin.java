@@ -42,7 +42,9 @@ public class stok_barangadmin extends javax.swing.JDialog {
     tampilData();
 }
 
-private void tampilData() {
+  
+  
+  private void tampilData() {
     DefaultTableModel model = (DefaultTableModel) table_barang.getModel();
     model.setRowCount(0);
 
@@ -60,12 +62,16 @@ private void tampilData() {
             int stok = resultSet.getInt("stok");
             String kategori = resultSet.getString("Kategori");
 
-            // Mengubah tampilan stok menjadi "0" jika stok habis
-            String tampilanStok = (stok > 0) ? String.valueOf(stok) : "0";
-
-            // Menambahkan pesan stok habis saat stok = 0
+            // Menentukan tampilan stok
+            String tampilanStok;
             if (stok == 0) {
                 tampilanStok = "Stok Habis";
+            } else if (stok > 0) {
+                tampilanStok = String.valueOf(stok);
+            } else {
+                // Stok negatif, tampilkan pesan kesalahan dan lewati penambahan ke tabel
+                JOptionPane.showMessageDialog(null, "Data stok tidak valid untuk barang: " + nama + " dengan kode: " + kode);
+                continue;
             }
 
             model.addRow(new Object[]{kode, nama, harga, tampilanStok, kategori});
@@ -76,6 +82,45 @@ private void tampilData() {
         e.printStackTrace();
     }
 }
+
+  
+//private void tampilData() {
+//    DefaultTableModel model = (DefaultTableModel) table_barang.getModel();
+//    model.setRowCount(0);
+//
+//    String query = "SELECT * FROM tb_databarang";
+//
+//    try {
+//        Connection connection = koneksi.getKoneksi();
+//        Statement statement = connection.createStatement();
+//        ResultSet resultSet = statement.executeQuery(query);
+//
+//        while (resultSet.next()) {
+//            String kode = resultSet.getString("kode_barang");
+//            String nama = resultSet.getString("nama_barang");
+//            String harga = resultSet.getString("harga");
+//            int stok = resultSet.getInt("stok");
+//            String kategori = resultSet.getString("Kategori");
+//
+//            // Mengubah tampilan stok menjadi "0" jika stok habis
+//            String tampilanStok = (stok > 0) ? String.valueOf(stok) : "0";
+//
+//            // Menambahkan pesan stok habis saat stok = 0
+//            if (stok == 0) {
+//                tampilanStok = "Stok Habis";
+//            }
+//
+//            model.addRow(new Object[]{kode, nama, harga, tampilanStok, kategori});
+//        }
+//
+//        table_barang.setModel(model);
+//    } catch (SQLException e) {
+//        e.printStackTrace();
+//    }
+//}
+
+
+
 //private void tampilData(){
 //    // Untuk menghapus baris setelah input
 //    int row = table_barang.getRowCount();
@@ -348,6 +393,9 @@ if (stok > 0) {
 } else {
     JOptionPane.showMessageDialog(this, "Stok habis. Data tidak dapat diambil.");
 }
+
+
+
 //int row = table_barang.getSelectedRow();
 //formTransaksi menu = new formTransaksi();
 //

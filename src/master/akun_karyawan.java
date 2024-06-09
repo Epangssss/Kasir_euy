@@ -55,7 +55,7 @@ public class akun_karyawan extends javax.swing.JFrame {
         table.addColumn("Password");
         table.addColumn("Tanggal Pendaftaran");
         
-        
+        tanggal();
         tampilData();
         
     }
@@ -109,67 +109,177 @@ public class akun_karyawan extends javax.swing.JFrame {
         tgl_daftar.setDate(null);
         
     }
-    private void tambahData(){
-//        String kode = txt_kodebarang.getText();
-        String nama = txt_nama.getText();
-        String email = txt_email.getText();
-        String alamat = txt_alamat.getText();
-        String username = txt_username.getText();
-        String password = txt_password.getText();
-        
+    
+    private void tambahData() {
+    String nama = txt_nama.getText();
+    String email = txt_email.getText();
+    String alamat = txt_alamat.getText();
+    String username = txt_username.getText();
+    String password = txt_password.getText();
+
         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         String tanggal = date.format(tgl_daftar.getDate());
-        
-        //panggil koneksi
-        Connection connect = koneksi.getKoneksi();
-        //query untuk memasukan data
-        String query = "INSERT INTO `tb_datakaryawan` (`id_karyawan`, `nama_karyawan`, `email`,`alamat`, `username`, `password`, `tanggal_pendaftaran`) "
-                     + "VALUES (NULL, '"+nama+"', '"+email+"','"+alamat+"', '"+username+"', '"+password+"','"+tanggal+"')";
-        
-        try{
-            //menyiapkan statement untuk di eksekusi
-            PreparedStatement ps = (PreparedStatement) connect.prepareStatement(query);
-            ps.executeUpdate(query);
-            JOptionPane.showMessageDialog(null,"Data Berhasil Disimpan");
-            
-        }catch(SQLException | HeadlessException e){
-            System.out.println(e);
-            JOptionPane.showMessageDialog(null,"Data Gagal Disimpan");
-            
-        }finally{
-            tampilData();
-            clear();
-            
+
+    // panggil koneksi
+    Connection connect = koneksi.getKoneksi();
+
+    // Query untuk mendapatkan ID terbesar saat ini
+    String getMaxIdQuery = "SELECT MAX(id_karyawan) AS max_id FROM tb_datakaryawan";
+
+    try {
+        Statement sttmnt = connect.createStatement();
+        ResultSet rslt = sttmnt.executeQuery(getMaxIdQuery);
+
+        int nextId = 1; // Default ID pertama jika tabel kosong
+        if (rslt.next()) {
+            int maxId = rslt.getInt("max_id");
+            nextId = maxId + 1;
         }
-        
+
+        // Query untuk memasukkan data, dengan ID yang sudah ditentukan
+        String query = "INSERT INTO `tb_datakaryawan` (`id_karyawan`, `nama_karyawan`, `email`, `alamat`, `username`, `password`, `tanggal_pendaftaran`) "
+                + "VALUES (" + nextId + ", '" + nama + "', '" + email + "', '" + alamat + "', '" + username + "', '" + password + "', '" + tanggal + "')";
+
+        // Menyiapkan statement untuk dieksekusi
+        PreparedStatement ps = connect.prepareStatement(query);
+        ps.executeUpdate(query);
+        JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan");
+
+    } catch (SQLException | HeadlessException e) {
+        System.out.println(e);
+        JOptionPane.showMessageDialog(null, "Data Gagal Disimpan");
+
+    } finally {
+        tampilData();
+        clear();
+        tanggal();
     }
-    private void hapusData(){
-        //ambill data no pendaftaran
-        int i = table_user.getSelectedRow();
-        
-        String id = table.getValueAt(i, 0).toString();
-        
-        Connection connect = koneksi.getKoneksi();
-        
-        String query = "DELETE FROM `tb_datakaryawan` WHERE `tb_datakaryawan`.`id_karyawan` = "+id+" ";
-        try{
-            PreparedStatement ps = (PreparedStatement) connect.prepareStatement(query);
-            ps.execute();
-            JOptionPane.showMessageDialog(null , "Data Berhasil Dihapus");
-        }catch(SQLException | HeadlessException e){
-            System.out.println(e);
-            JOptionPane.showMessageDialog(null, "Data Gagal Dihapus");
-        }finally{
-            tampilData();
-            clear();
+}
+    
+    
+    private void hapusData() {
+    // ambil data no pendaftaran
+    int i = table_user.getSelectedRow();
+
+    if (i == -1) {
+        JOptionPane.showMessageDialog(null, "Pilih data yang ingin dihapus");
+        return;
+    }
+
+    String id = table.getValueAt(i, 0).toString();
+
+    Connection connect = koneksi.getKoneksi();
+
+    String query = "DELETE FROM `tb_datakaryawan` WHERE `id_karyawan` = " + id;
+    try {
+        PreparedStatement ps = connect.prepareStatement(query);
+        ps.execute();
+        JOptionPane.showMessageDialog(null, "Data Berhasil Dihapus");
+
+        // Update ID setelah penghapusan
+        updateIDs();
+
+    } catch (SQLException | HeadlessException e) {
+        System.out.println(e);
+        JOptionPane.showMessageDialog(null, "Data Gagal Dihapus");
+    } finally {
+        tampilData();
+        clear();
+        tanggal();
+    }
+}
+
+private void updateIDs() {
+    Connection connect = koneksi.getKoneksi();
+    String selectQuery = "SELECT * FROM `tb_datakaryawan` ORDER BY `id_karyawan`";
+    String updateQuery = "UPDATE `tb_datakaryawan` SET `id_karyawan` = ? WHERE `id_karyawan` = ?";
+
+    try {
+        Statement selectStmt = connect.createStatement();
+        ResultSet rs = selectStmt.executeQuery(selectQuery);
+
+        int newId = 1;
+        while (rs.next()) {
+            int oldId = rs.getInt("id_karyawan");
+
+            if (newId != oldId) {
+                PreparedStatement updateStmt = connect.prepareStatement(updateQuery);
+                updateStmt.setInt(1, newId);
+                updateStmt.setInt(2, oldId);
+                updateStmt.executeUpdate();
+            }
+            newId++;
         }
-        
+
+    } catch (SQLException e) {
+        System.out.println(e);
     }
+}
+
+
+//    private void tambahData(){
+//   //  String kode = txt_kodebarang.getText();
+//        String nama = txt_nama.getText();
+//        String email = txt_email.getText();
+//        String alamat = txt_alamat.getText();
+//        String username = txt_username.getText();
+//        String password = txt_password.getText();
+//        
+//        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+//        String tanggal = date.format(tgl_daftar.getDate());
+//        
+//        //panggil koneksi
+//        Connection connect = koneksi.getKoneksi();
+//        //query untuk memasukan data
+//        String query = "INSERT INTO `tb_datakaryawan` (`id_karyawan`, `nama_karyawan`, `email`,`alamat`, `username`, `password`, `tanggal_pendaftaran`) "
+//                     + "VALUES (NULL, '"+nama+"', '"+email+"','"+alamat+"', '"+username+"', '"+password+"','"+tanggal+"')";
+//        
+//        try{
+//            //menyiapkan statement untuk di eksekusi
+//            PreparedStatement ps = (PreparedStatement) connect.prepareStatement(query);
+//            ps.executeUpdate(query);
+//            JOptionPane.showMessageDialog(null,"Data Berhasil Disimpan");
+//            
+//        }catch(SQLException | HeadlessException e){
+//            System.out.println(e);
+//            JOptionPane.showMessageDialog(null,"Data Gagal Disimpan");
+//            
+//        }finally{
+//            tampilData();
+//            clear();
+//            tanggal();
+//            
+//        }
+//        
+//    }
+//
+//    private void hapusData(){
+//        //ambill data no pendaftaran
+//        int i = table_user.getSelectedRow();
+//        
+//        String id = table.getValueAt(i, 0).toString();
+//        
+//        Connection connect = koneksi.getKoneksi();
+//        
+//        String query = "DELETE FROM `tb_datakaryawan` WHERE `tb_datakaryawan`.`id_karyawan` = "+id+" ";
+//        try{
+//            PreparedStatement ps = (PreparedStatement) connect.prepareStatement(query);
+//            ps.execute();
+//            JOptionPane.showMessageDialog(null , "Data Berhasil Dihapus");
+//        }catch(SQLException | HeadlessException e){
+//            System.out.println(e);
+//            JOptionPane.showMessageDialog(null, "Data Gagal Dihapus");
+//        }finally{
+//            tampilData();
+//            clear();
+//        }
+//        
+//    }
         public void tanggal(){
         Date now = new Date();  
         tgl_daftar.setDate(now);    
     }
-    
+//    
     private void editData(){
         int i = table_user.getSelectedRow();
         
@@ -241,7 +351,6 @@ public class akun_karyawan extends javax.swing.JFrame {
         tgl_daftar = new com.toedter.calendar.JDateChooser();
         jLabel8 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
-        T_refresh = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         panelGradiente2 = new swing.PanelGradiente();
         jLabel3 = new javax.swing.JLabel();
@@ -419,15 +528,6 @@ public class akun_karyawan extends javax.swing.JFrame {
             }
         });
 
-        T_refresh.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        T_refresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/refresh.png"))); // NOI18N
-        T_refresh.setText("Referesh");
-        T_refresh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                T_refreshActionPerformed(evt);
-            }
-        });
-
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelGradiente2.setColorPrimario(new java.awt.Color(204, 102, 0));
@@ -592,15 +692,7 @@ public class akun_karyawan extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(59, 59, 59)
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(T_refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(534, 534, 534)
                                 .addComponent(jButton6))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -611,7 +703,13 @@ public class akun_karyawan extends javax.swing.JFrame {
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(txt_password, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txt_username, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addComponent(txt_username, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(46, 46, 46)
+                                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(44, 44, 44)
+                                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(159, 159, 159))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(182, 182, 182)
@@ -638,7 +736,6 @@ public class akun_karyawan extends javax.swing.JFrame {
                             .addComponent(jButton1)
                             .addComponent(jButton5)
                             .addComponent(jButton4)
-                            .addComponent(T_refresh)
                             .addComponent(jButton7)
                             .addComponent(jButton6)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -748,10 +845,6 @@ public class akun_karyawan extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void T_refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_T_refreshActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_T_refreshActionPerformed
-
     private void T_dateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_T_dateActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_T_dateActionPerformed
@@ -844,7 +937,6 @@ new Menu_Admin("").setVisible(true);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField T_date;
-    private javax.swing.JButton T_refresh;
     private javax.swing.JLabel T_user;
     private javax.swing.JButton cmdRegister;
     private javax.swing.JButton cmdRegister1;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="91a14917-a4e8-4433-9e7f-2a1da4f5da4f">
-	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="174"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="dataAwal" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -9,10 +9,14 @@
 	<parameter name="dataAkhir" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="totalHarga" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[SELECT * 
+		<![CDATA[SELECT *, (SELECT SUM(total_harga) FROM transaksi WHERE tgl_transaksi BETWEEN $P{dataAwal} AND $P{dataAkhir}) AS totalHarga
 FROM transaksi
-WHERE tgl_transaksi BETWEEN $P{dataAwal} AND $P{dataAkhir}]]>
+WHERE tgl_transaksi BETWEEN $P{dataAwal} AND $P{dataAkhir}
+]]>
 	</queryString>
 	<field name="nomor" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -47,6 +51,7 @@ WHERE tgl_transaksi BETWEEN $P{dataAwal} AND $P{dataAkhir}]]>
 	<field name="namacs" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
+	<field name="totalHarga" class="java.math.BigDecimal"/>
 	<group name="nomor_transaksi">
 		<groupExpression><![CDATA[$F{nomor_transaksi}]]></groupExpression>
 	</group>
@@ -90,22 +95,12 @@ WHERE tgl_transaksi BETWEEN $P{dataAwal} AND $P{dataAkhir}]]>
 				<reportElement x="558" y="77" width="94" height="20" uuid="a87030b4-22f9-4973-8cc9-f457747f641c"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="400" y="77" width="53" height="20" uuid="5ea65215-8e57-49ce-be5c-393b7f02e5e8"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[harga]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="675" y="77" width="65" height="20" uuid="984d627b-3265-4d9b-8647-dc7c1fbf38ed"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[namacs]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="152" y="77" width="77" height="20" uuid="b02e04f8-764b-4196-aa29-c22afaa05762"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[kode_barang]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="576" y="77" width="65" height="20" uuid="d15527cb-ade3-4da4-b8cd-13a8fcbb8ff1"/>
+				<reportElement x="390" y="78" width="65" height="19" uuid="d15527cb-ade3-4da4-b8cd-13a8fcbb8ff1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Catatan]]></text>
 			</staticText>
@@ -133,11 +128,6 @@ WHERE tgl_transaksi BETWEEN $P{dataAwal} AND $P{dataAkhir}]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[kategori]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="476" y="77" width="70" height="20" uuid="2300cdb5-7678-4ed3-ae15-d825266931df"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[jumlah_barang]]></text>
-			</staticText>
 			<line>
 				<reportElement x="0" y="30" width="752" height="1" uuid="19c565f7-7bfa-4fb1-8c71-be14556aecfe"/>
 				<graphicElement>
@@ -157,9 +147,30 @@ WHERE tgl_transaksi BETWEEN $P{dataAwal} AND $P{dataAkhir}]]>
 				<text><![CDATA[Data Dari :]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="612" y="44" width="75" height="20" uuid="3368265a-860c-49fa-870b-f18bab42928c"/>
+				<reportElement x="605" y="44" width="74" height="20" uuid="3368265a-860c-49fa-870b-f18bab42928c"/>
 				<text><![CDATA[Data Sampai :]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="477" y="78" width="65" height="19" uuid="984d627b-3265-4d9b-8647-dc7c1fbf38ed"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[namacs]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="558" y="79" width="94" height="18" uuid="2300cdb5-7678-4ed3-ae15-d825266931df"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[jumlah_barang]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="652" y="78" width="94" height="19" uuid="5ea65215-8e57-49ce-be5c-393b7f02e5e8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[harga]]></text>
+			</staticText>
+			<line>
+				<reportElement x="477" y="63" width="128" height="1" uuid="dd627a2f-5447-4265-9648-87854d1b9830"/>
+			</line>
+			<line>
+				<reportElement x="605" y="63" width="128" height="1" uuid="c4ab03c3-1982-47e8-b8bd-3b7ad71a735c"/>
+			</line>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -167,7 +178,7 @@ WHERE tgl_transaksi BETWEEN $P{dataAwal} AND $P{dataAkhir}]]>
 	</columnHeader>
 	<detail>
 		<band splitType="Stretch"/>
-		<band height="22">
+		<band height="21">
 			<rectangle>
 				<reportElement x="80" y="0" width="72" height="20" uuid="96acdf4c-5278-4082-87a7-e50482136465"/>
 			</rectangle>
@@ -208,12 +219,7 @@ WHERE tgl_transaksi BETWEEN $P{dataAwal} AND $P{dataAkhir}]]>
 				<reportElement x="377" y="0" width="86" height="20" uuid="9c8a6161-446e-4a73-a0c2-c8c55d27106f"/>
 			</rectangle>
 			<textField>
-				<reportElement x="463" y="0" width="95" height="20" uuid="d00bf03f-50fe-4f76-8432-df25123538f5"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{jumlah_barang}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="558" y="0" width="94" height="20" uuid="baa0852f-1233-47ee-a9c2-de11a470f02f"/>
+				<reportElement x="377" y="0" width="86" height="20" uuid="baa0852f-1233-47ee-a9c2-de11a470f02f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{catatan}]]></textFieldExpression>
 			</textField>
@@ -227,28 +233,47 @@ WHERE tgl_transaksi BETWEEN $P{dataAwal} AND $P{dataAkhir}]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{kategori}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="377" y="0" width="86" height="20" uuid="2195cb95-bcb1-4b70-9e37-01b26ff00619"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{harga}]]></textFieldExpression>
-			</textField>
 			<rectangle>
 				<reportElement x="652" y="0" width="100" height="20" uuid="450f3dff-1f4f-4a02-a925-5c1ffe401c10"/>
 			</rectangle>
 			<textField>
-				<reportElement x="652" y="0" width="100" height="20" uuid="32ae18e5-f19d-4ca0-a1bc-d48b81195e2e"/>
+				<reportElement x="463" y="0" width="95" height="20" uuid="32ae18e5-f19d-4ca0-a1bc-d48b81195e2e"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{namacs}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="558" y="2" width="95" height="18" uuid="d00bf03f-50fe-4f76-8432-df25123538f5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{jumlah_barang}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="653" y="0" width="99" height="18" uuid="2195cb95-bcb1-4b70-9e37-01b26ff00619"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{harga}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="45" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band splitType="Stretch"/>
 	</pageFooter>
 	<summary>
-		<band splitType="Stretch"/>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement x="558" y="0" width="194" height="20" uuid="ef8ceb43-805e-41ce-887a-d2fb87ccda13"/>
+			</rectangle>
+			<textField>
+				<reportElement x="653" y="0" width="93" height="20" uuid="97281b05-4831-4068-9b53-7da3f05fac63"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{totalHarga}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="576" y="0" width="65" height="20" uuid="e7763161-456f-4c3e-b60d-f206e6e82dd5"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Total : ]]></text>
+			</staticText>
+		</band>
 	</summary>
 </jasperReport>

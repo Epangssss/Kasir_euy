@@ -350,6 +350,13 @@ private void hapuskategori(int row, String namaKategori, String kodeBarang) {
 //        }
 //    }
 
+//    private void showInfoDialog() {
+//        // Membuat instance J_Informasi
+//        infoDialog = new J_Informasi(this, true);
+//        
+//        // Menampilkan dialog
+//        infoDialog.setVisible(true);
+//    }
 
      
      
@@ -372,6 +379,7 @@ private void hapuskategori(int row, String namaKategori, String kodeBarang) {
         T_user = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         cmdRegister1 = new javax.swing.JButton();
+        J_petunjuk = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jButton6 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -421,6 +429,19 @@ private void hapuskategori(int row, String namaKategori, String kodeBarang) {
         });
         panelGradiente1.add(cmdRegister1);
         cmdRegister1.setBounds(430, 20, 310, 110);
+
+        J_petunjuk.setFont(new java.awt.Font("sansserif", 1, 16)); // NOI18N
+        J_petunjuk.setForeground(new java.awt.Color(255, 255, 255));
+        J_petunjuk.setText("Petunjuk");
+        J_petunjuk.setContentAreaFilled(false);
+        J_petunjuk.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        J_petunjuk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J_petunjukActionPerformed(evt);
+            }
+        });
+        panelGradiente1.add(J_petunjuk);
+        J_petunjuk.setBounds(930, 100, 160, 50);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -527,15 +548,14 @@ private void hapuskategori(int row, String namaKategori, String kodeBarang) {
                             .addComponent(jLabel3)
                             .addComponent(txt_kategori, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(44, 44, 44))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(30, 30, 30)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel7)))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel7))))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(36, 36, 36)
@@ -659,6 +679,15 @@ private void hapuskategori(int row, String namaKategori, String kodeBarang) {
         dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void J_petunjukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J_petunjukActionPerformed
+//J_Informasi1 ();
+    //    j_dialog();
+  //showInfoDialog();
+
+        // Menampilkan dialog
+        // TODO add your handling code here:
+    }//GEN-LAST:event_J_petunjukActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -695,6 +724,7 @@ private void hapuskategori(int row, String namaKategori, String kodeBarang) {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton J_petunjuk;
     private javax.swing.JLabel T_user;
     private javax.swing.JButton cmdRegister;
     private javax.swing.JButton cmdRegister1;

@@ -242,6 +242,129 @@ private void clear(){
     txt_catatan.setText(null);
 }
 
+//
+//private void keranjang() {
+//    String kode = txt_kodebarang2.getText();
+//    String nama = txt_namabarang2.getText();
+//    String harga = txt_harga2.getText();
+//    String jumlah = txt_jumlah2.getText();
+//    String total = txt_totalharga.getText();
+//    String kategori = txt_kategori.getText();
+//    String catatan = txt_catatan.getText();
+//    String no_transaksi = txt_kategori1.getText();
+//    String namacs = txt_namacs.getText();
+//    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//    String tanggal = dateFormat.format(tgl_transaksi.getDate());
+//    totalnya();
+//
+//    Connection connect = koneksi.getKoneksi();
+//    String queryTambahKeranjang = "INSERT INTO tb_keranjang (no_transaksi, kode_barang, nama_barang, kategori, harga, jumlah, total_harga, catatan, tgl_transaksi, namacs) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+//    String queryKurangiStok = "UPDATE tb_databarang SET stok = stok - ? WHERE kode_barang = ?";
+//    String queryUpdateKeranjang = "UPDATE tb_keranjang SET jumlah = jumlah + ?, total_harga = total_harga + ? WHERE no_transaksi = ? AND kode_barang = ?";
+//    String querySelectKeranjang = "SELECT jumlah, total_harga FROM tb_keranjang WHERE no_transaksi = ? AND kode_barang = ?";
+//    String queryCekStok = "SELECT stok FROM tb_databarang WHERE kode_barang = ?";
+//
+//    try {
+//        // Periksa stok yang tersedia
+//        PreparedStatement psCekStok = connect.prepareStatement(queryCekStok);
+//        psCekStok.setString(1, kode);
+//        ResultSet rsStok = psCekStok.executeQuery();
+//
+//        if (rsStok.next()) {
+//            int stokTersedia = rsStok.getInt("stok");
+//            int jumlahBarang = Integer.parseInt(jumlah);
+//
+//            if (jumlahBarang > stokTersedia) {
+//                JOptionPane.showMessageDialog(null, "Stok barang tidak mencukupi");
+//                return; // Keluar dari metode jika stok tidak mencukupi
+//            }
+//        }
+//
+//        // Periksa apakah barang sudah ada di keranjang
+//        PreparedStatement psSelect = connect.prepareStatement(querySelectKeranjang);
+//        psSelect.setString(1, no_transaksi);
+//        psSelect.setString(2, kode);
+//        ResultSet rs = psSelect.executeQuery();
+//
+//        if (rs.next()) {
+//            // Barang sudah ada di keranjang, perbarui jumlah dan total harga
+//            int jumlahExisting = rs.getInt("jumlah");
+//            int totalExisting = rs.getInt("total_harga");
+//
+//            if (jumlahExisting + Integer.parseInt(jumlah) > stokTersedia) {
+//                JOptionPane.showMessageDialog(null, "Stok barang tidak mencukupi untuk jumlah yang diinginkan");
+//                return; // Keluar dari metode jika stok tidak mencukupi
+//            }
+//
+//            PreparedStatement psUpdate = connect.prepareStatement(queryUpdateKeranjang);
+//            psUpdate.setInt(1, Integer.parseInt(jumlah));
+//            psUpdate.setInt(2, Integer.parseInt(total));
+//            psUpdate.setString(3, no_transaksi);
+//            psUpdate.setString(4, kode);
+//            psUpdate.executeUpdate();
+//
+//            // Kurangi stok barang
+//            PreparedStatement psStok = connect.prepareStatement(queryKurangiStok);
+//            psStok.setString(1, jumlah);
+//            psStok.setString(2, kode);
+//            psStok.executeUpdate();
+//
+//            JOptionPane.showMessageDialog(null, "Data di Keranjang Diperbarui dan Disimpan ke Database");
+//
+//            // Perbarui tampilan tabel keranjang
+//            DefaultTableModel model = (DefaultTableModel) tb_keranjang.getModel();
+//            for (int i = 0; i < model.getRowCount(); i++) {
+//                if (model.getValueAt(i, 1).equals(kode)) {
+//                    int jumlahBaru = jumlahExisting + Integer.parseInt(jumlah);
+//                    int totalBaru = totalExisting + Integer.parseInt(total);
+//                    model.setValueAt(jumlahBaru, i, 4); // Kolom jumlah
+//                    model.setValueAt(totalBaru, i, 5);  // Kolom total harga
+//                    break;
+//                }
+//            }
+//
+//        } else {
+//            // Barang belum ada di keranjang, tambahkan sebagai item baru
+//            PreparedStatement psKeranjang = connect.prepareStatement(queryTambahKeranjang);
+//            psKeranjang.setString(1, no_transaksi);
+//            psKeranjang.setString(2, kode);
+//            psKeranjang.setString(3, nama);
+//            psKeranjang.setString(4, kategori);
+//            psKeranjang.setString(5, harga);
+//            psKeranjang.setString(6, jumlah);
+//            psKeranjang.setString(7, total);
+//            psKeranjang.setString(8, catatan);
+//            psKeranjang.setString(9, tanggal);
+//            psKeranjang.setString(10, namacs);
+//
+//            int rowsAffected = psKeranjang.executeUpdate();
+//
+//            if (rowsAffected > 0) {
+//                // Kurangi stok barang
+//                PreparedStatement psStok = connect.prepareStatement(queryKurangiStok);
+//                psStok.setString(1, jumlah);
+//                psStok.setString(2, kode);
+//                psStok.executeUpdate();
+//
+//                JOptionPane.showMessageDialog(null, "Data Masuk Ke Keranjang dan Disimpan ke Database");
+//
+//                DefaultTableModel model = (DefaultTableModel) tb_keranjang.getModel();
+//                model.addRow(new Object[]{no_transaksi, kode, nama, harga, jumlah, total, kategori, catatan, namacs});
+//
+//            } else {
+//                JOptionPane.showMessageDialog(null, "Gagal menyimpan data ke keranjang");
+//            }
+//        }
+//
+//        // Perbarui total harga keseluruhan di txt_totalharga2
+//        int totalHarga = Integer.parseInt(txt_totalharga2.getText());
+//        totalHarga += Integer.parseInt(total);
+//        txt_totalharga2.setText(Integer.toString(totalHarga));
+//
+//    } catch (SQLException ex) {
+//        Logger.getLogger(formTransaksiadmin.class.getName()).log(Level.SEVERE, null, ex);
+//    }
+//}
 
 private void keranjang() {
     String kode = txt_kodebarang2.getText();
@@ -262,24 +385,8 @@ private void keranjang() {
     String queryKurangiStok = "UPDATE tb_databarang SET stok = stok - ? WHERE kode_barang = ?";
     String queryUpdateKeranjang = "UPDATE tb_keranjang SET jumlah = jumlah + ?, total_harga = total_harga + ? WHERE no_transaksi = ? AND kode_barang = ?";
     String querySelectKeranjang = "SELECT jumlah, total_harga FROM tb_keranjang WHERE no_transaksi = ? AND kode_barang = ?";
-    String queryCekStok = "SELECT stok FROM tb_databarang WHERE kode_barang = ?";
 
     try {
-        // Periksa stok yang tersedia
-        PreparedStatement psCekStok = connect.prepareStatement(queryCekStok);
-        psCekStok.setString(1, kode);
-        ResultSet rsStok = psCekStok.executeQuery();
-
-        if (rsStok.next()) {
-            int stokTersedia = rsStok.getInt("stok");
-            int jumlahBarang = Integer.parseInt(jumlah);
-
-            if (jumlahBarang > stokTersedia) {
-                JOptionPane.showMessageDialog(null, "Stok barang tidak mencukupi");
-                return; // Keluar dari metode jika stok tidak mencukupi
-            }
-        }
-
         // Periksa apakah barang sudah ada di keranjang
         PreparedStatement psSelect = connect.prepareStatement(querySelectKeranjang);
         psSelect.setString(1, no_transaksi);
@@ -290,11 +397,6 @@ private void keranjang() {
             // Barang sudah ada di keranjang, perbarui jumlah dan total harga
             int jumlahExisting = rs.getInt("jumlah");
             int totalExisting = rs.getInt("total_harga");
-
-            if (jumlahExisting + Integer.parseInt(jumlah) > stokTersedia) {
-                JOptionPane.showMessageDialog(null, "Stok barang tidak mencukupi untuk jumlah yang diinginkan");
-                return; // Keluar dari metode jika stok tidak mencukupi
-            }
 
             PreparedStatement psUpdate = connect.prepareStatement(queryUpdateKeranjang);
             psUpdate.setInt(1, Integer.parseInt(jumlah));
@@ -365,8 +467,6 @@ private void keranjang() {
         Logger.getLogger(formTransaksiadmin.class.getName()).log(Level.SEVERE, null, ex);
     }
 }
-
-
 //
 //private void keranjang() {
 //    String kode = txt_kodebarang2.getText();
@@ -475,6 +575,26 @@ private int grandTotal = 0; // Deklarasikan variabel grandTotal di luar metode t
     }
 }
 
+ 
+private int getStokFromDatabase(String kodeBarang) {
+    int stok = 0;
+    try {
+        Connection connection = koneksi.getKoneksi();
+        String queryGetStok = "SELECT stok FROM tb_databarang WHERE kode_barang = ?";
+        PreparedStatement psGetStok = connection.prepareStatement(queryGetStok);
+        psGetStok.setString(1, kodeBarang);
+        ResultSet rs = psGetStok.executeQuery();
+        if (rs.next()) {
+            stok = rs.getInt("stok");
+        } else {
+            System.out.println("Data stok tidak ditemukan untuk kode barang: " + kodeBarang);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return stok;
+}
+
 
 private void total() {
     String harga = txt_harga2.getText();
@@ -483,14 +603,48 @@ private void total() {
     try {
         int hargaa = Integer.parseInt(harga);
         int jumlahh = Integer.parseInt(jumlah);
+
+        // Mendapatkan kode barang dari input pengguna
+        String kodeBarang = txt_kodebarang2.getText(); // Misalnya, txt_kodeBarang adalah JTextField untuk kode barang
+
+        // Memeriksa apakah jumlah yang dimasukkan melebihi stok
+        int stok = getStokFromDatabase(kodeBarang); // Mendapatkan nilai stok dari database tb_databarang
+        if (jumlahh > stok) {
+            JOptionPane.showMessageDialog(null, "Jumlah yang dimasukkan melebihi stok yang tersedia! Stok saat ini: " + stok);
+            txt_jumlah2.setText(""); // Mengosongkan JTextField txt_jumlah2
+            return; // Keluar dari metode jika jumlah melebihi stok
+        }
+
         int total = hargaa * jumlahh;
         txt_totalharga.setText(Integer.toString(total));
     } catch (NumberFormatException e) {
+        if (jumlah.equals("")) { // Jika JTextField txt_jumlah2 kosong
+            JOptionPane.showMessageDialog(null, "Only Number");
+        }
         txt_totalharga.setText("");
-        JOptionPane.showMessageDialog(null, "Only Number");
-        txt_jumlah2.setText(null);
+        txt_jumlah2.setText("");
     }
 }
+
+
+
+
+
+//private void total() {
+//    String harga = txt_harga2.getText();
+//    String jumlah = txt_jumlah2.getText();
+//
+//    try {
+//        int hargaa = Integer.parseInt(harga);
+//        int jumlahh = Integer.parseInt(jumlah);
+//        int total = hargaa * jumlahh;
+//        txt_totalharga.setText(Integer.toString(total));
+//    } catch (NumberFormatException e) {
+//        txt_totalharga.setText("");
+//        JOptionPane.showMessageDialog(null, "Only Number");
+//        txt_jumlah2.setText(null);
+//    }
+//}
     
     private void reset(){
         txt_uang.setText(null);
@@ -943,6 +1097,10 @@ private String getKodeBarangFromDatabase(String inputKodeBarang) {
     
     return kodeBarang;
 }
+
+
+
+
 //       
 //   private String kasirName;
 //
@@ -1550,7 +1708,7 @@ private String getKodeBarangFromDatabase(String inputKodeBarang) {
         panel_lembagaLayout.setHorizontalGroup(
             panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 4, Short.MAX_VALUE)
                 .addComponent(panelGradiente2, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -1586,7 +1744,6 @@ private String getKodeBarangFromDatabase(String inputKodeBarang) {
                                                 .addComponent(T_jumlah2))
                                             .addGap(93, 93, 93))
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createSequentialGroup()
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                             .addComponent(txt_cari)
                                             .addGap(61, 61, 61)))
                                     .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1613,29 +1770,28 @@ private String getKodeBarangFromDatabase(String inputKodeBarang) {
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 743, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(45, 45, 45))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createSequentialGroup()
-                                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
                                 .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txt_uang, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_kembalian, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(panel_lembagaLayout.createSequentialGroup()
-                                        .addGap(16, 16, 16)
-                                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jButton7)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jButton3)))
+                                    .addComponent(txt_kembalian, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(171, 171, 171))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createSequentialGroup()
                                 .addComponent(txt_totalharga2, javax.swing.GroupLayout.PREFERRED_SIZE, 694, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(69, 69, 69))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createSequentialGroup()
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(177, 177, 177))))
+                                .addGap(177, 177, 177))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createSequentialGroup()
+                                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(34, 34, 34)
+                                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton3)
+                                .addGap(126, 126, 126))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(277, 277, 277))))
         );
@@ -1940,7 +2096,8 @@ int baris = tb_keranjang.getSelectedRow();
     }//GEN-LAST:event_txt_karyawanActionPerformed
 
     private void txt_jumlah2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_jumlah2KeyTyped
-        // TODO add your handling code here:
+  
+// TODO add your handling code here:
     }//GEN-LAST:event_txt_jumlah2KeyTyped
 
     private void txt_jumlah2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_jumlah2KeyReleased

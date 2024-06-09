@@ -59,8 +59,10 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.io.File;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -106,6 +108,41 @@ public class Laporan_Data_Barang extends javax.swing.JFrame {
         t_datadari.setEnabled(x);
         t_datasampai.setEnabled(x);
     }
+    
+
+    
+public double hitungTotalHarga(String tanggalAwal, String tanggalAkhir) {
+    double totalHarga = 0.0;
+    try {
+        // Koneksi ke database
+        Connection connection = koneksi.getKoneksi(); // Anda perlu mengganti ini sesuai dengan cara Anda mendapatkan koneksi database
+        
+        // Query SQL untuk mengambil total harga transaksi berdasarkan rentang tanggal
+   //     String sql = "SELECT SUM(total_harga) AS total FROM transaksi WHERE tanggal BETWEEN ? AND ?";
+        String sql = "SELECT SUM(total_harga) AS total FROM transaksi WHERE tgl_transaksi BETWEEN ? AND ?";
+
+        // Persiapkan statement SQL
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, tanggalAwal);
+        statement.setString(2, tanggalAkhir);
+        
+        // Eksekusi query
+        ResultSet resultSet = statement.executeQuery();
+        
+        // Ambil total harga dari hasil query
+        if(resultSet.next()) {
+            totalHarga = resultSet.getDouble("total");
+        }
+        
+        // Tutup koneksi dan statement
+        resultSet.close();
+        statement.close();
+        connection.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return totalHarga;
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -503,6 +540,7 @@ switch (laporan) {
             pnLaporan.add(viewer.getContentPane(), BorderLayout.CENTER);
             pnLaporan.revalidate();
             pnLaporan.repaint();
+                  viewer.setZoomRatio(0.75f);  
 
             // Mengatur ukuran preferensi untuk panel laporan
             pnLaporan.setPreferredSize(new Dimension(1280, 720));
@@ -519,7 +557,7 @@ switch (laporan) {
         }
         break;
 
-    case " Laporan Riwayat Transaksi":
+    case "Laporan Riwayat Transaksi":
         try {
             File file = new File("src/Report_New/transaksi.jasper");
             JasperPrint print = JasperFillManager.fillReport(file.getAbsolutePath(), null, koneksi.getKoneksi());
@@ -531,6 +569,7 @@ switch (laporan) {
             pnLaporan.add(viewer.getContentPane(), BorderLayout.CENTER);
             pnLaporan.revalidate();
             pnLaporan.repaint();
+             viewer.setZoomRatio(0.75f);  
 
             // Mengatur ukuran preferensi untuk panel laporan
             pnLaporan.setPreferredSize(new Dimension(1280, 720));
@@ -547,37 +586,119 @@ switch (laporan) {
         }
         break;
 
-    case "Laporan Transaksi":
-        try {
-            HashMap<String, Object> hash = new HashMap<>();
-            hash.put("dataAwal", t_datadari.getText());
-            hash.put("dataAkhir", t_datasampai.getText());
+        case "Laporan Transaksi":
+    try {
+        HashMap<String, Object> hash = new HashMap<>();
+        hash.put("dataAwal", t_datadari.getText());
+        hash.put("dataAkhir", t_datasampai.getText());
 
-            File file1 = new File("src/Report_new/laporan.jasper");
+        // Variabel untuk menyimpan total harga
+        double totalHarga = hitungTotalHarga(t_datadari.getText(), t_datasampai.getText()); // Fungsi untuk menghitung total harga
 
-            JasperPrint jasperPrint = JasperFillManager.fillReport(file1.getAbsolutePath(), hash, koneksi.getKoneksi());
-            JasperViewer viewer = new JasperViewer(jasperPrint, false);
-            
-            // Hapus semua komponen dari panel laporan dan tambahkan viewer
-            pnLaporan.removeAll();
-            pnLaporan.setLayout(new BorderLayout()); // Menggunakan BorderLayout untuk tata letak yang lebih fleksibel
-            pnLaporan.add(viewer.getContentPane(), BorderLayout.CENTER);
-            pnLaporan.revalidate();
-            pnLaporan.repaint();
-                 viewer.setZoomRatio(0.75f);  
+        // Mengonversi total harga menjadi format mata uang Rupiah
+        NumberFormat rupiahFormat = NumberFormat.getCurrencyInstance(new Locale("id", "ID")); // Format dalam Rupiah
+        String totalHargaRupiah = rupiahFormat.format(totalHarga);
 
-            // Mengatur ukuran preferensi untuk panel laporan
-            pnLaporan.setPreferredSize(new Dimension(1280, 720)); // Sesuaikan ukuran sesuai kebutuhan
+        hash.put("totalHarga", totalHargaRupiah); // Menambahkan total harga ke dalam HashMap
 
-            // Tambahkan pnLaporan ke frame dan refresh
-            getContentPane().remove(pnLaporan);  // Hapus dulu agar diperbarui
-            getContentPane().add(pnLaporan);
-            getContentPane().revalidate();
-            getContentPane().repaint();
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, "Error " + e);
-        }
-        break;
+        File file1 = new File("src/Report_new/laporan.jasper");
+
+        JasperPrint jasperPrint = JasperFillManager.fillReport(file1.getAbsolutePath(), hash, koneksi.getKoneksi());
+        JasperViewer viewer = new JasperViewer(jasperPrint, false);
+
+        // Hapus semua komponen dari panel laporan dan tambahkan viewer
+        pnLaporan.removeAll();
+        pnLaporan.setLayout(new BorderLayout()); // Menggunakan BorderLayout untuk tata letak yang lebih fleksibel
+        pnLaporan.add(viewer.getContentPane(), BorderLayout.CENTER);
+        pnLaporan.revalidate();
+        pnLaporan.repaint();
+        viewer.setZoomRatio(0.75f);
+
+        // Mengatur ukuran preferensi untuk panel laporan
+        pnLaporan.setPreferredSize(new Dimension(1280, 720)); // Sesuaikan ukuran sesuai kebutuhan
+
+        // Tambahkan pnLaporan ke frame dan refresh
+        getContentPane().remove(pnLaporan);  // Hapus dulu agar diperbarui
+        getContentPane().add(pnLaporan);
+        getContentPane().revalidate();
+        getContentPane().repaint();
+    } catch (JRException e) {
+        JOptionPane.showMessageDialog(null, "Error " + e);
+    }
+    break;
+
+        
+        
+        // bisa
+//        case "Laporan Transaksi":
+//    try {
+//        HashMap<String, Object> hash = new HashMap<>();
+//        hash.put("dataAwal", t_datadari.getText());
+//        hash.put("dataAkhir", t_datasampai.getText());
+//
+//        // Variabel untuk menyimpan total harga
+//        double totalHarga = hitungTotalHarga(t_datadari.getText(), t_datasampai.getText()); // Fungsi untuk menghitung total harga
+//
+//        hash.put("totalHarga", totalHarga); // Menambahkan total harga ke dalam HashMap
+//
+//        File file1 = new File("src/Report_new/laporan.jasper");
+//
+//        JasperPrint jasperPrint = JasperFillManager.fillReport(file1.getAbsolutePath(), hash, koneksi.getKoneksi());
+//        JasperViewer viewer = new JasperViewer(jasperPrint, false);
+//
+//        // Hapus semua komponen dari panel laporan dan tambahkan viewer
+//        pnLaporan.removeAll();
+//        pnLaporan.setLayout(new BorderLayout()); // Menggunakan BorderLayout untuk tata letak yang lebih fleksibel
+//        pnLaporan.add(viewer.getContentPane(), BorderLayout.CENTER);
+//        pnLaporan.revalidate();
+//        pnLaporan.repaint();
+//        viewer.setZoomRatio(0.75f);
+//
+//        // Mengatur ukuran preferensi untuk panel laporan
+//        pnLaporan.setPreferredSize(new Dimension(1280, 720)); // Sesuaikan ukuran sesuai kebutuhan
+//
+//        // Tambahkan pnLaporan ke frame dan refresh
+//        getContentPane().remove(pnLaporan);  // Hapus dulu agar diperbarui
+//        getContentPane().add(pnLaporan);
+//        getContentPane().revalidate();
+//        getContentPane().repaint();
+//    } catch (JRException e) {
+//        JOptionPane.showMessageDialog(null, "Error " + e);
+//    }
+//    break;
+
+        
+//    case "Laporan Transaksi":
+//        try {
+//            HashMap<String, Object> hash = new HashMap<>();
+//            hash.put("dataAwal", t_datadari.getText());
+//            hash.put("dataAkhir", t_datasampai.getText());
+//
+//            File file1 = new File("src/Report_new/laporan.jasper");
+//
+//            JasperPrint jasperPrint = JasperFillManager.fillReport(file1.getAbsolutePath(), hash, koneksi.getKoneksi());
+//            JasperViewer viewer = new JasperViewer(jasperPrint, false);
+//            
+//            // Hapus semua komponen dari panel laporan dan tambahkan viewer
+//            pnLaporan.removeAll();
+//            pnLaporan.setLayout(new BorderLayout()); // Menggunakan BorderLayout untuk tata letak yang lebih fleksibel
+//            pnLaporan.add(viewer.getContentPane(), BorderLayout.CENTER);
+//            pnLaporan.revalidate();
+//            pnLaporan.repaint();
+//                 viewer.setZoomRatio(0.75f);  
+//
+//            // Mengatur ukuran preferensi untuk panel laporan
+//            pnLaporan.setPreferredSize(new Dimension(1280, 720)); // Sesuaikan ukuran sesuai kebutuhan
+//
+//            // Tambahkan pnLaporan ke frame dan refresh
+//            getContentPane().remove(pnLaporan);  // Hapus dulu agar diperbarui
+//            getContentPane().add(pnLaporan);
+//            getContentPane().revalidate();
+//            getContentPane().repaint();
+//        } catch (JRException e) {
+//            JOptionPane.showMessageDialog(null, "Error " + e);
+//        }
+//        break;
 }
 
 
@@ -666,14 +787,24 @@ switch (laporan) {
     }//GEN-LAST:event_cbo_laporanKeyPressed
 
     private void cbo_laporanItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbo_laporanItemStateChanged
-
-        String laporan = cbo_laporan.getSelectedItem().toString();
-        if (laporan.equals("riwayat transaksi") || laporan.equals("Pilih")) {
-            dateEnabled(false);
-        } else {
-            dateEnabled(true);
-            t_datadari.requestFocus();
-        }
+String laporan = cbo_laporan.getSelectedItem().toString().trim();
+if (laporan.equals("Laporan Data Barang") || laporan.equals("Laporan Riwayat Transaksi")) {
+    dateEnabled(false);
+    t_datadari.setEnabled(false);
+    t_datasampai.setEnabled(false);
+} else {
+    dateEnabled(true);
+    t_datadari.setEnabled(true);
+    t_datasampai.setEnabled(true);
+    t_datadari.requestFocus();
+}
+//        String laporan = cbo_laporan.getSelectedItem().toString();
+//        if (laporan.equals("Laporan Data Barang") || laporan.equals("Laporan Riwayat Transaksi")) {
+//            dateEnabled(false);
+//        } else {
+//            dateEnabled(true);
+//            t_datadari.requestFocus();
+        
     }//GEN-LAST:event_cbo_laporanItemStateChanged
 
     private void cmdRegister1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRegister1ActionPerformed

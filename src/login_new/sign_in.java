@@ -67,42 +67,142 @@ public class sign_in extends javax.swing.JFrame {
             txt_password.setEchoChar('*');
         }
     }
+    
+private void loginAdmin() {
+    try {
+        Connection connect = koneksi.getKoneksi();
+        String query = "SELECT * FROM admin WHERE username = ? AND password = ?";
+        PreparedStatement pstmt = connect.prepareStatement(query);
+        pstmt.setString(1, txt_username.getText());
+        pstmt.setString(2, txt_password.getText());
 
-    private void loginAdmin() {
-        try {
-            Connection connect = koneksi.getKoneksi();
-            Statement sttmnt = connect.createStatement();
-            String query = "SELECT * FROM `admin` WHERE `username` = '" + txt_username.getText() + "' && `password`= '"
-                    + txt_password.getText() + "' ";
+        ResultSet go = pstmt.executeQuery();
 
-            ResultSet go = sttmnt.executeQuery(query);
+        if (go.next()) {
+            String username = go.getString("username");
+            String adminCode = go.getString("admin_code");
+            int firstLogin = go.getInt("first_login");
 
-            if (go.next()) {
-                String username = go.getString("username"); // Ambil nama pengguna dari data yang dipilih
-                JOptionPane.showMessageDialog(null, "Login Success");
+            if (firstLogin == 1) {
+                // Hapus data terkait admin ini dari tabel admin_data
+                String deleteQuery = "DELETE FROM admin_data WHERE admin_code = ?";
+                PreparedStatement deleteStmt = connect.prepareStatement(deleteQuery);
+                deleteStmt.setString(1, adminCode);
+                deleteStmt.executeUpdate();
+                deleteStmt.close();
 
-                sign_in.setKasirName(txt_username.getText());
-
-                Menu_Admin Menu_Admin = new Menu_Admin(""); // Buat instance Menu_Admin
-                Menu_Admin.setLocationRelativeTo(null); // Set nama pengguna
-                Menu_Admin.setVisible(true); // Tampilkan Menu_Admin
-
-                // Menu_Admin menuAdmin = new Menu_Admin(); // Buat instance Menu_Admin
-                // menuAdmin.setLocationRelativeTo(null); // Set nama pengguna
-                // menuAdmin.setVisible(true); // Tampilkan Menu_Admin
-                this.dispose(); // Tutup frame login
-            } else {
-                JOptionPane.showMessageDialog(null, "Username atau Password Salah");
-                txt_username.setText(null);
-                txt_password.setText(null);
+                // Update kolom first_login menjadi 0
+                String updateQuery = "UPDATE admin SET first_login = 0 WHERE admin_code = ?";
+                PreparedStatement updateStmt = connect.prepareStatement(updateQuery);
+                updateStmt.setString(1, adminCode);
+                updateStmt.executeUpdate();
+                updateStmt.close();
             }
 
-            sttmnt.close();
-            connect.close();
-        } catch (SQLException e) {
-            System.out.println(e);
+            JOptionPane.showMessageDialog(null, "Login Success");
+
+            sign_in.setKasirName(username);
+
+            // Pass the admin code to the next screen   
+            Menu_Admin menuAdmin = new Menu_Admin(adminCode);
+            menuAdmin.setLocationRelativeTo(null);
+            menuAdmin.setVisible(true);
+
+            // Kontrol akses berdasarkan kode unik admin
+            if (adminCode.equals("ADM002")) {
+                // Izinkan akses ke semua data
+            } else {
+                // Batasi akses hanya untuk data yang sesuai dengan kode unik admin
+            }
+
+            this.dispose(); // Tutup frame login
+        } else {
+            JOptionPane.showMessageDialog(null, "Username atau Password Salah");
+            txt_username.setText(null);
+            txt_password.setText(null);
         }
+
+        pstmt.close();
+        connect.close();
+    } catch (SQLException e) {
+        System.out.println(e);
     }
+}
+
+
+
+//private void loginAdmin() {
+//    try {
+//        Connection connect = koneksi.getKoneksi();
+//        String query = "SELECT * FROM admin WHERE username = ? AND password = ?";
+//        PreparedStatement pstmt = connect.prepareStatement(query);
+//        pstmt.setString(1, txt_username.getText());
+//        pstmt.setString(2, txt_password.getText());
+//
+//        ResultSet go = pstmt.executeQuery();
+//
+//        if (go.next()) {
+//            String username = go.getString("username");
+//            String adminCode = go.getString("admin_code");
+//
+//            JOptionPane.showMessageDialog(null, "Login Success");
+//
+//            sign_in.setKasirName(username);
+//
+//            // Pass the admin code to the next screen
+//            Menu_Admin menuAdmin = new Menu_Admin(adminCode);
+//            menuAdmin.setLocationRelativeTo(null);
+//            menuAdmin.setVisible(true);
+//
+//            this.dispose(); // Tutup frame login
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Username atau Password Salah");
+//            txt_username.setText(null);
+//            txt_password.setText(null);
+//        }
+//
+//        pstmt.close();
+//        connect.close();
+//    } catch (SQLException e) {
+//        System.out.println(e);
+//    }
+//}
+
+//    private void loginAdmin() {
+//        try {
+//            Connection connect = koneksi.getKoneksi();
+//            Statement sttmnt = connect.createStatement();
+//            String query = "SELECT * FROM `admin` WHERE `username` = '" + txt_username.getText() + "' && `password`= '"
+//                    + txt_password.getText() + "' ";
+//
+//            ResultSet go = sttmnt.executeQuery(query);
+//
+//            if (go.next()) {
+//                String username = go.getString("username"); // Ambil nama pengguna dari data yang dipilih
+//                JOptionPane.showMessageDialog(null, "Login Success");
+//
+//                sign_in.setKasirName(txt_username.getText());
+//
+//                Menu_Admin Menu_Admin = new Menu_Admin(""); // Buat instance Menu_Admin
+//                Menu_Admin.setLocationRelativeTo(null); // Set nama pengguna
+//                Menu_Admin.setVisible(true); // Tampilkan Menu_Admin
+//
+//                // Menu_Admin menuAdmin = new Menu_Admin(); // Buat instance Menu_Admin
+//                // menuAdmin.setLocationRelativeTo(null); // Set nama pengguna
+//                // menuAdmin.setVisible(true); // Tampilkan Menu_Admin
+//                this.dispose(); // Tutup frame login
+//            } else {
+//                JOptionPane.showMessageDialog(null, "Username atau Password Salah");
+//                txt_username.setText(null);
+//                txt_password.setText(null);
+//            }
+//
+//            sttmnt.close();
+//            connect.close();
+//        } catch (SQLException e) {
+//            System.out.println(e);
+//        }
+//    }
 
     private void loginKaryawan() {
         try {

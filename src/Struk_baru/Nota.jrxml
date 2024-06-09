@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report" pageWidth="210" pageHeight="296" columnWidth="170" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="69b386fa-d4ae-4830-b552-1b314c3f38d5">
 	<property name="ireport.zoom" value="3.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="779"/>
+	<property name="ireport.y" value="751"/>
 	<parameter name="total" class="java.lang.String"/>
 	<parameter name="uang" class="java.lang.String"/>
 	<parameter name="kembalian" class="java.lang.String"/>
@@ -203,7 +203,7 @@
 				<text><![CDATA[Total Harga  :]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="131" y="24" width="24" height="20" uuid="c4a53378-4eb4-452b-9e43-e9095008beba"/>
+				<reportElement x="134" y="24" width="34" height="20" uuid="c4a53378-4eb4-452b-9e43-e9095008beba"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
 			</textField>
@@ -219,7 +219,7 @@
 				<text><![CDATA[Change:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="125" y="59" width="34" height="18" uuid="9a351393-b2a2-4b78-865b-aea55fca840c"/>
+				<reportElement x="134" y="59" width="34" height="18" uuid="9a351393-b2a2-4b78-865b-aea55fca840c"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$P{uang}]]></textFieldExpression>
 			</textField>

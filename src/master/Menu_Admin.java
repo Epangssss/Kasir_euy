@@ -56,7 +56,7 @@ public class Menu_Admin extends javax.swing.JFrame {
             this.setExtendedState(JFrame.MAXIMIZED_BOTH);
             displayDateTime();
            // tampilJumlahKaryawan();
-           
+           //loadAdminData();
              keuntungan();
             pendapatan();
             pengeluaran();
@@ -109,7 +109,36 @@ public class Menu_Admin extends javax.swing.JFrame {
             tampildatatransaksi();
         }
       
+        
 
+
+
+// private void loadAdminData() {
+//        // Load data from admin_data table where admin_code = this.adminCode
+//        String adminCode = t_code.getText();
+//        try {
+//            Connection connect = koneksi.getKoneksi();
+//            String query = "SELECT data FROM admin_data WHERE admin_code = ?";
+//            PreparedStatement pstmt = connect.prepareStatement(query);
+//            pstmt.setString(1, adminCode);
+//
+//            ResultSet rs = pstmt.executeQuery();
+//
+//            if (rs.next()) {
+//                String data = rs.getString("data");
+//                // Display or use the data as needed
+//            } else {
+//                // Handle the case where no data is found for this admin
+//            }
+//
+//            pstmt.close();
+//            connect.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
+ 
+ 
     private void tampildatatransaksi() {
         // Untuk menghapus baris setelah input
         int row = tb_riwayat.getRowCount();
@@ -469,7 +498,7 @@ private void tampilData() {
         jPanel2 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         panelGradiente1 = new swing.PanelGradiente();
-        jLabel2 = new javax.swing.JLabel();
+        t_code = new javax.swing.JLabel();
         T_user = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         cmdRegister1 = new javax.swing.JButton();
@@ -526,10 +555,10 @@ private void tampilData() {
         panelGradiente1.setColorPrimario(new java.awt.Color(204, 102, 0));
         panelGradiente1.setColorSecundario(new java.awt.Color(236, 177, 118));
 
-        jLabel2.setFont(new java.awt.Font("Serif", 2, 24)); // NOI18N
-        jLabel2.setText("Admin : ");
-        panelGradiente1.add(jLabel2);
-        jLabel2.setBounds(10, 120, 82, 32);
+        t_code.setFont(new java.awt.Font("Serif", 2, 24)); // NOI18N
+        t_code.setText("Admin : ");
+        panelGradiente1.add(t_code);
+        t_code.setBounds(10, 120, 82, 32);
 
         T_user.setFont(new java.awt.Font("Segoe UI", 2, 24)); // NOI18N
         T_user.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -1027,7 +1056,6 @@ pendapatan();
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1046,6 +1074,7 @@ pendapatan();
     private swing.PanelGradiente panelGradiente4;
     private swing.PanelGradiente panelGradiente5;
     private swing.PanelGradiente panelGradiente6;
+    private javax.swing.JLabel t_code;
     private javax.swing.JTextField t_dari;
     private javax.swing.JTextField t_keuntungan;
     private javax.swing.JTextField t_pendapatan1;

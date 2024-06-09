@@ -63,6 +63,9 @@ public class formTransaksi extends javax.swing.JFrame {
     
     
      txt_karyawan.setText(sign_in.getKasirName());
+     
+     
+     
     setLocationRelativeTo(null);
     koneksi.getKoneksi();
     this.setExtendedState(JFrame.MAXIMIZED_BOTH);
