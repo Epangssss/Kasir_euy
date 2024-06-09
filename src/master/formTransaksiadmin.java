@@ -619,7 +619,7 @@ private void total() {
         txt_totalharga.setText(Integer.toString(total));
     } catch (NumberFormatException e) {
         if (jumlah.equals("")) { // Jika JTextField txt_jumlah2 kosong
-            JOptionPane.showMessageDialog(null, "Only Number");
+         //   JOptionPane.showMessageDialog(null, "Only Number");
         }
         txt_totalharga.setText("");
         txt_jumlah2.setText("");

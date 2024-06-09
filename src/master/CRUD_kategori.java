@@ -419,7 +419,7 @@ private void hapuskategori(int row, String namaKategori, String kodeBarang) {
 
         cmdRegister1.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
         cmdRegister1.setForeground(new java.awt.Color(255, 255, 255));
-        cmdRegister1.setText("Crud Data Kategori");
+        cmdRegister1.setText("Data Kategori");
         cmdRegister1.setContentAreaFilled(false);
         cmdRegister1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmdRegister1.addActionListener(new java.awt.event.ActionListener() {

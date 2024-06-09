@@ -72,6 +72,7 @@ public class formCRUDBarang extends javax.swing.JFrame {
 //        ViewBarcode();
         tanggal();
         
+        
 //        koneksi conn = new koneksi();
 //        koneksi.getKoneksi();
 
@@ -89,6 +90,7 @@ con = koneksi.getKoneksi();
      //   tampilkode("");
        tampilkan();
        tampilData();
+     
        
     }
     
@@ -272,6 +274,53 @@ private void tampilData() {
 
 
 
+  
+  private void tambahData() {
+    try {
+        // Ambil nilai kode barang yang diinput
+        String kode = txt_kodebarang.getText(); 
+        
+        // Ambil nilai-nilai lain dari field input
+        String nama = txt_namabarang.getText();
+        String harga = txt_harga.getText();
+        String stok = txt_stok.getText();
+        String tanggal = new SimpleDateFormat("yyyy-MM-dd").format(txt_tanggal.getDate());
+        
+        // Ambil kategori yang dipilih dari combobox
+        String selectedCategory = (String) kode_text.getSelectedItem();
+        
+        // Panggil koneksi
+        Connection connect = koneksi.getKoneksi();
+        
+        // Query untuk memasukkan data
+        String query = "INSERT INTO `tb_databarang` (`kode_barang`, `nama_barang`, `harga`, `stok`, `tanggal`, `kategori`) "
+                     + "VALUES (?, ?, ?, ?, ?, ?)";
+        PreparedStatement ps = connect.prepareStatement(query);
+        ps.setString(1, kode);
+        ps.setString(2, nama);
+        ps.setString(3, harga);
+        ps.setString(4, stok);
+        ps.setString(5, tanggal);
+        ps.setString(6, selectedCategory); // Memasukkan kategori yang dipilih
+        ps.executeUpdate();
+        
+        
+        
+        tampilData();
+        // Menampilkan notifikasi bahwa data berhasil ditambahkan
+        Notification panel = new Notification(this, Notification.Type.SUCCESS, Notification.Location.TOP_CENTER, "Data berhasil ditambahkan");
+        panel.showNotification();
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        e.printStackTrace();
+    }
+}
+   
+
+
+
+
+
 
 
 
@@ -404,46 +453,10 @@ private void tampilData() {
 
 
 
+
   
   
-  private void tambahData() {
-    try {
-        // Ambil nilai kode barang yang diinput
-        String kode = txt_kodebarang.getText(); 
-        
-        // Ambil nilai-nilai lain dari field input
-        String nama = txt_namabarang.getText();
-        String harga = txt_harga.getText();
-        String stok = txt_stok.getText();
-        String tanggal = new SimpleDateFormat("yyyy-MM-dd").format(txt_tanggal.getDate());
-        
-        // Ambil kategori yang dipilih dari combobox
-        String selectedCategory = (String) kode_text.getSelectedItem();
-        
-        // Panggil koneksi
-        Connection connect = koneksi.getKoneksi();
-        
-        // Query untuk memasukkan data
-        String query = "INSERT INTO `tb_databarang` (`kode_barang`, `nama_barang`, `harga`, `stok`, `tanggal`, `kategori`) "
-                     + "VALUES (?, ?, ?, ?, ?, ?)";
-        PreparedStatement ps = connect.prepareStatement(query);
-        ps.setString(1, kode);
-        ps.setString(2, nama);
-        ps.setString(3, harga);
-        ps.setString(4, stok);
-        ps.setString(5, tanggal);
-        ps.setString(6, selectedCategory); // Memasukkan kategori yang dipilih
-        ps.executeUpdate();
-        
-        // Menampilkan notifikasi bahwa data berhasil ditambahkan
-        Notification panel = new Notification(this, Notification.Type.SUCCESS, Notification.Location.TOP_CENTER, "Data berhasil ditambahkan");
-        panel.showNotification();
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
-        e.printStackTrace();
-    }
-}
-   
+  
 //private void tambahData() {
 //    try {
 //        // Panggil fungsi autoIn untuk mendapatkan kode barang otomatis
@@ -543,20 +556,47 @@ private void tampilData() {
     }   
     }
     
-    private void editData() {
+  private void editData() {
     try {
         // Mendapatkan nilai kode barang dari field input
-        String kode = txt_kodebarang.getText();
-        String nama = txt_namabarang.getText();
-        String harga = txt_harga.getText();
-        String stok = txt_stok.getText();
+        String kode = txt_kodebarang.getText().trim();
+        String nama = txt_namabarang.getText().trim();
+        String harga = txt_harga.getText().trim();
+        String stok = txt_stok.getText().trim();
         String kategori = (String) kode_text.getSelectedItem();
+
+        // Validasi input data
+        if (kode.isEmpty() || nama.isEmpty() || harga.isEmpty() || stok.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Semua field harus diisi.");
+            return;
+        }
+
+        // Panggil koneksi
+        Connection connect = koneksi.getKoneksi();
+        
+        // Query untuk mengambil daftar kategori yang valid
+        String validasiQuery = "SELECT kategori FROM tb_kategori";
+        Statement st = connect.createStatement();
+        ResultSet rs = st.executeQuery(validasiQuery);
+
+        // Memeriksa apakah kategori yang dipilih ada dalam daftar kategori yang valid
+        boolean kategoriValid = false;
+        while (rs.next()) {
+            if (kategori.equals(rs.getString("kategori"))) {
+                kategoriValid = true;
+                break;
+            }
+        }
+
+        // Jika kategori tidak valid, tampilkan pesan kesalahan
+        if (!kategoriValid) {
+            JOptionPane.showMessageDialog(null, "Kategori tidak valid. Harap pilih kategori yang sesuai.");
+            return;
+        }
 
         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         String tanggal = date.format(txt_tanggal.getDate());
 
-        // Panggil koneksi
-        Connection connect = koneksi.getKoneksi();
         // Query untuk melakukan update data
         String query = "UPDATE `tb_databarang` SET `nama_barang` = ?, `harga` = ?, `stok` = ?, `tanggal` = ?, `kategori` = ? "
                      + "WHERE `kode_barang` = ?";
@@ -567,6 +607,11 @@ private void tampilData() {
         ps.setString(4, tanggal);
         ps.setString(5, kategori);
         ps.setString(6, kode);
+
+        // Log untuk debugging
+        System.out.println("Query: " + query);
+        System.out.println("Parameters: [" + nama + ", " + harga + ", " + stok + ", " + tanggal + ", " + kategori + ", " + kode + "]");
+
         ps.executeUpdate();
         
         Notification panel = new Notification(this, Notification.Type.SUCCESS, Notification.Location.CENTER, "Data berhasil diupdate");
@@ -579,10 +624,7 @@ private void tampilData() {
         tampilData();
         // Membersihkan input fields setelah update
         clear();
-        
-        // Memanggil autoIn() untuk memperbarui kode barang otomatis setelah proses edit data selesai
-    //    autoIn();
-        
+
         // Mengatur nilai tanggal pada JDateChooser setelah edit data
         String tanggalString = "";
         Date tanggalBaru = null;
@@ -601,10 +643,73 @@ private void tampilData() {
         }
 
         txt_tanggal.setDate(tanggalBaru);
-        
-        // Update nilai kode barang pada field input
     }
 }
+
+    
+    
+//    
+//    private void editData() {
+//    try {
+//        // Mendapatkan nilai kode barang dari field input
+//        String kode = txt_kodebarang.getText();
+//        String nama = txt_namabarang.getText();
+//        String harga = txt_harga.getText();
+//        String stok = txt_stok.getText();
+//        String kategori = (String) kode_text.getSelectedItem();
+//
+//        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+//        String tanggal = date.format(txt_tanggal.getDate());
+//
+//        // Panggil koneksi
+//        Connection connect = koneksi.getKoneksi();
+//        // Query untuk melakukan update data
+//        String query = "UPDATE `tb_databarang` SET `nama_barang` = ?, `harga` = ?, `stok` = ?, `tanggal` = ?, `kategori` = ? "
+//                     + "WHERE `kode_barang` = ?";
+//        PreparedStatement ps = connect.prepareStatement(query);
+//        ps.setString(1, nama);
+//        ps.setString(2, harga);
+//        ps.setString(3, stok);
+//        ps.setString(4, tanggal);
+//        ps.setString(5, kategori);
+//        ps.setString(6, kode);
+//        ps.executeUpdate();
+//        
+//        Notification panel = new Notification(this, Notification.Type.SUCCESS, Notification.Location.CENTER, "Data berhasil diupdate");
+//        panel.showNotification();
+//    } catch (Exception e) {
+//        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+//        e.printStackTrace();
+//    } finally {
+//        // Memuat ulang data setelah update
+//        tampilData();
+//        // Membersihkan input fields setelah update
+//        clear();
+//        
+//       
+//        
+//        // Mengatur nilai tanggal pada JDateChooser setelah edit data
+//        String tanggalString = "";
+//        Date tanggalBaru = null;
+//
+//        if (txt_tanggal.getDate() != null) {
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//            tanggalString = dateFormat.format(txt_tanggal.getDate());
+//            
+//            try {
+//                tanggalBaru = dateFormat.parse(tanggalString);
+//            } catch (ParseException ex) {
+//                ex.printStackTrace();
+//            } catch (Exception ex) {
+//                ex.printStackTrace();
+//            }
+//        }
+//
+//        txt_tanggal.setDate(tanggalBaru);
+//        
+//       
+//    }
+//}
 
 
 
@@ -667,7 +772,6 @@ private void tampilData() {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
-        button5 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         txt_search = new javax.swing.JTextField();
         jButton7 = new javax.swing.JButton();
@@ -727,15 +831,6 @@ private void tampilData() {
         setSize(new java.awt.Dimension(1920, 1080));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-
-        button5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        button5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/reload.png"))); // NOI18N
-        button5.setText("  REFRESH");
-        button5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button5ActionPerformed(evt);
-            }
-        });
 
         jButton3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/chevron.png"))); // NOI18N
@@ -906,9 +1001,7 @@ private void tampilData() {
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(tabel_print)
-                .addGap(26, 26, 26)
-                .addComponent(jButton2)
-                .addGap(32, 32, 32))
+                .addGap(186, 186, 186))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(92, 92, 92)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -919,8 +1012,8 @@ private void tampilData() {
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
                         .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(button5))
+                        .addGap(27, 27, 27)
+                        .addComponent(jButton2))
                     .addComponent(txt_namabarang, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -989,8 +1082,8 @@ private void tampilData() {
                     .addComponent(txt_search, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button5)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -999,9 +1092,7 @@ private void tampilData() {
                         .addComponent(jButton3)
                         .addGap(42, 42, 42))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tabel_print)
-                            .addComponent(jButton2))
+                        .addComponent(tabel_print)
                         .addGap(60, 60, 60))))
         );
 
@@ -1116,14 +1207,6 @@ if (tanggal.matches("\\d{4}-\\d{2}-\\d{2}")) {
         dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void button5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button5ActionPerformed
-        // TODO add your handling code here:
-   tampilData();
-     //dispose();
-   
-
-    }//GEN-LAST:event_button5ActionPerformed
-
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
         cari();
@@ -1220,7 +1303,6 @@ new CRUD_kategori().setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton button5;
     private javax.swing.JButton cmdRegister;
     private javax.swing.JButton cmdRegister1;
     private javax.swing.JButton jButton2;

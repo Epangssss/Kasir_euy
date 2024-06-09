@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report" pageWidth="210" pageHeight="296" columnWidth="170" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="69b386fa-d4ae-4830-b552-1b314c3f38d5">
 	<property name="ireport.zoom" value="3.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="751"/>
+	<property name="ireport.y" value="463"/>
 	<parameter name="total" class="java.lang.String"/>
 	<parameter name="uang" class="java.lang.String"/>
 	<parameter name="kembalian" class="java.lang.String"/>
@@ -93,7 +93,7 @@
 			</textField>
 			<staticText>
 				<reportElement x="0" y="72" width="100" height="20" uuid="12b13bd8-edb4-40f1-ae5e-8d9c7f24e4a9"/>
-				<text><![CDATA[Nama Cs :]]></text>
+				<text><![CDATA[Customer :]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="52" width="100" height="20" uuid="8edc2403-be31-4306-9079-4346e620946e"/>
