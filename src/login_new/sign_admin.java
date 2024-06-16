@@ -200,6 +200,8 @@ private void clearSignUpForm() {
         txt_address = new javax.swing.JTextField();
         btn_signup = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        t_box = new javax.swing.JCheckBox();
+        jLabel5 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -284,10 +286,10 @@ private void clearSignUpForm() {
         txt_address.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         txt_address.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         panelGradiente2.add(txt_address);
-        txt_address.setBounds(140, 300, 260, 60);
+        txt_address.setBounds(140, 310, 260, 60);
 
         btn_signup.setFont(new java.awt.Font("Rockwell", 1, 24)); // NOI18N
-        btn_signup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/mataterbuka.png"))); // NOI18N
+        btn_signup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-sign-up-24.png"))); // NOI18N
         btn_signup.setText("SIGN UP");
         btn_signup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -298,7 +300,7 @@ private void clearSignUpForm() {
         btn_signup.setBounds(570, 300, 200, 50);
 
         jButton3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/chevron.png"))); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-go-back-24.png"))); // NOI18N
         jButton3.setText("  BACK");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -307,6 +309,18 @@ private void clearSignUpForm() {
         });
         panelGradiente2.add(jButton3);
         jButton3.setBounds(110, 430, 114, 32);
+
+        t_box.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                t_boxActionPerformed(evt);
+            }
+        });
+        panelGradiente2.add(t_box);
+        t_box.setBounds(250, 240, 25, 25);
+
+        jLabel5.setText("Show Password");
+        panelGradiente2.add(jLabel5);
+        jLabel5.setBounds(280, 240, 110, 21);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -423,6 +437,16 @@ private void clearSignUpForm() {
         dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void t_boxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_t_boxActionPerformed
+        if (t_box.isSelected()){
+            txt_password.setEchoChar((char)0);
+        }else{
+            txt_password.setEchoChar('*');
+        }
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_t_boxActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -463,6 +487,7 @@ private void clearSignUpForm() {
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -471,6 +496,7 @@ private void clearSignUpForm() {
     private javax.swing.JPanel jPanel5;
     private swing.PanelGradiente panelGradiente1;
     private swing.PanelGradiente panelGradiente2;
+    private javax.swing.JCheckBox t_box;
     private javax.swing.JTextField txt_address;
     private javax.swing.JTextField txt_email;
     private javax.swing.JPasswordField txt_password;

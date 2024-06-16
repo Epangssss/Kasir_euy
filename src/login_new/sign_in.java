@@ -267,6 +267,8 @@ private void loginAdmin() {
         t_box = new javax.swing.JCheckBox();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -294,11 +296,11 @@ private void loginAdmin() {
 
         jLabel1.setText("Username");
         panelGradiente1.add(jLabel1);
-        jLabel1.setBounds(240, 140, 66, 21);
+        jLabel1.setBounds(270, 140, 66, 21);
 
         jLabel2.setText("Password");
         panelGradiente1.add(jLabel2);
-        jLabel2.setBounds(240, 240, 62, 21);
+        jLabel2.setBounds(270, 231, 62, 30);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
         jLabel3.setText("Belum punya akun?");
@@ -361,6 +363,14 @@ private void loginAdmin() {
         jLabel6.setText("Wellcome Admin Kasir Kuy !");
         panelGradiente1.add(jLabel6);
         jLabel6.setBounds(210, 50, 350, 40);
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-username-24.png"))); // NOI18N
+        panelGradiente1.add(jLabel7);
+        jLabel7.setBounds(240, 140, 30, 21);
+
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-password-24.png"))); // NOI18N
+        panelGradiente1.add(jLabel8);
+        jLabel8.setBounds(240, 236, 24, 24);
 
         jPanel1.add(panelGradiente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-60, 0, 660, 600));
 
@@ -564,6 +574,8 @@ if (t_box.isSelected()){
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private swing.PanelGradiente panelGradiente1;
     private javax.swing.JLabel sign_up;

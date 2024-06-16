@@ -228,7 +228,7 @@ private void cari(){
         });
 
         search.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        search.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/find.png"))); // NOI18N
+        search.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-search-24.png"))); // NOI18N
         search.setText("  SEARCH");
         search.setToolTipText("");
         search.addActionListener(new java.awt.event.ActionListener() {
@@ -257,7 +257,7 @@ private void cari(){
         jScrollPane1.setViewportView(table_barang);
 
         refresh.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        refresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/reload.png"))); // NOI18N
+        refresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-refresh-24.png"))); // NOI18N
         refresh.setText("  REFRESH");
         refresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -266,7 +266,7 @@ private void cari(){
         });
 
         back.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/chevron.png"))); // NOI18N
+        back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-go-back-24.png"))); // NOI18N
         back.setText("  BACK");
         back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -455,7 +455,7 @@ if (stok > 0) {
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
         // TODO add your handling code here:
 //     formTransaksi n = new formTransaksi();
-new formTransaksi().setVisible(true);
+new formTransaksiadmin().setVisible(true);
 dispose();
   
 //formTransaksi.setVisible(true);

@@ -187,7 +187,7 @@ private void tampilData(){
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         jButton5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/reload.png"))); // NOI18N
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-refresh-24.png"))); // NOI18N
         jButton5.setText("  REFRESH");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -196,7 +196,7 @@ private void tampilData(){
         });
 
         jButton3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/chevron.png"))); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-go-back-24.png"))); // NOI18N
         jButton3.setText("  BACK");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -212,7 +212,7 @@ private void tampilData(){
         });
 
         jButton7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/find.png"))); // NOI18N
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-search-24.png"))); // NOI18N
         jButton7.setText("  CARI");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -294,9 +294,9 @@ private void tampilData(){
         panelGradiente1.add(T_user);
         T_user.setBounds(110, 100, 50, 32);
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-businessman-80.png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-employee-50.png"))); // NOI18N
         panelGradiente1.add(jLabel5);
-        jLabel5.setBounds(50, 20, 80, 80);
+        jLabel5.setBounds(50, 20, 50, 50);
 
         cmdRegister1.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
         cmdRegister1.setForeground(new java.awt.Color(255, 255, 255));

@@ -350,11 +350,9 @@ private void updateIDs() {
         jLabel13 = new javax.swing.JLabel();
         tgl_daftar = new com.toedter.calendar.JDateChooser();
         jLabel8 = new javax.swing.JLabel();
-        jButton6 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         panelGradiente2 = new swing.PanelGradiente();
         jLabel3 = new javax.swing.JLabel();
-        T_date = new javax.swing.JTextField();
         cmdRegister = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton14 = new javax.swing.JButton();
@@ -362,6 +360,7 @@ private void updateIDs() {
         jButton16 = new javax.swing.JButton();
         jButton17 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
         panelGradiente1 = new swing.PanelGradiente();
         jLabel2 = new javax.swing.JLabel();
         T_user = new javax.swing.JLabel();
@@ -406,7 +405,7 @@ private void updateIDs() {
         jPanel2.setPreferredSize(new java.awt.Dimension(1000, 611));
 
         jButton5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/edit.png"))); // NOI18N
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-edit-24.png"))); // NOI18N
         jButton5.setText("  EDIT");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -415,7 +414,7 @@ private void updateIDs() {
         });
 
         jButton4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/trash-can (1).png"))); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-delete-24.png"))); // NOI18N
         jButton4.setText("  DELETE");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -468,7 +467,7 @@ private void updateIDs() {
         });
 
         jButton1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/plus.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-add-24.png"))); // NOI18N
         jButton1.setText("  ADD");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -477,7 +476,7 @@ private void updateIDs() {
         });
 
         jButton7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/minus.png"))); // NOI18N
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-broom-24.png"))); // NOI18N
         jButton7.setText("  CLEAR");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -519,15 +518,6 @@ private void updateIDs() {
         jLabel8.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel8.setText("Tanggal Pendaftaran");
 
-        jButton6.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/print.png"))); // NOI18N
-        jButton6.setText("  PRINT");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
-
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelGradiente2.setColorPrimario(new java.awt.Color(204, 102, 0));
@@ -536,17 +526,6 @@ private void updateIDs() {
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/135.png"))); // NOI18N
         panelGradiente2.add(jLabel3);
         jLabel3.setBounds(50, 110, 135, 125);
-
-        T_date.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        T_date.setBorder(null);
-        T_date.setEnabled(false);
-        T_date.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                T_dateActionPerformed(evt);
-            }
-        });
-        panelGradiente2.add(T_date);
-        T_date.setBounds(40, 40, 156, 48);
 
         cmdRegister.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
         cmdRegister.setForeground(new java.awt.Color(153, 51, 0));
@@ -559,10 +538,10 @@ private void updateIDs() {
             }
         });
         panelGradiente2.add(cmdRegister);
-        cmdRegister.setBounds(20, 250, 190, 50);
+        cmdRegister.setBounds(40, 250, 170, 50);
 
-        jButton2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/bar-chart.png"))); // NOI18N
+        jButton2.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-data-migration-24.png"))); // NOI18N
         jButton2.setText("  KATEGORI BARANG");
         jButton2.setPreferredSize(new java.awt.Dimension(171, 40));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -571,10 +550,10 @@ private void updateIDs() {
             }
         });
         panelGradiente2.add(jButton2);
-        jButton2.setBounds(30, 380, 171, 50);
+        jButton2.setBounds(40, 350, 171, 50);
 
         jButton14.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/bar-chart.png"))); // NOI18N
+        jButton14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-data-quality-24.png"))); // NOI18N
         jButton14.setText("DATA BARANG");
         jButton14.setPreferredSize(new java.awt.Dimension(171, 40));
         jButton14.addActionListener(new java.awt.event.ActionListener() {
@@ -583,10 +562,10 @@ private void updateIDs() {
             }
         });
         panelGradiente2.add(jButton14);
-        jButton14.setBounds(30, 490, 171, 50);
+        jButton14.setBounds(40, 460, 171, 50);
 
         jButton15.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/bar-chart.png"))); // NOI18N
+        jButton15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-report-24.png"))); // NOI18N
         jButton15.setText("LAPORAN");
         jButton15.setPreferredSize(new java.awt.Dimension(171, 40));
         jButton15.addActionListener(new java.awt.event.ActionListener() {
@@ -595,10 +574,10 @@ private void updateIDs() {
             }
         });
         panelGradiente2.add(jButton15);
-        jButton15.setBounds(30, 600, 171, 50);
+        jButton15.setBounds(40, 570, 171, 50);
 
         jButton16.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/attachment.png"))); // NOI18N
+        jButton16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-history-24.png"))); // NOI18N
         jButton16.setText("  RIWAYAT");
         jButton16.setPreferredSize(new java.awt.Dimension(171, 40));
         jButton16.addActionListener(new java.awt.event.ActionListener() {
@@ -607,10 +586,10 @@ private void updateIDs() {
             }
         });
         panelGradiente2.add(jButton16);
-        jButton16.setBounds(30, 720, 171, 50);
+        jButton16.setBounds(40, 690, 171, 50);
 
         jButton17.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/logout.png"))); // NOI18N
+        jButton17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-go-back-24.png"))); // NOI18N
         jButton17.setText("  LOGOUT");
         jButton17.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -618,10 +597,10 @@ private void updateIDs() {
             }
         });
         panelGradiente2.add(jButton17);
-        jButton17.setBounds(40, 952, 134, 50);
+        jButton17.setBounds(60, 930, 134, 50);
 
         jButton13.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/file.png"))); // NOI18N
+        jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-transaction-24.png"))); // NOI18N
         jButton13.setText("  TRANSAKSI");
         jButton13.setPreferredSize(new java.awt.Dimension(171, 40));
         jButton13.addActionListener(new java.awt.event.ActionListener() {
@@ -630,7 +609,13 @@ private void updateIDs() {
             }
         });
         panelGradiente2.add(jButton13);
-        jButton13.setBounds(30, 820, 170, 48);
+        jButton13.setBounds(40, 810, 170, 50);
+
+        jLabel10.setFont(new java.awt.Font("Serif", 0, 12)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setText("Back To Dashboard");
+        panelGradiente2.add(jLabel10);
+        jLabel10.setBounds(80, 250, 96, 17);
 
         panelGradiente1.setColorPrimario(new java.awt.Color(204, 102, 0));
         panelGradiente1.setColorSecundario(new java.awt.Color(236, 177, 118));
@@ -661,7 +646,7 @@ private void updateIDs() {
             }
         });
         panelGradiente1.add(cmdRegister1);
-        cmdRegister1.setBounds(760, 20, 310, 110);
+        cmdRegister1.setBounds(710, 20, 310, 110);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -669,12 +654,9 @@ private void updateIDs() {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panelGradiente2, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelGradiente2, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(panelGradiente1, javax.swing.GroupLayout.PREFERRED_SIZE, 1790, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(247, 247, 247)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -692,28 +674,32 @@ private void updateIDs() {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(59, 59, 59)
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(534, 534, 534)
-                                .addComponent(jButton6))
+                                .addGap(940, 940, 940))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(14, 14, 14)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txt_password, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txt_username, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                        .addGap(220, 220, 220)
                                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(46, 46, 46)
                                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(44, 44, 44)
-                                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(159, 159, 159))))
+                                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(234, 234, 234)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txt_password, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txt_username, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(449, 449, 449))))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(182, 182, 182)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1318, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1318, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(panelGradiente1, javax.swing.GroupLayout.PREFERRED_SIZE, 1798, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -731,13 +717,11 @@ private void updateIDs() {
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txt_password, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(89, 89, 89)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jButton5)
-                            .addComponent(jButton4)
-                            .addComponent(jButton7)
-                            .addComponent(jButton6)))
+                        .addGap(81, 81, 81)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -753,7 +737,8 @@ private void updateIDs() {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel8)
                         .addGap(9, 9, 9)
-                        .addComponent(tgl_daftar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(tgl_daftar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(41, 41, 41)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(193, 193, 193))
@@ -762,7 +747,7 @@ private void updateIDs() {
                 .addContainerGap())
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 1950, 1170));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 10, 1950, 1170));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -832,22 +817,6 @@ private void updateIDs() {
     private void txt_usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_usernameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_usernameActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-        try{
-            String file = "/report/report_petugas.jasper";
-            JasperPrint print = JasperFillManager.fillReport(getClass().getResourceAsStream(file),null,koneksi.getKoneksi());
-            JasperViewer.viewReport(print, false);
-            
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(rootPane, e);
-        }
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void T_dateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_T_dateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_T_dateActionPerformed
 
     private void cmdRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRegisterActionPerformed
 new Menu_Admin("").setVisible(true);
@@ -936,7 +905,6 @@ new Menu_Admin("").setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField T_date;
     private javax.swing.JLabel T_user;
     private javax.swing.JButton cmdRegister;
     private javax.swing.JButton cmdRegister1;
@@ -949,8 +917,8 @@ new Menu_Admin("").setVisible(true);
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;

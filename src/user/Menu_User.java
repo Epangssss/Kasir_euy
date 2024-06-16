@@ -18,30 +18,171 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import java.sql.*;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 import login_new.sign_in;
 
-public class Menu_User extends javax.swing.JFrame {
 
-    //private javax.swing.JLabel User;
-    //     private javax.swing.JLabel transaksi;
-    //   private JLabel transaksi;
-    public Menu_User() {
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
+public class Menu_User extends javax.swing.JFrame {
+ DefaultTableModel table = new DefaultTableModel();
+
+ 
+   // private JTable tb_riwayat;
+    //private DefaultTableModel table;
+   
+  public Menu_User() {
         initComponents();
         txt_username.setText(sign_in.getKasirName());
-        
-          this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         startTimer();
 
-//        displayDateTime();
-//        startTimer(); 
-//          //txt_user.setText(userName);
-        //displayUserInfo();
-        //  setusername("Default User");
+        // Set model ke JTable
+        tb_riwayatuser.setModel(table);
+
+        // Menambahkan kolom ke model
+        table.addColumn("Tanggal Transaksi");
+        table.addColumn("No Transaksi");
+        table.addColumn("Kode Barang");
+        table.addColumn("Nama Barang");
+        table.addColumn("Harga");
+        table.addColumn("Jumlah");
+        table.addColumn("Total Harga");
+        table.addColumn("Nama Pembeli");
+   
+t_transaksi();
+T_data();
+        // Memanggil metode untuk menampilkan data transaksi
+        tampildatatransaksi();
+        
+        setTableRenderers();
+        
+      
+    }
+  
+  private void t_transaksi() {
+    String query = "SELECT COUNT(*) AS total FROM `transaksi`";
+
+    try {
+        Connection connection = koneksi.getKoneksi(); // memanggil koneksi
+        Statement statement = connection.createStatement(); // membuat statement
+        ResultSet resultSet = statement.executeQuery(query); // menjalankan query
+
+        if (resultSet.next()) {
+            int totalTransaksi = resultSet.getInt("total");
+            t_transaksi.setText("Transaksi : " + totalTransaksi);
+        }
+    } catch (Exception e) {
+        System.out.println(e);
+    }
+}
+
+  private void T_data() {
+    // Query untuk mengambil jumlah barang dari tabel tb_databarang
+    String query = "SELECT COUNT(*) AS jumlah_barang FROM tb_databarang";
+
+    try {
+        Connection connection = koneksi.getKoneksi(); // Memanggil koneksi
+        Statement statement = connection.createStatement(); // Membuat statement
+        ResultSet resultSet = statement.executeQuery(query); // Menjalankan query
+
+        // Mengambil jumlah barang dari hasil query
+        int jumlahBarang = 0;
+        if (resultSet.next()) {
+            jumlahBarang = resultSet.getInt("jumlah_barang");
+            T_data.setText("Barang : " + jumlahBarang);
+        }
+
+        // Menutup statement dan resultSet
+        statement.close();
+        resultSet.close();
+    } catch (Exception e) {
+        System.out.println(e);
+    }
+}
+
+
+
+  
+  private void setTableRenderers() {
+    // Buat instance dari RightAlignedTableCellRenderer
+    DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+    rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+
+    // Buat instance dari CenteredTableCellRenderer untuk isi sel
+    DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+    centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+    // Buat instance dari CenteredTableHeaderRenderer untuk header kolom
+    DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+    headerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+    // Atur renderer untuk header kolom
+    tb_riwayatuser.getTableHeader().setDefaultRenderer(headerRenderer);
+
+    // Atur renderer untuk kolom Harga dan Total Harga
+    tb_riwayatuser.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
+    tb_riwayatuser.getColumnModel().getColumn(6).setCellRenderer(rightRenderer);
+
+    // Atur renderer untuk kolom lainnya agar teks berada di tengah
+    for (int i = 0; i < tb_riwayatuser.getColumnCount(); i++) {
+        if (i != 4 && i != 6) { // Kecuali kolom Harga dan Total Harga
+            tb_riwayatuser.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+    }
+}
+
+  
+     private void tampildatatransaksi() {
+        // Menghapus semua baris dari tabel
+        table.setRowCount(0);
+
+        String query = "SELECT * FROM `transaksi`";
+
+        try {
+            Connection connection = koneksi.getKoneksi(); // memanggil koneksi
+            Statement statement = connection.createStatement(); // membuat statement
+            ResultSet resultSet = statement.executeQuery(query); // menjalankan query
+
+            // Membuat formatter untuk mata uang Rupiah
+            NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
+
+            while (resultSet.next()) {
+                // menampung data sementara
+                String tanggal = resultSet.getString("tgl_transaksi");
+                String kode = resultSet.getString("kode_barang");
+                String nama = resultSet.getString("nama_barang");
+                String harga = resultSet.getString("harga");
+                String jumlah = resultSet.getString("jumlah_barang");
+                String total = resultSet.getString("total_harga");
+                String nomorTransaksi = resultSet.getString("nomor_transaksi");
+                String namaCS = resultSet.getString("namacs");
+
+                // Format harga dan total harga ke dalam format Rupiah
+                String formattedHarga = currencyFormatter.format(Double.parseDouble(harga));
+                String formattedTotal = currencyFormatter.format(Double.parseDouble(total));
+
+                // Masukkan semua data ke dalam array
+                String[] data = {tanggal, nomorTransaksi, kode, nama, formattedHarga, jumlah, formattedTotal, namaCS};
+                // Menambahkan baris sesuai dengan data yang tersimpan di array
+                table.addRow(data);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
+     
+     
+     
+     
     private void startTimer() {
         // Buat objek Timer untuk memperbarui waktu setiap detik
         Timer timer = new Timer(1000, new ActionListener() {
@@ -120,12 +261,12 @@ public class Menu_User extends javax.swing.JFrame {
         txt_username = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tb_riwayat = new javax.swing.JTable();
+        tb_riwayatuser = new javax.swing.JTable();
         panelGradiente5 = new swing.PanelGradiente();
         T_data = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         panelGradiente3 = new swing.PanelGradiente();
-        t_pendapatan1 = new javax.swing.JTextField();
+        t_transaksi = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -170,7 +311,7 @@ public class Menu_User extends javax.swing.JFrame {
         cmdRegister.setBounds(20, 250, 190, 50);
 
         jButton5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/logout.png"))); // NOI18N
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-log-out-24.png"))); // NOI18N
         jButton5.setText("  LOGOUT");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -181,7 +322,7 @@ public class Menu_User extends javax.swing.JFrame {
         jButton5.setBounds(40, 952, 134, 50);
 
         jButton4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/attachment.png"))); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-history-24.png"))); // NOI18N
         jButton4.setText("  RIWAYAT");
         jButton4.setPreferredSize(new java.awt.Dimension(171, 40));
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -193,7 +334,7 @@ public class Menu_User extends javax.swing.JFrame {
         jButton4.setBounds(20, 590, 185, 48);
 
         jButton1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/file.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-transaction-24.png"))); // NOI18N
         jButton1.setText("  TRANSAKSI");
         jButton1.setPreferredSize(new java.awt.Dimension(171, 40));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -205,7 +346,7 @@ public class Menu_User extends javax.swing.JFrame {
         jButton1.setBounds(20, 350, 185, 48);
 
         jButton2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/folder.png"))); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-data-quality-24.png"))); // NOI18N
         jButton2.setText("  DAFTAR MENU");
         jButton2.setPreferredSize(new java.awt.Dimension(171, 40));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -237,9 +378,9 @@ public class Menu_User extends javax.swing.JFrame {
         panelGradiente1.add(jLabel2);
         jLabel2.setBounds(10, 110, 95, 27);
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-businessman-80.png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-employee-50.png"))); // NOI18N
         panelGradiente1.add(jLabel5);
-        jLabel5.setBounds(50, 30, 80, 80);
+        jLabel5.setBounds(50, 30, 50, 50);
 
         txt_username.setFont(new java.awt.Font("Serif", 2, 20)); // NOI18N
         txt_username.setText(".....");
@@ -248,7 +389,7 @@ public class Menu_User extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
-        tb_riwayat.setModel(new javax.swing.table.DefaultTableModel(
+        tb_riwayatuser.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -259,8 +400,8 @@ public class Menu_User extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tb_riwayat.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jScrollPane1.setViewportView(tb_riwayat);
+        tb_riwayatuser.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jScrollPane1.setViewportView(tb_riwayatuser);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -305,17 +446,17 @@ public class Menu_User extends javax.swing.JFrame {
         panelGradiente3.setColorPrimario(new java.awt.Color(102, 51, 0));
         panelGradiente3.setColorSecundario(new java.awt.Color(102, 51, 0));
 
-        t_pendapatan1.setEditable(false);
-        t_pendapatan1.setBackground(new java.awt.Color(255, 255, 255));
-        t_pendapatan1.setFont(new java.awt.Font("Segoe UI", 0, 25)); // NOI18N
-        t_pendapatan1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        t_pendapatan1.setText("0");
-        t_pendapatan1.setBorder(null);
-        t_pendapatan1.setCaretColor(new java.awt.Color(255, 255, 255));
-        t_pendapatan1.setDisabledTextColor(new java.awt.Color(255, 255, 255));
-        t_pendapatan1.setSelectionColor(new java.awt.Color(255, 255, 255));
-        panelGradiente3.add(t_pendapatan1);
-        t_pendapatan1.setBounds(-10, 70, 360, 120);
+        t_transaksi.setEditable(false);
+        t_transaksi.setBackground(new java.awt.Color(255, 255, 255));
+        t_transaksi.setFont(new java.awt.Font("Segoe UI", 0, 25)); // NOI18N
+        t_transaksi.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        t_transaksi.setText("0");
+        t_transaksi.setBorder(null);
+        t_transaksi.setCaretColor(new java.awt.Color(255, 255, 255));
+        t_transaksi.setDisabledTextColor(new java.awt.Color(255, 255, 255));
+        t_transaksi.setSelectionColor(new java.awt.Color(255, 255, 255));
+        panelGradiente3.add(t_transaksi);
+        t_transaksi.setBounds(-10, 70, 360, 120);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 2, 22)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -372,7 +513,8 @@ public class Menu_User extends javax.swing.JFrame {
     }//GEN-LAST:event_T_dateActionPerformed
 
     private void cmdRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRegisterActionPerformed
-        // TODO add your handling code here:
+    
+// TODO add your handling code here:
     }//GEN-LAST:event_cmdRegisterActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -475,8 +617,8 @@ public class Menu_User extends javax.swing.JFrame {
     private swing.PanelGradiente panelGradiente2;
     private swing.PanelGradiente panelGradiente3;
     private swing.PanelGradiente panelGradiente5;
-    private javax.swing.JTextField t_pendapatan1;
-    private javax.swing.JTable tb_riwayat;
+    private javax.swing.JTextField t_transaksi;
+    private javax.swing.JTable tb_riwayatuser;
     private javax.swing.JLabel txt_username;
     // End of variables declaration//GEN-END:variables
 }

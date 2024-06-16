@@ -46,10 +46,6 @@
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
               <Group type="102" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="panelGradiente1" max="32767" attributes="0"/>
-              </Group>
-              <Group type="102" attributes="0">
                   <EmptySpace min="0" pref="137" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
@@ -68,6 +64,7 @@
                   </Group>
                   <EmptySpace min="0" pref="138" max="32767" attributes="0"/>
               </Group>
+              <Component id="panelGradiente1" alignment="1" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -127,7 +124,7 @@
               <Font name="Dialog" size="14" style="1"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/asset/find.png"/>
+              <Image iconType="3" name="/img_new/icons8-search-24.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="  SEARCH"/>
           </Properties>
@@ -149,7 +146,7 @@
               <Font name="Dialog" size="14" style="1"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/asset/chevron.png"/>
+              <Image iconType="3" name="/img_new/icons8-go-back-24.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="  BACK"/>
           </Properties>
@@ -163,7 +160,7 @@
               <Font name="Dialog" size="14" style="1"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/asset/reload.png"/>
+              <Image iconType="3" name="/img_new/icons8-refresh-24.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="  REFRESH"/>
           </Properties>
@@ -177,7 +174,7 @@
               <Font name="Dialog" size="14" style="1"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/asset/print.png"/>
+              <Image iconType="3" name="/img_new/icons8-print-24.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="  PRINT"/>
           </Properties>

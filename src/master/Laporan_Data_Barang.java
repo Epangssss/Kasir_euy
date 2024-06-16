@@ -174,7 +174,6 @@ public double hitungTotalHarga(String tanggalAwal, String tanggalAkhir) {
         cmdRegister1 = new javax.swing.JButton();
         panelGradiente2 = new swing.PanelGradiente();
         jLabel1 = new javax.swing.JLabel();
-        T_date = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
@@ -257,7 +256,7 @@ public double hitungTotalHarga(String tanggalAwal, String tanggalAkhir) {
         jLabel5.setText("Sampai Tanggal");
 
         t_print.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        t_print.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/print.png"))); // NOI18N
+        t_print.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-print-24.png"))); // NOI18N
         t_print.setText("  PRINT");
         t_print.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -368,19 +367,8 @@ public double hitungTotalHarga(String tanggalAwal, String tanggalAkhir) {
         panelGradiente2.add(jLabel1);
         jLabel1.setBounds(50, 110, 135, 125);
 
-        T_date.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        T_date.setBorder(null);
-        T_date.setEnabled(false);
-        T_date.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                T_dateActionPerformed(evt);
-            }
-        });
-        panelGradiente2.add(T_date);
-        T_date.setBounds(40, 40, 156, 48);
-
-        jButton2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/bar-chart.png"))); // NOI18N
+        jButton2.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-data-migration-24.png"))); // NOI18N
         jButton2.setText("  KATEGORI BARANG");
         jButton2.setPreferredSize(new java.awt.Dimension(171, 40));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -392,7 +380,7 @@ public double hitungTotalHarga(String tanggalAwal, String tanggalAkhir) {
         jButton2.setBounds(30, 440, 171, 50);
 
         jButton1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/bar-chart.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-data-quality-24.png"))); // NOI18N
         jButton1.setText("DATA BARANG");
         jButton1.setPreferredSize(new java.awt.Dimension(171, 40));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -404,7 +392,7 @@ public double hitungTotalHarga(String tanggalAwal, String tanggalAkhir) {
         jButton1.setBounds(30, 550, 171, 50);
 
         jButton4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/attachment.png"))); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-history-24.png"))); // NOI18N
         jButton4.setText("  RIWAYAT");
         jButton4.setPreferredSize(new java.awt.Dimension(171, 40));
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -413,7 +401,7 @@ public double hitungTotalHarga(String tanggalAwal, String tanggalAkhir) {
             }
         });
         panelGradiente2.add(jButton4);
-        jButton4.setBounds(30, 670, 171, 50);
+        jButton4.setBounds(30, 660, 171, 50);
 
         jButton8.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/logout.png"))); // NOI18N
@@ -440,7 +428,7 @@ public double hitungTotalHarga(String tanggalAwal, String tanggalAkhir) {
         cmdRegister.setBounds(10, 250, 210, 50);
 
         jButton7.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/file.png"))); // NOI18N
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-data-provider-24.png"))); // NOI18N
         jButton7.setText("  DATA KARYAWAN");
         jButton7.setPreferredSize(new java.awt.Dimension(171, 40));
         jButton7.addActionListener(new java.awt.event.ActionListener() {
@@ -458,7 +446,7 @@ public double hitungTotalHarga(String tanggalAwal, String tanggalAkhir) {
         jLabel7.setBounds(70, 250, 96, 17);
 
         jButton13.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/file.png"))); // NOI18N
+        jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-transaction-24.png"))); // NOI18N
         jButton13.setText("  TRANSAKSI");
         jButton13.setPreferredSize(new java.awt.Dimension(171, 40));
         jButton13.addActionListener(new java.awt.event.ActionListener() {
@@ -467,7 +455,7 @@ public double hitungTotalHarga(String tanggalAwal, String tanggalAkhir) {
             }
         });
         panelGradiente2.add(jButton13);
-        jButton13.setBounds(30, 790, 170, 48);
+        jButton13.setBounds(30, 780, 170, 48);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -811,10 +799,6 @@ if (laporan.equals("Laporan Data Barang") || laporan.equals("Laporan Riwayat Tra
         // TODO add your handling code here:
     }//GEN-LAST:event_cmdRegister1ActionPerformed
 
-    private void T_dateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_T_dateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_T_dateActionPerformed
-
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         new master.akun_karyawan().setVisible(true);
         dispose();        // TODO add your handling code here:
@@ -894,7 +878,6 @@ if (laporan.equals("Laporan Data Barang") || laporan.equals("Laporan Riwayat Tra
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField T_date;
     private javax.swing.JLabel T_user;
     private javax.swing.JComboBox<String> cbo_laporan;
     private javax.swing.JButton cmdRegister;

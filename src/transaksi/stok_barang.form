@@ -111,7 +111,7 @@
               <Font name="Dialog" size="14" style="1"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/asset/find.png"/>
+              <Image iconType="3" name="/img_new/icons8-search-24.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="  SEARCH"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
@@ -127,7 +127,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="table_barang">
+            <Component class="javax.swing.JTable" name="table_barang1">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Times New Roman" size="14" style="0"/>
@@ -142,7 +142,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="table_barangMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="table_barang1MouseClicked"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
@@ -156,7 +156,7 @@
               <Font name="Dialog" size="14" style="1"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/asset/reload.png"/>
+              <Image iconType="3" name="/img_new/icons8-refresh-24.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="  REFRESH"/>
           </Properties>
@@ -170,7 +170,7 @@
               <Font name="Dialog" size="14" style="1"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/asset/chevron.png"/>
+              <Image iconType="3" name="/img_new/icons8-go-back-24.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="  BACK"/>
           </Properties>

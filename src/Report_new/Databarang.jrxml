@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="421" orientation="Landscape" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="24eeaf4b-5efe-44b2-b906-0b4b026078e5">
 	<property name="ireport.zoom" value="1.771561000000001"/>
-	<property name="ireport.x" value="128"/>
+	<property name="ireport.x" value="45"/>
 	<property name="ireport.y" value="0"/>
 	<queryString language="SQL">
 		<![CDATA[select * from tb_databarang]]>
@@ -32,15 +32,15 @@
 			<staticText>
 				<reportElement x="165" y="22" width="251" height="41" uuid="2fb50d77-349e-4b97-9eb6-d94fb030ebfc"/>
 				<textElement textAlignment="Center">
-					<font size="24"/>
+					<font fontName="Times New Roman" size="24" isBold="true" isUnderline="true"/>
 				</textElement>
 				<text><![CDATA[Laporan Data Barang]]></text>
 			</staticText>
 			<line>
-				<reportElement x="24" y="63" width="511" height="1" uuid="39bd4b32-eec2-44f3-b475-3146d40e1232"/>
+				<reportElement x="0" y="75" width="555" height="1" uuid="39bd4b32-eec2-44f3-b475-3146d40e1232"/>
 			</line>
 			<textField pattern="dd MMMMM yyyy">
-				<reportElement x="455" y="67" width="100" height="20" uuid="e1813149-296c-4d0a-8035-5b20135279c6"/>
+				<reportElement x="468" y="55" width="87" height="20" uuid="e1813149-296c-4d0a-8035-5b20135279c6"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>
@@ -157,7 +157,7 @@
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{stok}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="yyyy/MM/dd">
 				<reportElement x="451" y="0" width="94" height="35" uuid="495c6b08-7878-4abc-8061-018253455f17"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{tanggal}]]></textFieldExpression>
@@ -171,6 +171,6 @@
 		<band splitType="Stretch"/>
 	</pageFooter>
 	<summary>
-		<band height="40" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</summary>
 </jasperReport>

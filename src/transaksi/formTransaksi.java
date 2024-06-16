@@ -5,6 +5,7 @@
  */
 package transaksi;
 //import static gui.Transaksi.harga;
+import master.*;
 import Notification.Notification;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
@@ -55,17 +56,14 @@ public class formTransaksi extends javax.swing.JFrame {
     private ResultSet rs;
     private int stokTersedia;
     
-    
+       private J_dialog3 infoDialog;
     
    public formTransaksi() {
     initComponents();
     
     
     
-     txt_karyawan.setText(sign_in.getKasirName());
-     
-     
-     
+    txt_username.setText(sign_in.getKasirName());
     setLocationRelativeTo(null);
     koneksi.getKoneksi();
     this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -102,7 +100,14 @@ public class formTransaksi extends javax.swing.JFrame {
    
    
    
-     
+       private void showInfoDialog() {
+        // Membuat instance J_Informasi
+        infoDialog = new J_dialog3(this, true);
+        
+        // Menampilkan dialog
+        infoDialog.setVisible(true);
+    }
+    
   
 
 
@@ -245,6 +250,129 @@ private void clear(){
     txt_catatan.setText(null);
 }
 
+//
+//private void keranjang() {
+//    String kode = txt_kodebarang2.getText();
+//    String nama = txt_namabarang2.getText();
+//    String harga = txt_harga2.getText();
+//    String jumlah = txt_jumlah2.getText();
+//    String total = txt_totalharga.getText();
+//    String kategori = txt_kategori.getText();
+//    String catatan = txt_catatan.getText();
+//    String no_transaksi = txt_kategori1.getText();
+//    String namacs = txt_namacs.getText();
+//    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//    String tanggal = dateFormat.format(tgl_transaksi.getDate());
+//    totalnya();
+//
+//    Connection connect = koneksi.getKoneksi();
+//    String queryTambahKeranjang = "INSERT INTO tb_keranjang (no_transaksi, kode_barang, nama_barang, kategori, harga, jumlah, total_harga, catatan, tgl_transaksi, namacs) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+//    String queryKurangiStok = "UPDATE tb_databarang SET stok = stok - ? WHERE kode_barang = ?";
+//    String queryUpdateKeranjang = "UPDATE tb_keranjang SET jumlah = jumlah + ?, total_harga = total_harga + ? WHERE no_transaksi = ? AND kode_barang = ?";
+//    String querySelectKeranjang = "SELECT jumlah, total_harga FROM tb_keranjang WHERE no_transaksi = ? AND kode_barang = ?";
+//    String queryCekStok = "SELECT stok FROM tb_databarang WHERE kode_barang = ?";
+//
+//    try {
+//        // Periksa stok yang tersedia
+//        PreparedStatement psCekStok = connect.prepareStatement(queryCekStok);
+//        psCekStok.setString(1, kode);
+//        ResultSet rsStok = psCekStok.executeQuery();
+//
+//        if (rsStok.next()) {
+//            int stokTersedia = rsStok.getInt("stok");
+//            int jumlahBarang = Integer.parseInt(jumlah);
+//
+//            if (jumlahBarang > stokTersedia) {
+//                JOptionPane.showMessageDialog(null, "Stok barang tidak mencukupi");
+//                return; // Keluar dari metode jika stok tidak mencukupi
+//            }
+//        }
+//
+//        // Periksa apakah barang sudah ada di keranjang
+//        PreparedStatement psSelect = connect.prepareStatement(querySelectKeranjang);
+//        psSelect.setString(1, no_transaksi);
+//        psSelect.setString(2, kode);
+//        ResultSet rs = psSelect.executeQuery();
+//
+//        if (rs.next()) {
+//            // Barang sudah ada di keranjang, perbarui jumlah dan total harga
+//            int jumlahExisting = rs.getInt("jumlah");
+//            int totalExisting = rs.getInt("total_harga");
+//
+//            if (jumlahExisting + Integer.parseInt(jumlah) > stokTersedia) {
+//                JOptionPane.showMessageDialog(null, "Stok barang tidak mencukupi untuk jumlah yang diinginkan");
+//                return; // Keluar dari metode jika stok tidak mencukupi
+//            }
+//
+//            PreparedStatement psUpdate = connect.prepareStatement(queryUpdateKeranjang);
+//            psUpdate.setInt(1, Integer.parseInt(jumlah));
+//            psUpdate.setInt(2, Integer.parseInt(total));
+//            psUpdate.setString(3, no_transaksi);
+//            psUpdate.setString(4, kode);
+//            psUpdate.executeUpdate();
+//
+//            // Kurangi stok barang
+//            PreparedStatement psStok = connect.prepareStatement(queryKurangiStok);
+//            psStok.setString(1, jumlah);
+//            psStok.setString(2, kode);
+//            psStok.executeUpdate();
+//
+//            JOptionPane.showMessageDialog(null, "Data di Keranjang Diperbarui dan Disimpan ke Database");
+//
+//            // Perbarui tampilan tabel keranjang
+//            DefaultTableModel model = (DefaultTableModel) tb_keranjang.getModel();
+//            for (int i = 0; i < model.getRowCount(); i++) {
+//                if (model.getValueAt(i, 1).equals(kode)) {
+//                    int jumlahBaru = jumlahExisting + Integer.parseInt(jumlah);
+//                    int totalBaru = totalExisting + Integer.parseInt(total);
+//                    model.setValueAt(jumlahBaru, i, 4); // Kolom jumlah
+//                    model.setValueAt(totalBaru, i, 5);  // Kolom total harga
+//                    break;
+//                }
+//            }
+//
+//        } else {
+//            // Barang belum ada di keranjang, tambahkan sebagai item baru
+//            PreparedStatement psKeranjang = connect.prepareStatement(queryTambahKeranjang);
+//            psKeranjang.setString(1, no_transaksi);
+//            psKeranjang.setString(2, kode);
+//            psKeranjang.setString(3, nama);
+//            psKeranjang.setString(4, kategori);
+//            psKeranjang.setString(5, harga);
+//            psKeranjang.setString(6, jumlah);
+//            psKeranjang.setString(7, total);
+//            psKeranjang.setString(8, catatan);
+//            psKeranjang.setString(9, tanggal);
+//            psKeranjang.setString(10, namacs);
+//
+//            int rowsAffected = psKeranjang.executeUpdate();
+//
+//            if (rowsAffected > 0) {
+//                // Kurangi stok barang
+//                PreparedStatement psStok = connect.prepareStatement(queryKurangiStok);
+//                psStok.setString(1, jumlah);
+//                psStok.setString(2, kode);
+//                psStok.executeUpdate();
+//
+//                JOptionPane.showMessageDialog(null, "Data Masuk Ke Keranjang dan Disimpan ke Database");
+//
+//                DefaultTableModel model = (DefaultTableModel) tb_keranjang.getModel();
+//                model.addRow(new Object[]{no_transaksi, kode, nama, harga, jumlah, total, kategori, catatan, namacs});
+//
+//            } else {
+//                JOptionPane.showMessageDialog(null, "Gagal menyimpan data ke keranjang");
+//            }
+//        }
+//
+//        // Perbarui total harga keseluruhan di txt_totalharga2
+//        int totalHarga = Integer.parseInt(txt_totalharga2.getText());
+//        totalHarga += Integer.parseInt(total);
+//        txt_totalharga2.setText(Integer.toString(totalHarga));
+//
+//    } catch (SQLException ex) {
+//        Logger.getLogger(formTransaksiadmin.class.getName()).log(Level.SEVERE, null, ex);
+//    }
+//}
 
 private void keranjang() {
     String kode = txt_kodebarang2.getText();
@@ -265,24 +393,8 @@ private void keranjang() {
     String queryKurangiStok = "UPDATE tb_databarang SET stok = stok - ? WHERE kode_barang = ?";
     String queryUpdateKeranjang = "UPDATE tb_keranjang SET jumlah = jumlah + ?, total_harga = total_harga + ? WHERE no_transaksi = ? AND kode_barang = ?";
     String querySelectKeranjang = "SELECT jumlah, total_harga FROM tb_keranjang WHERE no_transaksi = ? AND kode_barang = ?";
-    String queryCekStok = "SELECT stok FROM tb_databarang WHERE kode_barang = ?";
 
     try {
-        // Periksa stok yang tersedia
-        PreparedStatement psCekStok = connect.prepareStatement(queryCekStok);
-        psCekStok.setString(1, kode);
-        ResultSet rsStok = psCekStok.executeQuery();
-
-        if (rsStok.next()) {
-            int stokTersedia = rsStok.getInt("stok");
-            int jumlahBarang = Integer.parseInt(jumlah);
-
-            if (jumlahBarang > stokTersedia) {
-                JOptionPane.showMessageDialog(null, "Stok barang tidak mencukupi");
-                return; // Keluar dari metode jika stok tidak mencukupi
-            }
-        }
-
         // Periksa apakah barang sudah ada di keranjang
         PreparedStatement psSelect = connect.prepareStatement(querySelectKeranjang);
         psSelect.setString(1, no_transaksi);
@@ -293,11 +405,6 @@ private void keranjang() {
             // Barang sudah ada di keranjang, perbarui jumlah dan total harga
             int jumlahExisting = rs.getInt("jumlah");
             int totalExisting = rs.getInt("total_harga");
-
-            if (jumlahExisting + Integer.parseInt(jumlah) > stokTersedia) {
-                JOptionPane.showMessageDialog(null, "Stok barang tidak mencukupi untuk jumlah yang diinginkan");
-                return; // Keluar dari metode jika stok tidak mencukupi
-            }
 
             PreparedStatement psUpdate = connect.prepareStatement(queryUpdateKeranjang);
             psUpdate.setInt(1, Integer.parseInt(jumlah));
@@ -368,8 +475,6 @@ private void keranjang() {
         Logger.getLogger(formTransaksi.class.getName()).log(Level.SEVERE, null, ex);
     }
 }
-
-
 //
 //private void keranjang() {
 //    String kode = txt_kodebarang2.getText();
@@ -431,7 +536,7 @@ private void keranjang() {
 //            JOptionPane.showMessageDialog(null, "Gagal menyimpan data ke keranjang");
 //        }
 //    } catch (SQLException ex) {
-//        Logger.getLogger(formTransaksi.class.getName()).log(Level.SEVERE, null, ex);
+//        Logger.getLogger(formTransaksiadmin.class.getName()).log(Level.SEVERE, null, ex);
 //    }
 //}
 
@@ -478,6 +583,26 @@ private int grandTotal = 0; // Deklarasikan variabel grandTotal di luar metode t
     }
 }
 
+ 
+private int getStokFromDatabase(String kodeBarang) {
+    int stok = 0;
+    try {
+        Connection connection = koneksi.getKoneksi();
+        String queryGetStok = "SELECT stok FROM tb_databarang WHERE kode_barang = ?";
+        PreparedStatement psGetStok = connection.prepareStatement(queryGetStok);
+        psGetStok.setString(1, kodeBarang);
+        ResultSet rs = psGetStok.executeQuery();
+        if (rs.next()) {
+            stok = rs.getInt("stok");
+        } else {
+            System.out.println("Data stok tidak ditemukan untuk kode barang: " + kodeBarang);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return stok;
+}
+
 
 private void total() {
     String harga = txt_harga2.getText();
@@ -486,14 +611,48 @@ private void total() {
     try {
         int hargaa = Integer.parseInt(harga);
         int jumlahh = Integer.parseInt(jumlah);
+
+        // Mendapatkan kode barang dari input pengguna
+        String kodeBarang = txt_kodebarang2.getText(); // Misalnya, txt_kodeBarang adalah JTextField untuk kode barang
+
+        // Memeriksa apakah jumlah yang dimasukkan melebihi stok
+        int stok = getStokFromDatabase(kodeBarang); // Mendapatkan nilai stok dari database tb_databarang
+        if (jumlahh > stok) {
+            JOptionPane.showMessageDialog(null, "Jumlah yang dimasukkan melebihi stok yang tersedia! Stok saat ini: " + stok);
+            txt_jumlah2.setText(""); // Mengosongkan JTextField txt_jumlah2
+            return; // Keluar dari metode jika jumlah melebihi stok
+        }
+
         int total = hargaa * jumlahh;
         txt_totalharga.setText(Integer.toString(total));
     } catch (NumberFormatException e) {
+        if (jumlah.equals("")) { // Jika JTextField txt_jumlah2 kosong
+         //   JOptionPane.showMessageDialog(null, "Only Number");
+        }
         txt_totalharga.setText("");
-        JOptionPane.showMessageDialog(null, "Only Number");
-        txt_jumlah2.setText(null);
+        txt_jumlah2.setText("");
     }
 }
+
+
+
+
+
+//private void total() {
+//    String harga = txt_harga2.getText();
+//    String jumlah = txt_jumlah2.getText();
+//
+//    try {
+//        int hargaa = Integer.parseInt(harga);
+//        int jumlahh = Integer.parseInt(jumlah);
+//        int total = hargaa * jumlahh;
+//        txt_totalharga.setText(Integer.toString(total));
+//    } catch (NumberFormatException e) {
+//        txt_totalharga.setText("");
+//        JOptionPane.showMessageDialog(null, "Only Number");
+//        txt_jumlah2.setText(null);
+//    }
+//}
     
     private void reset(){
         txt_uang.setText(null);
@@ -689,7 +848,7 @@ private void pembayaran() {
 //            JOptionPane.showMessageDialog(null, "Gagal melakukan pembayaran.");
 //        }
 //    } catch (SQLException ex) {
-//        Logger.getLogger(formTransaksi.class.getName()).log(Level.SEVERE, null, ex);
+//        Logger.getLogger(formTransaksiadmin.class.getName()).log(Level.SEVERE, null, ex);
 //    }
 //}
 
@@ -719,7 +878,7 @@ private void pembayaran() {
 //            JOptionPane.showMessageDialog(null, "Gagal melakukan pembayaran.");
 //        }
 //    } catch (SQLException ex) {
-//        Logger.getLogger(formTransaksi.class.getName()).log(Level.SEVERE, null, ex);
+//        Logger.getLogger(formTransaksiadmin.class.getName()).log(Level.SEVERE, null, ex);
 //    }
 //}
 
@@ -946,6 +1105,10 @@ private String getKodeBarangFromDatabase(String inputKodeBarang) {
     
     return kodeBarang;
 }
+
+
+
+
 //       
 //   private String kasirName;
 //
@@ -1042,18 +1205,11 @@ private String getKodeBarangFromDatabase(String inputKodeBarang) {
         panel_lembaga = new javax.swing.JPanel();
         panelGradiente1 = new swing.PanelGradiente();
         cmdRegister1 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        txt_username = new javax.swing.JLabel();
         tgl_transaksi = new com.toedter.calendar.JDateChooser();
-        panelGradiente2 = new swing.PanelGradiente();
-        jLabel1 = new javax.swing.JLabel();
-        T_date = new javax.swing.JTextField();
-        cmdRegister = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txt_username = new javax.swing.JLabel();
+        J_petunjuk = new javax.swing.JButton();
         kategori = new javax.swing.JLabel();
         txt_kodebarang2 = new javax.swing.JTextField();
         txt_cari = new javax.swing.JButton();
@@ -1092,6 +1248,14 @@ private String getKodeBarangFromDatabase(String inputKodeBarang) {
         txt_uang = new javax.swing.JTextField();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
+        panelGradiente2 = new swing.PanelGradiente();
+        jLabel1 = new javax.swing.JLabel();
+        cmdRegister = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        T_jumlah3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1926, 1142));
@@ -1115,103 +1279,38 @@ private String getKodeBarangFromDatabase(String inputKodeBarang) {
         panelGradiente1.add(cmdRegister1);
         cmdRegister1.setBounds(770, 20, 270, 110);
 
-        jLabel2.setFont(new java.awt.Font("Serif", 2, 20)); // NOI18N
-        jLabel2.setText("Karyawan :");
-        panelGradiente1.add(jLabel2);
-        jLabel2.setBounds(10, 110, 95, 27);
-
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-businessman-80.png"))); // NOI18N
-        panelGradiente1.add(jLabel5);
-        jLabel5.setBounds(50, 30, 80, 80);
-
-        txt_username.setFont(new java.awt.Font("Serif", 2, 20)); // NOI18N
-        txt_username.setText(".....");
-        panelGradiente1.add(txt_username);
-        txt_username.setBounds(120, 110, 25, 27);
-
         tgl_transaksi.setDateFormatString("dd-MM-yyyy");
         tgl_transaksi.setEnabled(false);
         tgl_transaksi.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         panelGradiente1.add(tgl_transaksi);
         tgl_transaksi.setBounds(1480, 110, 201, 29);
 
-        panelGradiente2.setColorPrimario(new java.awt.Color(204, 102, 0));
-        panelGradiente2.setColorSecundario(new java.awt.Color(236, 177, 118));
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-employee-50.png"))); // NOI18N
+        panelGradiente1.add(jLabel5);
+        jLabel5.setBounds(50, 30, 50, 50);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/135.png"))); // NOI18N
-        panelGradiente2.add(jLabel1);
-        jLabel1.setBounds(50, 110, 135, 125);
+        jLabel2.setFont(new java.awt.Font("Serif", 2, 20)); // NOI18N
+        jLabel2.setText("Karyawan :");
+        panelGradiente1.add(jLabel2);
+        jLabel2.setBounds(10, 110, 95, 27);
 
-        T_date.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        T_date.setBorder(null);
-        T_date.setEnabled(false);
-        T_date.addActionListener(new java.awt.event.ActionListener() {
+        txt_username.setFont(new java.awt.Font("Serif", 2, 20)); // NOI18N
+        txt_username.setText(".....");
+        panelGradiente1.add(txt_username);
+        txt_username.setBounds(120, 110, 25, 27);
+
+        J_petunjuk.setFont(new java.awt.Font("sansserif", 1, 16)); // NOI18N
+        J_petunjuk.setForeground(new java.awt.Color(255, 255, 255));
+        J_petunjuk.setText("Petunjuk");
+        J_petunjuk.setContentAreaFilled(false);
+        J_petunjuk.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        J_petunjuk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                T_dateActionPerformed(evt);
+                J_petunjukActionPerformed(evt);
             }
         });
-        panelGradiente2.add(T_date);
-        T_date.setBounds(40, 40, 156, 48);
-
-        cmdRegister.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
-        cmdRegister.setForeground(new java.awt.Color(255, 255, 255));
-        cmdRegister.setText("Dashboard");
-        cmdRegister.setContentAreaFilled(false);
-        cmdRegister.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        cmdRegister.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdRegisterActionPerformed(evt);
-            }
-        });
-        panelGradiente2.add(cmdRegister);
-        cmdRegister.setBounds(20, 250, 190, 50);
-
-        jButton5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/logout.png"))); // NOI18N
-        jButton5.setText("  LOGOUT");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-        panelGradiente2.add(jButton5);
-        jButton5.setBounds(40, 952, 134, 50);
-
-        jButton4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/attachment.png"))); // NOI18N
-        jButton4.setText("  RIWAYAT");
-        jButton4.setPreferredSize(new java.awt.Dimension(171, 40));
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-        panelGradiente2.add(jButton4);
-        jButton4.setBounds(20, 590, 185, 48);
-
-        jButton1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/file.png"))); // NOI18N
-        jButton1.setText("  TRANSAKSI");
-        jButton1.setPreferredSize(new java.awt.Dimension(171, 40));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        panelGradiente2.add(jButton1);
-        jButton1.setBounds(20, 350, 185, 48);
-
-        jButton2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/folder.png"))); // NOI18N
-        jButton2.setText("  DAFTAR MENU");
-        jButton2.setPreferredSize(new java.awt.Dimension(171, 40));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        panelGradiente2.add(jButton2);
-        jButton2.setBounds(20, 470, 185, 48);
+        panelGradiente1.add(J_petunjuk);
+        J_petunjuk.setBounds(1500, 60, 160, 40);
 
         kategori.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         kategori.setText("kode barang");
@@ -1230,7 +1329,7 @@ private String getKodeBarangFromDatabase(String inputKodeBarang) {
         });
 
         txt_cari.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        txt_cari.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/find.png"))); // NOI18N
+        txt_cari.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-search-24.png"))); // NOI18N
         txt_cari.setText("  SEARCH DATA");
         txt_cari.setToolTipText("");
         txt_cari.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1380,9 +1479,8 @@ private String getKodeBarangFromDatabase(String inputKodeBarang) {
         T_total.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         T_total.setText("Total Harga");
 
-        jButton6.setBackground(new java.awt.Color(51, 255, 51));
         jButton6.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/che2ck.png"))); // NOI18N
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-add-24.png"))); // NOI18N
         jButton6.setText("  ADD");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1391,7 +1489,7 @@ private String getKodeBarangFromDatabase(String inputKodeBarang) {
         });
 
         jButton7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/trash-can (1).png"))); // NOI18N
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-delete-24.png"))); // NOI18N
         jButton7.setText("  DELETE");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1407,7 +1505,7 @@ private String getKodeBarangFromDatabase(String inputKodeBarang) {
         t_total.setText("Grand Total");
 
         jButton8.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/refresh.png"))); // NOI18N
+        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-reset-24.png"))); // NOI18N
         jButton8.setText("  RESET");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1452,7 +1550,7 @@ private String getKodeBarangFromDatabase(String inputKodeBarang) {
         jScrollPane1.setViewportView(tb_keranjang);
 
         jButton3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/print.png"))); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-print-24.png"))); // NOI18N
         jButton3.setText("  PRINT");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1498,7 +1596,7 @@ private String getKodeBarangFromDatabase(String inputKodeBarang) {
         });
 
         jButton9.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/credit-card.png"))); // NOI18N
+        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-payment-24.png"))); // NOI18N
         jButton9.setText("  PAYMENT");
         jButton9.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1512,7 +1610,7 @@ private String getKodeBarangFromDatabase(String inputKodeBarang) {
         });
 
         jButton10.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/edit.png"))); // NOI18N
+        jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-edit-24.png"))); // NOI18N
         jButton10.setText("  EDIT");
         jButton10.setPreferredSize(new java.awt.Dimension(117, 40));
         jButton10.addActionListener(new java.awt.event.ActionListener() {
@@ -1521,65 +1619,125 @@ private String getKodeBarangFromDatabase(String inputKodeBarang) {
             }
         });
 
+        panelGradiente2.setColorPrimario(new java.awt.Color(204, 102, 0));
+        panelGradiente2.setColorSecundario(new java.awt.Color(236, 177, 118));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/135.png"))); // NOI18N
+        panelGradiente2.add(jLabel1);
+        jLabel1.setBounds(50, 110, 135, 125);
+
+        cmdRegister.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
+        cmdRegister.setForeground(new java.awt.Color(153, 51, 0));
+        cmdRegister.setText("Dashboard");
+        cmdRegister.setContentAreaFilled(false);
+        cmdRegister.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cmdRegister.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdRegisterActionPerformed(evt);
+            }
+        });
+        panelGradiente2.add(cmdRegister);
+        cmdRegister.setBounds(20, 250, 190, 50);
+
+        jButton12.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-go-back-24.png"))); // NOI18N
+        jButton12.setText("  LOGOUT");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+        panelGradiente2.add(jButton12);
+        jButton12.setBounds(50, 940, 134, 50);
+
+        jLabel8.setFont(new java.awt.Font("Serif", 0, 12)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Back To Dashboard");
+        panelGradiente2.add(jLabel8);
+        jLabel8.setBounds(70, 250, 96, 17);
+
+        jButton2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-data-quality-24.png"))); // NOI18N
+        jButton2.setText("  DAFTAR MENU");
+        jButton2.setPreferredSize(new java.awt.Dimension(171, 40));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        panelGradiente2.add(jButton2);
+        jButton2.setBounds(30, 380, 185, 48);
+
+        jButton4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-history-24.png"))); // NOI18N
+        jButton4.setText("  RIWAYAT");
+        jButton4.setPreferredSize(new java.awt.Dimension(171, 40));
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        panelGradiente2.add(jButton4);
+        jButton4.setBounds(30, 520, 185, 48);
+
+        T_jumlah3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        T_jumlah3.setText("Stok barang");
+
         javax.swing.GroupLayout panel_lembagaLayout = new javax.swing.GroupLayout(panel_lembaga);
         panel_lembaga.setLayout(panel_lembagaLayout);
         panel_lembagaLayout.setHorizontalGroup(
             panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createSequentialGroup()
-                .addGap(0, 4, Short.MAX_VALUE)
-                .addComponent(panelGradiente2, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addComponent(panelGradiente2, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
+                .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelGradiente1, javax.swing.GroupLayout.PREFERRED_SIZE, 1689, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panel_lembagaLayout.createSequentialGroup()
-                        .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panel_lembagaLayout.createSequentialGroup()
-                                .addGap(129, 129, 129)
-                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createSequentialGroup()
-                                    .addGap(513, 513, 513)
-                                    .addComponent(kategori)
-                                    .addGap(300, 300, 300))
-                                .addGroup(panel_lembagaLayout.createSequentialGroup()
-                                    .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(panel_lembagaLayout.createSequentialGroup()
-                                            .addGap(82, 82, 82)
-                                            .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(txt_karyawan, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(txt_kategori1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(No_transaksi)
-                                                    .addComponent(kategori1)
-                                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(txt_kategori, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                            .addComponent(txt_jumlah2)
-                                                            .addComponent(txt_namacs, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                            .addComponent(T_jumlah1)
-                                                            .addComponent(T_jumlah))))
-                                                .addComponent(T_jumlah2))
-                                            .addGap(93, 93, 93))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createSequentialGroup()
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(txt_cari)
-                                            .addGap(61, 61, 61)))
-                                    .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(T_total)
-                                            .addComponent(txt_namabarang2, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
-                                            .addComponent(T_namabarang)
-                                            .addComponent(txt_harga2, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
-                                            .addComponent(T_harga)
-                                            .addComponent(txt_totalharga, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
-                                            .addComponent(txt_kodebarang2))
+                        .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panel_lembagaLayout.createSequentialGroup()
+                                .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panel_lembagaLayout.createSequentialGroup()
+                                        .addGap(82, 82, 82)
                                         .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createSequentialGroup()
-                                                .addGap(129, 129, 129)
-                                                .addComponent(catatan, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(151, 151, 151))
-                                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGap(131, 131, 131))))
+                                            .addComponent(txt_karyawan, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(txt_kategori1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(No_transaksi)
+                                                .addComponent(kategori1)
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(txt_kategori, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                        .addComponent(txt_jumlah2)
+                                                        .addComponent(txt_namacs, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(T_jumlah1)
+                                                        .addComponent(T_jumlah))
+                                                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(T_jumlah2))
+                                        .addGap(93, 93, 93))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createSequentialGroup()
+                                        .addComponent(txt_cari)
+                                        .addGap(107, 107, 107)))
+                                .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(T_total)
+                                        .addComponent(txt_namabarang2, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                                        .addComponent(T_namabarang)
+                                        .addComponent(txt_harga2, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                                        .addComponent(T_harga)
+                                        .addComponent(txt_totalharga, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                                        .addComponent(txt_kodebarang2))
+                                    .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createSequentialGroup()
+                                            .addGap(129, 129, 129)
+                                            .addComponent(catatan, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(151, 151, 151))
+                                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panel_lembagaLayout.createSequentialGroup()
+                                .addGap(189, 189, 189)
+                                .addComponent(T_jumlah3)
+                                .addGap(236, 236, 236)
+                                .addComponent(kategori)))
+                        .addGap(131, 131, 131)
                         .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createSequentialGroup()
                                 .addComponent(t_total, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1588,117 +1746,118 @@ private String getKodeBarangFromDatabase(String inputKodeBarang) {
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 743, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(45, 45, 45))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createSequentialGroup()
+                                .addComponent(txt_totalharga2, javax.swing.GroupLayout.PREFERRED_SIZE, 694, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(69, 69, 69))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createSequentialGroup()
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(177, 177, 177))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createSequentialGroup()
                                 .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addGap(40, 40, 40)
+                                .addComponent(jButton7)
+                                .addGap(42, 42, 42)
+                                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(33, 33, 33)
+                                .addComponent(jButton3)
+                                .addGap(85, 85, 85))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createSequentialGroup()
                                 .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txt_uang, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txt_kembalian, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(panel_lembagaLayout.createSequentialGroup()
-                                        .addGap(16, 16, 16)
-                                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jButton7)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jButton3)))
-                                .addGap(171, 171, 171))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createSequentialGroup()
-                                .addComponent(txt_totalharga2, javax.swing.GroupLayout.PREFERRED_SIZE, 694, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(69, 69, 69))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createSequentialGroup()
-                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(177, 177, 177))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(277, 277, 277))))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createSequentialGroup()
+                                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(106, 106, 106)))
+                                .addGap(172, 172, 172))))))
         );
         panel_lembagaLayout.setVerticalGroup(
             panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_lembagaLayout.createSequentialGroup()
-                .addComponent(panelGradiente1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panel_lembagaLayout.createSequentialGroup()
-                        .addGap(58, 58, 58)
-                        .addComponent(t_total)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_totalharga2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)
-                        .addComponent(jLabel9)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39)
-                        .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(panel_lembagaLayout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addComponent(kategori)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_kodebarang2)
-                            .addComponent(txt_cari))
-                        .addGap(18, 18, 18)
-                        .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(T_jumlah2)
-                            .addComponent(T_harga))
-                        .addGap(6, 6, 6)
-                        .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_harga2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_karyawan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(T_namabarang)
-                            .addComponent(No_transaksi))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_namabarang2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_kategori1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(30, 30, 30)
-                        .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(kategori1)
-                            .addComponent(T_total))
+                        .addComponent(panelGradiente1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panel_lembagaLayout.createSequentialGroup()
+                                .addGap(47, 47, 47)
+                                .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(kategori)
+                                    .addComponent(T_jumlah3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txt_cari)
+                                    .addComponent(txt_kodebarang2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(T_jumlah2)
+                                    .addComponent(T_harga))
                                 .addGap(6, 6, 6)
-                                .addComponent(txt_kategori, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panel_lembagaLayout.createSequentialGroup()
+                                .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txt_harga2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_karyawan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(T_namabarang)
+                                    .addComponent(No_transaksi))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txt_namabarang2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_kategori1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(30, 30, 30)
+                                .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(kategori1)
+                                    .addComponent(T_total))
+                                .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panel_lembagaLayout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(txt_kategori, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(panel_lembagaLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txt_totalharga, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(12, 12, 12)
+                                .addComponent(T_jumlah1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txt_totalharga, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(12, 12, 12)
-                        .addComponent(T_jumlah1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panel_lembagaLayout.createSequentialGroup()
+                                        .addComponent(catatan)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(panel_lembagaLayout.createSequentialGroup()
+                                        .addComponent(txt_jumlah2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(39, 39, 39)
+                                        .addComponent(T_jumlah)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txt_namacs, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(29, 29, 29)
+                                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(panel_lembagaLayout.createSequentialGroup()
-                                .addComponent(txt_jumlah2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(65, 65, 65)
-                                .addComponent(T_jumlah)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txt_namacs, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panel_lembagaLayout.createSequentialGroup()
-                                .addComponent(catatan)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panel_lembagaLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel7)
-                        .addGap(12, 12, 12)
-                        .addComponent(txt_kembalian, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33)
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_uang, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_lembagaLayout.createSequentialGroup()
-                        .addGap(96, 96, 96)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(57, Short.MAX_VALUE))
-            .addComponent(panelGradiente2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(58, 58, 58)
+                                .addComponent(t_total)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txt_totalharga2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(32, 32, 32)
+                                .addComponent(jLabel9)
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(39, 39, 39)
+                                .addGroup(panel_lembagaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel7)
+                                .addGap(12, 12, 12)
+                                .addComponent(txt_kembalian, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(33, 33, 33)
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txt_uang, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(panelGradiente2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         getContentPane().add(panel_lembaga);
@@ -1913,7 +2072,8 @@ int baris = tb_keranjang.getSelectedRow();
     }//GEN-LAST:event_txt_karyawanActionPerformed
 
     private void txt_jumlah2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_jumlah2KeyTyped
-        // TODO add your handling code here:
+  
+// TODO add your handling code here:
     }//GEN-LAST:event_txt_jumlah2KeyTyped
 
     private void txt_jumlah2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_jumlah2KeyReleased
@@ -1971,40 +2131,6 @@ int baris = tb_keranjang.getSelectedRow();
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_kodebarang2ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        new transaksi.daftar_menu().setVisible(true);
-        dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        new formTransaksi().setVisible(true);
-        dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-        //new ().setVisible(true);
-        dispose();
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-        //  new login.menu_login().setVisible(true);
-
-        new login_new.sign_in().setVisible(true);
-        dispose();
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void cmdRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRegisterActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmdRegisterActionPerformed
-
-    private void T_dateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_T_dateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_T_dateActionPerformed
-
     private void cmdRegister1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRegister1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmdRegister1ActionPerformed
@@ -2013,6 +2139,39 @@ int baris = tb_keranjang.getSelectedRow();
         // TODO add your handling code here:
         editData();
     }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void cmdRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRegisterActionPerformed
+new Menu_User().setVisible(true);
+        dispose(); 
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmdRegisterActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        // TODO add your handling code here:
+        //  new login.menu_login().setVisible(true);
+
+        new login_new.sign_in().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        new transaksi.daftar_menu().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        new user.riwayat_transaksi().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void J_petunjukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J_petunjukActionPerformed
+        showInfoDialog();
+
+        // Menampilkan dialog
+        // TODO add your handling code here:
+    }//GEN-LAST:event_J_petunjukActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2041,6 +2200,12 @@ int baris = tb_keranjang.getSelectedRow();
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -2053,23 +2218,23 @@ int baris = tb_keranjang.getSelectedRow();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton J_petunjuk;
     private javax.swing.JLabel No_transaksi;
-    private javax.swing.JTextField T_date;
     private javax.swing.JLabel T_harga;
     private javax.swing.JLabel T_jumlah;
     private javax.swing.JLabel T_jumlah1;
     private javax.swing.JLabel T_jumlah2;
+    private javax.swing.JLabel T_jumlah3;
     private javax.swing.JLabel T_namabarang;
     private javax.swing.JLabel T_total;
     private javax.swing.JLabel catatan;
     private javax.swing.JButton cmdRegister;
     private javax.swing.JButton cmdRegister1;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
@@ -2079,6 +2244,7 @@ int baris = tb_keranjang.getSelectedRow();
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

@@ -6,6 +6,7 @@
 package transaksi;
 //import static gui.FormUtama.user;
 
+import master.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,7 +33,7 @@ public class stok_barang extends javax.swing.JDialog {
     koneksi conn = new koneksi();
     koneksi.getKoneksi();
     
-    table_barang.setModel(table);
+    table_barang1.setModel(table);
     table.addColumn("Kode Barang");
     table.addColumn("Nama Barang");
     table.addColumn("Harga");
@@ -42,8 +43,10 @@ public class stok_barang extends javax.swing.JDialog {
     tampilData();
 }
 
-private void tampilData() {
-    DefaultTableModel model = (DefaultTableModel) table_barang.getModel();
+  
+  
+  private void tampilData() {
+    DefaultTableModel model = (DefaultTableModel) table_barang1.getModel();
     model.setRowCount(0);
 
     String query = "SELECT * FROM tb_databarang";
@@ -60,22 +63,65 @@ private void tampilData() {
             int stok = resultSet.getInt("stok");
             String kategori = resultSet.getString("Kategori");
 
-            // Mengubah tampilan stok menjadi "0" jika stok habis
-            String tampilanStok = (stok > 0) ? String.valueOf(stok) : "0";
-
-            // Menambahkan pesan stok habis saat stok = 0
+            // Menentukan tampilan stok
+            String tampilanStok;
             if (stok == 0) {
                 tampilanStok = "Stok Habis";
+            } else if (stok > 0) {
+                tampilanStok = String.valueOf(stok);
+            } else {
+                // Stok negatif, tampilkan pesan kesalahan dan lewati penambahan ke tabel
+                JOptionPane.showMessageDialog(null, "Data stok tidak valid untuk barang: " + nama + " dengan kode: " + kode);
+                continue;
             }
 
             model.addRow(new Object[]{kode, nama, harga, tampilanStok, kategori});
         }
 
-        table_barang.setModel(model);
+        table_barang1.setModel(model);
     } catch (SQLException e) {
         e.printStackTrace();
     }
 }
+
+  
+//private void tampilData() {
+//    DefaultTableModel model = (DefaultTableModel) table_barang.getModel();
+//    model.setRowCount(0);
+//
+//    String query = "SELECT * FROM tb_databarang";
+//
+//    try {
+//        Connection connection = koneksi.getKoneksi();
+//        Statement statement = connection.createStatement();
+//        ResultSet resultSet = statement.executeQuery(query);
+//
+//        while (resultSet.next()) {
+//            String kode = resultSet.getString("kode_barang");
+//            String nama = resultSet.getString("nama_barang");
+//            String harga = resultSet.getString("harga");
+//            int stok = resultSet.getInt("stok");
+//            String kategori = resultSet.getString("Kategori");
+//
+//            // Mengubah tampilan stok menjadi "0" jika stok habis
+//            String tampilanStok = (stok > 0) ? String.valueOf(stok) : "0";
+//
+//            // Menambahkan pesan stok habis saat stok = 0
+//            if (stok == 0) {
+//                tampilanStok = "Stok Habis";
+//            }
+//
+//            model.addRow(new Object[]{kode, nama, harga, tampilanStok, kategori});
+//        }
+//
+//        table_barang.setModel(model);
+//    } catch (SQLException e) {
+//        e.printStackTrace();
+//    }
+//}
+
+
+
 //private void tampilData(){
 //    // Untuk menghapus baris setelah input
 //    int row = table_barang.getRowCount();
@@ -113,7 +159,7 @@ private void tampilData() {
 //}
 
 private void cari(){
-    int row = table_barang.getRowCount();
+    int row = table_barang1.getRowCount();
     for(int a = 0 ; a < row ; a++){
         table.removeRow(0);
     }
@@ -142,7 +188,7 @@ private void cari(){
         }
         
         // Mengeset nilai yang ditampung agar muncul di table
-        table_barang.setModel(table);
+        table_barang1.setModel(table);
        
    }catch(Exception e){
        System.out.println(e);
@@ -162,7 +208,7 @@ private void cari(){
         txt_cari = new javax.swing.JTextField();
         search = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        table_barang = new javax.swing.JTable();
+        table_barang1 = new javax.swing.JTable();
         refresh = new javax.swing.JButton();
         back = new javax.swing.JButton();
         panelGradiente1 = new swing.PanelGradiente();
@@ -183,7 +229,7 @@ private void cari(){
         });
 
         search.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        search.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/find.png"))); // NOI18N
+        search.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-search-24.png"))); // NOI18N
         search.setText("  SEARCH");
         search.setToolTipText("");
         search.addActionListener(new java.awt.event.ActionListener() {
@@ -192,8 +238,8 @@ private void cari(){
             }
         });
 
-        table_barang.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        table_barang.setModel(new javax.swing.table.DefaultTableModel(
+        table_barang1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        table_barang1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -204,15 +250,15 @@ private void cari(){
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        table_barang.addMouseListener(new java.awt.event.MouseAdapter() {
+        table_barang1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                table_barangMouseClicked(evt);
+                table_barang1MouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(table_barang);
+        jScrollPane1.setViewportView(table_barang1);
 
         refresh.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        refresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/reload.png"))); // NOI18N
+        refresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-refresh-24.png"))); // NOI18N
         refresh.setText("  REFRESH");
         refresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -221,7 +267,7 @@ private void cari(){
         });
 
         back.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/chevron.png"))); // NOI18N
+        back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-go-back-24.png"))); // NOI18N
         back.setText("  BACK");
         back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -297,7 +343,7 @@ private void cari(){
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_cariActionPerformed
 
-    private void table_barangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_barangMouseClicked
+    private void table_barang1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_barang1MouseClicked
         // TODO add your handling code here:
 //        int row = table_barang.getSelectedRow();
 //        formTransaksi menu = new formTransaksi();
@@ -323,23 +369,23 @@ private void cari(){
 //        dispose();
 
 
-int row = table_barang.getSelectedRow();
+int row = table_barang1.getSelectedRow();
 formTransaksi menu = new formTransaksi();
 
-String kode = (String) table_barang.getValueAt(row, 0);
+String kode = (String) table_barang1.getValueAt(row, 0);
 menu.setKodeBarang2(kode);
 
-String kategori = (String) table_barang.getValueAt(row, 4);
+String kategori = (String) table_barang1.getValueAt(row, 4);
 menu.setKategori(kategori);
 
-String nama = (String) table_barang.getValueAt(row, 1);
+String nama = (String) table_barang1.getValueAt(row, 1);
 menu.setNamaBarang(nama);
 
-String harga = (String) table_barang.getValueAt(row, 2);
+String harga = (String) table_barang1.getValueAt(row, 2);
 menu.setHarga(harga);
 
 // Memeriksa stok sebelum menampilkan formTransaksi
-int stok = Integer.parseInt((String) table_barang.getValueAt(row, 3));
+int stok = Integer.parseInt((String) table_barang1.getValueAt(row, 3));
 if (stok > 0) {
     menu.setVisible(true);
   //  menu.pack();
@@ -348,6 +394,9 @@ if (stok > 0) {
 } else {
     JOptionPane.showMessageDialog(this, "Stok habis. Data tidak dapat diambil.");
 }
+
+
+
 //int row = table_barang.getSelectedRow();
 //formTransaksi menu = new formTransaksi();
 //
@@ -388,7 +437,7 @@ if (stok > 0) {
         
         
         
-    }//GEN-LAST:event_table_barangMouseClicked
+    }//GEN-LAST:event_table_barang1MouseClicked
 
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
         // TODO add your handling code here:
@@ -401,7 +450,7 @@ if (stok > 0) {
         tampilData();
 
         //        dispose();
-        //        new stok_barang().setVisible(true);
+        //        new stok_barangadmin().setVisible(true);
     }//GEN-LAST:event_refreshActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
@@ -454,6 +503,9 @@ dispose();
             java.util.logging.Logger.getLogger(stok_barang.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -472,7 +524,7 @@ dispose();
     private swing.PanelGradiente panelGradiente1;
     private javax.swing.JButton refresh;
     private javax.swing.JButton search;
-    public javax.swing.JTable table_barang;
+    public javax.swing.JTable table_barang1;
     private javax.swing.JTextField txt_cari;
     // End of variables declaration//GEN-END:variables
 }

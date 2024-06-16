@@ -5,11 +5,13 @@
  */
 package master;
 import Notification.Notification;
-import com.barcodelib.barcode.Linear;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
+//import com.barcodelib.barcode.Linear;
+//import com.google.zxing.BarcodeFormat;
+//import com.google.zxing.MultiFormatWriter;
+//import com.google.zxing.WriterException;
+//import com.google.zxing.common.BitMatrix;
+
+
 import com.toedter.calendar.JDateChooser;
 import koneksi.koneksi;
 import java.awt.HeadlessException;
@@ -29,6 +31,8 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.DriverManager;
 import java.text.ParseException;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -58,7 +62,7 @@ import transaksi.formTransaksi;
 public class formCRUDBarang extends javax.swing.JFrame {
     DefaultTableModel table = new DefaultTableModel(); 
     Connection con;
-
+private J_dialog2 infoDialog;
     /**
      * Creates new form formAddBarang
      */
@@ -134,7 +138,13 @@ private void barang(String kodeBarang, int jumlahDikurangi) {
     }
 }
 
-
+  private void showInfoDialog() {
+        // Membuat instance J_Informasi
+        infoDialog = new J_dialog2(this, true);
+        
+        // Menampilkan dialog
+        infoDialog.setVisible(true);
+    }
     
 //    private void barang(String kodeBarang, int jumlahDikurangi) {
 //    try {
@@ -357,9 +367,9 @@ private void tampilData() {
         e.printStackTrace();
     }
      }
-      
+    
      
- private void tampilkode(String kategori) {
+     private void tampilkode(String kategori) {
     try {
         // Bersihkan data pada JTextField
         txt_kodebarang.setText("");
@@ -371,43 +381,90 @@ private void tampilData() {
         ResultSet kategoriResultSet = selectKategoriStatement.executeQuery();
 
         String prefix = "";
-        String kategoriDB = "";
         if (kategoriResultSet.next()) {
             prefix = kategoriResultSet.getString("prefix");
-            kategoriDB = kategoriResultSet.getString("kategori");
         } else {
             // Jika kategori tidak ditemukan di tb_kategori, tampilkan pesan error
             JOptionPane.showMessageDialog(null, "Kategori tidak terdaftar di dalam sistem.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Periksa apakah kategori yang diinput sesuai dengan kategori di db
-        if (!kategori.equalsIgnoreCase(kategoriDB)) {
-            JOptionPane.showMessageDialog(null, "Kategori yang diinput tidak sesuai dengan kategori yang terdaftar.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
         // Query untuk mengambil data dari tabel tb_databarang yang sesuai dengan prefix
-        String selectDatabarangQuery = "SELECT MAX(CAST(SUBSTRING(kode_barang, " + (prefix.length() + 1) + ") AS SIGNED)) AS max_number " +
-                                      "FROM tb_databarang " +
-                                      "WHERE SUBSTRING(kode_barang, 1, ?) = ?";
+        String selectDatabarangQuery = "SELECT SUBSTRING(kode_barang, ?) AS number FROM tb_databarang WHERE SUBSTRING(kode_barang, 1, ?) = ?";
         PreparedStatement selectDatabarangStatement = con.prepareStatement(selectDatabarangQuery);
-        selectDatabarangStatement.setInt(1, prefix.length());
-        selectDatabarangStatement.setString(2, prefix);
+        selectDatabarangStatement.setInt(1, prefix.length() + 1);
+        selectDatabarangStatement.setInt(2, prefix.length());
+        selectDatabarangStatement.setString(3, prefix);
         ResultSet databarangResultSet = selectDatabarangStatement.executeQuery();
 
-        int maxNumber = 0;
-        if (databarangResultSet.next()) {
-            maxNumber = databarangResultSet.getInt("max_number");
+        // Mencari celah dalam nomor yang ada
+        Set<Integer> existingNumbers = new HashSet<>();
+        while (databarangResultSet.next()) {
+            existingNumbers.add(Integer.parseInt(databarangResultSet.getString("number")));
+        }
+
+        int newNumber = 1;
+        while (existingNumbers.contains(newNumber)) {
+            newNumber++;
         }
 
         // Buat kode barang baru
-        String newKodeBarang = prefix + String.format("%03d", maxNumber + 1);
+        String newKodeBarang = prefix + String.format("%03d", newNumber);
         txt_kodebarang.setText(newKodeBarang);
     } catch (SQLException e) {
         e.printStackTrace();
     }
 }
+     
+// private void tampilkode(String kategori) {
+//    try {
+//        // Bersihkan data pada JTextField
+//        txt_kodebarang.setText("");
+//
+//        // Query untuk mengambil kode prefiks dari tabel tb_kategori
+//        String selectKategoriQuery = "SELECT LEFT(kode_barang, 3) AS prefix, kategori FROM tb_kategori WHERE kategori = ? LIMIT 1";
+//        PreparedStatement selectKategoriStatement = con.prepareStatement(selectKategoriQuery);
+//        selectKategoriStatement.setString(1, kategori);
+//        ResultSet kategoriResultSet = selectKategoriStatement.executeQuery();
+//
+//        String prefix = "";
+//        String kategoriDB = "";
+//        if (kategoriResultSet.next()) {
+//            prefix = kategoriResultSet.getString("prefix");
+//            kategoriDB = kategoriResultSet.getString("kategori");
+//        } else {
+//            // Jika kategori tidak ditemukan di tb_kategori, tampilkan pesan error
+//            JOptionPane.showMessageDialog(null, "Kategori tidak terdaftar di dalam sistem.", "Error", JOptionPane.ERROR_MESSAGE);
+//            return;
+//        }
+//
+//        // Periksa apakah kategori yang diinput sesuai dengan kategori di db
+//        if (!kategori.equalsIgnoreCase(kategoriDB)) {
+//            JOptionPane.showMessageDialog(null, "Kategori yang diinput tidak sesuai dengan kategori yang terdaftar.", "Error", JOptionPane.ERROR_MESSAGE);
+//            return;
+//        }
+//
+//        // Query untuk mengambil data dari tabel tb_databarang yang sesuai dengan prefix
+//        String selectDatabarangQuery = "SELECT MAX(CAST(SUBSTRING(kode_barang, " + (prefix.length() + 1) + ") AS SIGNED)) AS max_number " +
+//                                      "FROM tb_databarang " +
+//                                      "WHERE SUBSTRING(kode_barang, 1, ?) = ?";
+//        PreparedStatement selectDatabarangStatement = con.prepareStatement(selectDatabarangQuery);
+//        selectDatabarangStatement.setInt(1, prefix.length());
+//        selectDatabarangStatement.setString(2, prefix);
+//        ResultSet databarangResultSet = selectDatabarangStatement.executeQuery();
+//
+//        int maxNumber = 0;
+//        if (databarangResultSet.next()) {
+//            maxNumber = databarangResultSet.getInt("max_number");
+//        }
+//
+//        // Buat kode barang baru
+//        String newKodeBarang = prefix + String.format("%03d", maxNumber + 1);
+//        txt_kodebarang.setText(newKodeBarang);
+//    } catch (SQLException e) {
+//        e.printStackTrace();
+//    }
+//}
      
 // yang bisa
 //     private void tampilkode(String kategori) {
@@ -523,47 +580,88 @@ private void tampilData() {
         Date now = new Date();  
         txt_tanggal.setDate(now);    
     }
-    private void hapusData(){
+    
+    
+    private void hapusData() {
     try {
         // Ambil nilai kode barang dari baris yang dipilih dalam tabel
         int i = table_barang1.getSelectedRow();
-        String kode = table.getValueAt(i, 0).toString();
-        
-        Connection connect = koneksi.getKoneksi();
-        
-        // Query untuk menghapus data berdasarkan kode barang
-        String query = "DELETE FROM `tb_databarang` WHERE `kode_barang` = ?";
-        
-        PreparedStatement ps = connect.prepareStatement(query);
-        ps.setString(1, kode);
-        
-        // Eksekusi query
-        int rowsAffected = ps.executeUpdate();
-        
-        if (rowsAffected > 0) {
-            JOptionPane.showMessageDialog(null , "Data Berhasil Dihapus");
-             Notification panel = new Notification(this, Notification.Type.SUCCESS, Notification.Location.TOP_CENTER, "Data berhasil diupdate");
-        panel.showNotification();
-        } else {
-            JOptionPane.showMessageDialog(null, "Data Gagal Dihapus");
+        if (i == -1) {
+            JOptionPane.showMessageDialog(null, "Pilih baris yang ingin dihapus.");
+            return;
         }
-    } catch(SQLException e){
+        String kode = table_barang1.getValueAt(i, 0).toString();
+        
+        // Menghubungkan ke database
+        try (Connection connect = koneksi.getKoneksi();
+             PreparedStatement ps = connect.prepareStatement("DELETE FROM `tb_databarang` WHERE `kode_barang` = ?")) {
+             
+            ps.setString(1, kode);
+            
+            int rowsAffected = ps.executeUpdate();
+            
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(null, "Data Berhasil Dihapus");
+                Notification panel = new Notification(this, Notification.Type.SUCCESS, Notification.Location.TOP_CENTER, "Data berhasil dihapus");
+                panel.showNotification();
+            } else {
+                JOptionPane.showMessageDialog(null, "Data Gagal Dihapus");
+            }
+        }
+    } catch (SQLException e) {
         e.printStackTrace();
         JOptionPane.showMessageDialog(null, "Data Gagal Dihapus");
     } finally {
         tampilData(); // Memuat ulang data setelah penghapusan
-        clear(); // Membersihkan input fields setelah penghapusan
-    }   
+        // clear(); // Tidak membersihkan input fields setelah penghapusan
     }
+}
     
-  private void editData() {
+    
+//    
+//    private void hapusData(){
+//    try {
+//        // Ambil nilai kode barang dari baris yang dipilih dalam tabel
+//        int i = table_barang1.getSelectedRow();
+//        String kode = table.getValueAt(i, 0).toString();
+//        
+//        Connection connect = koneksi.getKoneksi();
+//        
+//        // Query untuk menghapus data berdasarkan kode barang
+//        String query = "DELETE FROM `tb_databarang` WHERE `kode_barang` = ?";
+//        
+//        PreparedStatement ps = connect.prepareStatement(query);
+//        ps.setString(1, kode);
+//        
+//        // Eksekusi query
+//        int rowsAffected = ps.executeUpdate();
+//        
+//        if (rowsAffected > 0) {
+//            JOptionPane.showMessageDialog(null , "Data Berhasil Dihapus");
+//             Notification panel = new Notification(this, Notification.Type.SUCCESS, Notification.Location.TOP_CENTER, "Data berhasil diupdate");
+//        panel.showNotification();
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Data Gagal Dihapus");
+//        }
+//    } catch(SQLException e){
+//        e.printStackTrace();
+//        JOptionPane.showMessageDialog(null, "Data Gagal Dihapus");
+//    } finally {
+//        tampilData(); // Memuat ulang data setelah penghapusan
+//        clear(); // Membersihkan input fields setelah penghapusan
+//    }   
+//    }
+
+    
+    
+    
+    private void editData() {
     try {
-        // Mendapatkan nilai kode barang dari field input
+        // Mendapatkan nilai dari field input
         String kode = txt_kodebarang.getText().trim();
         String nama = txt_namabarang.getText().trim();
         String harga = txt_harga.getText().trim();
         String stok = txt_stok.getText().trim();
-        String kategori = (String) kode_text.getSelectedItem();
 
         // Validasi input data
         if (kode.isEmpty() || nama.isEmpty() || harga.isEmpty() || stok.isEmpty()) {
@@ -571,51 +669,58 @@ private void tampilData() {
             return;
         }
 
-        // Panggil koneksi
-        Connection connect = koneksi.getKoneksi();
-        
-        // Query untuk mengambil daftar kategori yang valid
-        String validasiQuery = "SELECT kategori FROM tb_kategori";
-        Statement st = connect.createStatement();
-        ResultSet rs = st.executeQuery(validasiQuery);
+        // Validasi harga dan stok
+        double hargaValue = Double.parseDouble(harga);
+        int stokValue = Integer.parseInt(stok);
 
-        // Memeriksa apakah kategori yang dipilih ada dalam daftar kategori yang valid
-        boolean kategoriValid = false;
-        while (rs.next()) {
-            if (kategori.equals(rs.getString("kategori"))) {
-                kategoriValid = true;
-                break;
-            }
-        }
-
-        // Jika kategori tidak valid, tampilkan pesan kesalahan
-        if (!kategoriValid) {
-            JOptionPane.showMessageDialog(null, "Kategori tidak valid. Harap pilih kategori yang sesuai.");
+        if (hargaValue <= 0 || stokValue < 0) {
+            JOptionPane.showMessageDialog(null, "Harga harus lebih besar dari 0 dan stok harus lebih besar atau sama dengan 0.");
             return;
         }
 
+        // Panggil koneksi
+        Connection connect = koneksi.getKoneksi();
+
+        // Ambil kategori yang ada di database berdasarkan kode_barang
+        String kategoriQuery = "SELECT kategori FROM tb_databarang WHERE kode_barang = ?";
+        PreparedStatement psKategori = connect.prepareStatement(kategoriQuery);
+        psKategori.setString(1, kode);
+        ResultSet rsKategori = psKategori.executeQuery();
+
+        if (!rsKategori.next()) {
+            // Jika kode_barang tidak ditemukan, tampilkan pesan kesalahan
+            JOptionPane.showMessageDialog(null, "Kode barang tidak ditemukan.");
+            return;
+        }
+
+        // Dapatkan kategori dari hasil query
+        String kategori = rsKategori.getString("kategori");
+
+        // Format tanggal
         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         String tanggal = date.format(txt_tanggal.getDate());
 
         // Query untuk melakukan update data
-        String query = "UPDATE `tb_databarang` SET `nama_barang` = ?, `harga` = ?, `stok` = ?, `tanggal` = ?, `kategori` = ? "
-                     + "WHERE `kode_barang` = ?";
-        PreparedStatement ps = connect.prepareStatement(query);
-        ps.setString(1, nama);
-        ps.setString(2, harga);
-        ps.setString(3, stok);
-        ps.setString(4, tanggal);
-        ps.setString(5, kategori);
-        ps.setString(6, kode);
+        String query = "UPDATE tb_databarang SET nama_barang = ?, harga = ?, stok = ?, tanggal = ?, kategori = ? "
+                     + "WHERE kode_barang = ?";
+        PreparedStatement psUpdate = connect.prepareStatement(query);
+        psUpdate.setString(1, nama);
+        psUpdate.setString(2, harga);
+        psUpdate.setString(3, stok);
+        psUpdate.setString(4, tanggal);
+        psUpdate.setString(5, kategori);
+        psUpdate.setString(6, kode);
 
         // Log untuk debugging
         System.out.println("Query: " + query);
         System.out.println("Parameters: [" + nama + ", " + harga + ", " + stok + ", " + tanggal + ", " + kategori + ", " + kode + "]");
 
-        ps.executeUpdate();
-        
-        Notification panel = new Notification(this, Notification.Type.SUCCESS, Notification.Location.CENTER, "Data berhasil diupdate");
+        psUpdate.executeUpdate();
+
+        Notification panel = new Notification(this, Notification.Type.SUCCESS, Notification.Location.TOP_CENTER, "Data berhasil diupdate");
         panel.showNotification();
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(null, "Harga harus berupa angka positif dan stok harus berupa angka non-negatif.");
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         e.printStackTrace();
@@ -632,7 +737,7 @@ private void tampilData() {
         if (txt_tanggal.getDate() != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             tanggalString = dateFormat.format(txt_tanggal.getDate());
-            
+
             try {
                 tanggalBaru = dateFormat.parse(tanggalString);
             } catch (ParseException ex) {
@@ -645,6 +750,94 @@ private void tampilData() {
         txt_tanggal.setDate(tanggalBaru);
     }
 }
+
+    
+//private void editData() {
+//    try {
+//        // Mendapatkan nilai dari field input
+//        String kode = txt_kodebarang.getText().trim();
+//        String nama = txt_namabarang.getText().trim();
+//        String harga = txt_harga.getText().trim();
+//        String stok = txt_stok.getText().trim();
+//
+//        // Validasi input data
+//        if (kode.isEmpty() || nama.isEmpty() || harga.isEmpty() || stok.isEmpty()) {
+//            JOptionPane.showMessageDialog(null, "Semua field harus diisi.");
+//            return;
+//        }
+//
+//        // Panggil koneksi
+//        Connection connect = koneksi.getKoneksi();
+//
+//        // Ambil kategori yang ada di database berdasarkan kode_barang
+//        String kategoriQuery = "SELECT kategori FROM tb_databarang WHERE kode_barang = ?";
+//        PreparedStatement psKategori = connect.prepareStatement(kategoriQuery);
+//        psKategori.setString(1, kode);
+//        ResultSet rsKategori = psKategori.executeQuery();
+//
+//        if (!rsKategori.next()) {
+//            // Jika kode_barang tidak ditemukan, tampilkan pesan kesalahan
+//            JOptionPane.showMessageDialog(null, "Kode barang tidak ditemukan.");
+//            return;
+//        }
+//
+//        // Dapatkan kategori dari hasil query
+//        String kategori = rsKategori.getString("kategori");
+//
+//        // Format tanggal
+//        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+//        String tanggal = date.format(txt_tanggal.getDate());
+//
+//        // Query untuk melakukan update data
+//        String query = "UPDATE tb_databarang SET nama_barang = ?, harga = ?, stok = ?, tanggal = ?, kategori = ? "
+//                     + "WHERE kode_barang = ?";
+//        PreparedStatement psUpdate = connect.prepareStatement(query);
+//        psUpdate.setString(1, nama);
+//        psUpdate.setString(2, harga);
+//        psUpdate.setString(3, stok);
+//        psUpdate.setString(4, tanggal);
+//        psUpdate.setString(5, kategori);
+//        psUpdate.setString(6, kode);
+//
+//        // Log untuk debugging
+//        System.out.println("Query: " + query);
+//        System.out.println("Parameters: [" + nama + ", " + harga + ", " + stok + ", " + tanggal + ", " + kategori + ", " + kode + "]");
+//
+//        psUpdate.executeUpdate();
+//
+//        Notification panel = new Notification(this, Notification.Type.SUCCESS, Notification.Location.CENTER, "Data berhasil diupdate");
+//        panel.showNotification();
+//    } catch (Exception e) {
+//        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+//        e.printStackTrace();
+//    } finally {
+//        // Memuat ulang data setelah update
+//        tampilData();
+//        // Membersihkan input fields setelah update
+//        clear();
+//
+//        // Mengatur nilai tanggal pada JDateChooser setelah edit data
+//        String tanggalString = "";
+//        Date tanggalBaru = null;
+//
+//        if (txt_tanggal.getDate() != null) {
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//            tanggalString = dateFormat.format(txt_tanggal.getDate());
+//
+//            try {
+//                tanggalBaru = dateFormat.parse(tanggalString);
+//            } catch (ParseException ex) {
+//                ex.printStackTrace();
+//            } catch (Exception ex) {
+//                ex.printStackTrace();
+//            }
+//        }
+//
+//        txt_tanggal.setDate(tanggalBaru);
+//    }
+//}
+
+
 
     
     
@@ -798,6 +991,7 @@ private void tampilData() {
         panelGradiente1 = new swing.PanelGradiente();
         jLabel5 = new javax.swing.JLabel();
         cmdRegister1 = new javax.swing.JButton();
+        J_petunjuk = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -833,7 +1027,7 @@ private void tampilData() {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         jButton3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/chevron.png"))); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-go-back-24.png"))); // NOI18N
         jButton3.setText("  BACK");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -849,7 +1043,7 @@ private void tampilData() {
         });
 
         jButton7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/find.png"))); // NOI18N
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-search-24.png"))); // NOI18N
         jButton7.setText("  CARI");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -878,7 +1072,7 @@ private void tampilData() {
         });
 
         jButton4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/minus.png"))); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-broom-24.png"))); // NOI18N
         jButton4.setText("CLEAR");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -900,7 +1094,7 @@ private void tampilData() {
         txt_tanggal.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         jButton6.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/edit.png"))); // NOI18N
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-edit-24.png"))); // NOI18N
         jButton6.setText("  EDIT");
         jButton6.setPreferredSize(new java.awt.Dimension(117, 40));
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -929,7 +1123,7 @@ private void tampilData() {
         jScrollPane3.setViewportView(table_barang1);
 
         jButton2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/trash-can (1).png"))); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-delete-24.png"))); // NOI18N
         jButton2.setText("  DELETE");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -938,7 +1132,7 @@ private void tampilData() {
         });
 
         tabel_print.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        tabel_print.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/print.png"))); // NOI18N
+        tabel_print.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-print-24.png"))); // NOI18N
         tabel_print.setText("  PRINT");
         tabel_print.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -973,7 +1167,7 @@ private void tampilData() {
         jLabel9.setText("TANGGAL MASUK");
 
         jButton5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/plus.png"))); // NOI18N
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img_new/icons8-add-24.png"))); // NOI18N
         jButton5.setText("  ADD");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1006,14 +1200,13 @@ private void tampilData() {
                 .addGap(92, 92, 92)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(80, 80, 80)
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
+                        .addGap(54, 54, 54)
                         .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(jButton2))
+                        .addGap(44, 44, 44)
+                        .addComponent(jButton2)
+                        .addGap(42, 42, 42)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txt_namabarang, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1114,7 +1307,20 @@ private void tampilData() {
             }
         });
         panelGradiente1.add(cmdRegister1);
-        cmdRegister1.setBounds(750, 20, 310, 110);
+        cmdRegister1.setBounds(800, 20, 310, 110);
+
+        J_petunjuk.setFont(new java.awt.Font("sansserif", 1, 16)); // NOI18N
+        J_petunjuk.setForeground(new java.awt.Color(255, 255, 255));
+        J_petunjuk.setText("Petunjuk");
+        J_petunjuk.setContentAreaFilled(false);
+        J_petunjuk.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        J_petunjuk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                J_petunjukActionPerformed(evt);
+            }
+        });
+        panelGradiente1.add(J_petunjuk);
+        J_petunjuk.setBounds(1760, 100, 160, 50);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1244,8 +1450,15 @@ if (tanggal.matches("\\d{4}-\\d{2}-\\d{2}")) {
             @Override
             public void actionPerformed(ActionEvent e) {
      //           autoIn();
-        String kategori = (String) kode_text.getSelectedItem();
-        tampilkode(kategori);
+     
+       String selectedKategori = (String) kode_text.getSelectedItem();
+    if (selectedKategori != null) {
+        tampilkode(selectedKategori);
+    }
+//        String kategori = (String) kode_text.getSelectedItem();
+//        tampilkode(kategori);
+
+
 //new CRUD_kategori().setVisible(true);// Panggil metode autoIn saat combobox dipilih
             }
         }); 
@@ -1266,6 +1479,15 @@ tambahData();        // TODO add your handling code here:
 new CRUD_kategori().setVisible(true);
         dispose();// TODO add your handling code here:
     }//GEN-LAST:event_cmdRegisterActionPerformed
+
+    private void J_petunjukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_J_petunjukActionPerformed
+        //J_Informasi1 ();
+        //     j_dialog();
+        showInfoDialog();
+
+        // Menampilkan dialog
+        // TODO add your handling code here:
+    }//GEN-LAST:event_J_petunjukActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1303,6 +1525,7 @@ new CRUD_kategori().setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton J_petunjuk;
     private javax.swing.JButton cmdRegister;
     private javax.swing.JButton cmdRegister1;
     private javax.swing.JButton jButton2;

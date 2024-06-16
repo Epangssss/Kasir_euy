@@ -15,8 +15,7 @@
 	<queryString>
 		<![CDATA[SELECT *, (SELECT SUM(total_harga) FROM transaksi WHERE tgl_transaksi BETWEEN $P{dataAwal} AND $P{dataAkhir}) AS totalHarga
 FROM transaksi
-WHERE tgl_transaksi BETWEEN $P{dataAwal} AND $P{dataAkhir}
-]]>
+WHERE tgl_transaksi BETWEEN $P{dataAwal} AND $P{dataAkhir}]]>
 	</queryString>
 	<field name="nomor" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -260,17 +259,17 @@ WHERE tgl_transaksi BETWEEN $P{dataAwal} AND $P{dataAkhir}
 		<band splitType="Stretch"/>
 	</pageFooter>
 	<summary>
-		<band height="20" splitType="Stretch">
+		<band height="23" splitType="Stretch">
 			<rectangle>
-				<reportElement x="558" y="0" width="194" height="20" uuid="ef8ceb43-805e-41ce-887a-d2fb87ccda13"/>
+				<reportElement x="558" y="0" width="194" height="22" uuid="ef8ceb43-805e-41ce-887a-d2fb87ccda13"/>
 			</rectangle>
 			<textField>
-				<reportElement x="653" y="0" width="93" height="20" uuid="97281b05-4831-4068-9b53-7da3f05fac63"/>
+				<reportElement x="658" y="2" width="93" height="20" uuid="97281b05-4831-4068-9b53-7da3f05fac63"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$P{totalHarga}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="576" y="0" width="65" height="20" uuid="e7763161-456f-4c3e-b60d-f206e6e82dd5"/>
+				<reportElement x="575" y="2" width="65" height="20" uuid="e7763161-456f-4c3e-b60d-f206e6e82dd5"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[Total : ]]></text>
 			</staticText>
